@@ -1,2 +1,4 @@
 SQLAlchemy
 fastapi
+pymysql
+uvicorn
