@@ -6,7 +6,7 @@
 
 
 ```bash
-  (sql-app-spike/database.py)
+  (prez-app/database.py)
   
   SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@db/prezens_db"
 ```
@@ -31,7 +31,7 @@ Install MySql and PhpMyAdmin with Docker
 Set up the environement
 
 ```bash
-  (sql-app-spike/database.py)
+  (prez-app/database.py)
   
   SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/prezens_db"
 ```
@@ -45,12 +45,12 @@ Set up the environement
 ```
 
 ```bash
-  pip install -r requirements.txt
+  pip install -r prez-app/requirements.txt
 ```
 Start the server
 
 ```bash
-  uvicorn sql-app-spike.main:app --port 8100 --reload
+  uvicorn prez-app.main:app --port 8100 --reload
 ```
 
 
