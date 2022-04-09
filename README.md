@@ -18,10 +18,10 @@ Install MySql and PhpMyAdmin with Docker
 
 ## Run Locally
 
-Set up the environement
+Set up the environment
 
 ```bash
-  python3 -m venv .venv
+  python3.10 -m venv .venv
 ```
 
 ```bash
