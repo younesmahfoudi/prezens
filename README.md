@@ -8,7 +8,7 @@
 ```bash
   (sql-app-spike/database.py)
   
-  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@db/app_db"
+  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@db/prezens_db"
 ```
 
 ```bash
@@ -33,7 +33,7 @@ Set up the environement
 ```bash
   (sql-app-spike/database.py)
   
-  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/app_db"
+  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/prezens_db"
 ```
 
 ```bash
@@ -50,7 +50,7 @@ Set up the environement
 Start the server
 
 ```bash
-  uvicorn sql-app-spike.main:app --reload
+  uvicorn sql-app-spike.main:app --port 8100 --reload
 ```
 
 
@@ -63,18 +63,11 @@ Start the server
   http://localhost:8081/
 ```
 
-#### FastApi with Docker environement
+#### FastApi 
 
 ```http
   http://localhost:8100/docs/
 ```
-
-#### FastApi with Python environement
-
-```http
-  http://localhost:8000/docs/
-```
-
 
 ## Documentation
 
