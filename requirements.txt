@@ -2,3 +2,4 @@ SQLAlchemy
 fastapi
 pymysql
 uvicorn
+cryptography

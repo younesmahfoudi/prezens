@@ -1,9 +1,21 @@
-
 # Prezens backend spike
 
 
 
-## Installation
+## Install and run all with Docker
+
+
+```bash
+  (sql-app-spike/database.py)
+  
+  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@db/app_db"
+```
+
+```bash
+  docker-compose-up -d
+```
+
+## Install only bdd
 
 Install MySql and PhpMyAdmin with Docker
 
@@ -14,14 +26,18 @@ Install MySql and PhpMyAdmin with Docker
 ```bash
   docker-compose-up -d
 ```
+## Run only FastApi with python environement
 
-
-## Run Locally
-
-Set up the environment
+Set up the environement
 
 ```bash
-  python3.10 -m venv .venv
+  (sql-app-spike/database.py)
+  
+  SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/app_db"
+```
+
+```bash
+  python3 -m venv .venv
 ```
 
 ```bash
@@ -47,7 +63,13 @@ Start the server
   http://localhost:8081/
 ```
 
-#### FastApi
+#### FastApi with Docker environement
+
+```http
+  http://localhost:8100/docs/
+```
+
+#### FastApi with Python environement
 
 ```http
   http://localhost:8000/docs/
@@ -58,4 +80,4 @@ Start the server
 
 [FastApi SQL](https://fastapi.tiangolo.com/tutorial/sql-databases/)
 [SqlAlchemy engine](https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine)
-
+[Portainer](https://www.portainer.io/blog/portainer-your-docker-gui-for-your-ubuntu-linux-desktop)

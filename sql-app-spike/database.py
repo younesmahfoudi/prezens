@@ -2,7 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/app_db"
+# SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@localhost:6033/app_db"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root1234@db/app_db"
 # SQLALCHEMY_DATABASE_URL = "mysql://test:test@localhost:6033/app_db"
 
 engine = create_engine(
