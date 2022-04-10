@@ -1,0 +1,14 @@
+# Ignore Logs
+logs
+*.log
+
+# Ignore the venv directory
+/.venv
+
+# Ignore the build directory
+/dist
+
+# Ignore IDE specific files
+/.idea
+/.vscode
+*.sw*
