@@ -18,3 +18,16 @@
 <div class="col-md-4 text-right">
   <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
 </div>
+
+<div class="signature-container">
+  <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+</div>
+
+<div class="buttons">
+  <button (click)="clearSignature()" class="btn btn-success btn-block">Clear signature pad</button>
+  <button (click)="savePad()" class="btn btn-success btn-block">Save signature</button>
+</div>
+
+<div class="signature-image" *ngIf="signatureImg">
+  <img src='{{ signatureImg }}' />
+</div>

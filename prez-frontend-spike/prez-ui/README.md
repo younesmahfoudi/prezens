@@ -1,6 +1,6 @@
 # Prez-ui-spike
 
-Generate a pdf with jsPDF.
+Generate a pdf with jsPDF, generate signature with angular2-signaturepad.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
 
 ## Development server

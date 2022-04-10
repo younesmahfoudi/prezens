@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+
+import { SignaturePad } from 'angular2-signaturepad';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,15 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'prez-ui';
+
+  @ViewChild(SignaturePad) signaturePad: SignaturePad;
+  public title = 'prez-ui';
+  public signatureImg: string;
+  public signaturePadOptions: Object = {
+    'minWidth': 2,
+    'canvasWidth': 700,
+    'canvasHeight': 300
+  };
 
   public USERS = [
     {
@@ -62,4 +72,29 @@ export class AppComponent {
       PDF.save('angular-demo.pdf');
     });
   }
+
+  ngAfterViewInit() {
+    // this.signaturePad is now available
+    this.signaturePad.set('minWidth', 2);
+    this.signaturePad.clear();
+  }
+
+  drawComplete() {
+    console.log(this.signaturePad.toDataURL());
+  }
+
+  drawStart() {
+    console.log('begin drawing');
+  }
+
+  clearSignature() {
+    this.signaturePad.clear();
+  }
+
+  savePad() {
+    const base64Data = this.signaturePad.toDataURL();
+    console.log(base64Data)
+    this.signatureImg = base64Data;
+  }
+
 }
