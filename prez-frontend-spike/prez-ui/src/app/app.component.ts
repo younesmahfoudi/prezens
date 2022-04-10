@@ -96,5 +96,4 @@ export class AppComponent {
     console.log(base64Data)
     this.signatureImg = base64Data;
   }
-
 }

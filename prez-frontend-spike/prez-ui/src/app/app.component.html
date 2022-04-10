@@ -31,3 +31,5 @@
 <div class="signature-image" *ngIf="signatureImg">
   <img src='{{ signatureImg }}' />
 </div>
+
+<input type="file" class="file-upload" onchange="console.log(event.target.files)">
