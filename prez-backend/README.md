@@ -1,4 +1,4 @@
-# Prezens backend spike
+# Prezens backend
 
 
 
@@ -20,7 +20,7 @@
 Install MySql and PhpMyAdmin with Docker
 
 ```bash
-  cd bdd-spike
+  cd prez-db
 ```
 
 ```bash

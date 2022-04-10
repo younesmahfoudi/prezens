@@ -1,5 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 from .database import Base
 
@@ -45,7 +46,7 @@ class Student(Base):
     class_uid = Column(Integer, ForeignKey("CLASSROOM.uid"))
 
     classroom = relationship("Classroom", back_populates="students")
-    register = relationship("LessonRegister", back_populates="students")
+    registered = relationship("RegisteredStudent", back_populates="student")
 
 class Lesson(Base):
     __tablename__ = "LESSON"
@@ -56,6 +57,7 @@ class Lesson(Base):
     end_at = Column(DateTime)
     class_uid = Column(Integer, ForeignKey("CLASSROOM.uid"))
     professor_uid = Column(Integer, ForeignKey("PROFESSOR.uid"))
+    lesson_register_uid = Column(Integer, ForeignKey("LESSON_REGISTER.uid"))
 
     classroom = relationship("Classroom", back_populates="lessons")
     professor = relationship("Professor", back_populates="lessons")
@@ -65,11 +67,20 @@ class LessonRegister(Base):
     __tablename__ = "LESSON_REGISTER"
 
     uid = Column(Integer, primary_key=True, index=True)
-    lesson_uid = Column(Integer, ForeignKey("LESSON.uid"))
-    student_uid = Column(Integer, ForeignKey("STUDENT.uid"))
+    signature = Column(LONGTEXT)
 
-    students = relationship("Student", back_populates="register")
     lesson = relationship("Lesson", back_populates="register")
+
+class RegisteredStudent(Base):
+    __tablename__ = "REGISTERED_STUDENT"
+
+    uid = Column(Integer, primary_key=True, index=True)
+    lesson_register_uid = Column(Integer, ForeignKey("LESSON_REGISTER.uid"))
+    student_uid = Column(Integer, ForeignKey("STUDENT.uid"))
+    status = Column(String(50), index=True, default="ABSENT")
+
+    student = relationship("Student", back_populates="registered")
+    register = relationship("LessonRegister", back_populates="register")
 
 class User(Base):
     __tablename__ = "users"
