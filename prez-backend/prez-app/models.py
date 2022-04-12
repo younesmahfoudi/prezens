@@ -70,7 +70,7 @@ class LessonRegister(Base):
     signature = Column(LONGTEXT)
 
     lesson = relationship("Lesson", back_populates="register")
-    registered_students = relationship("RegisteredStudents", back_populates="register")
+    registered_students = relationship("RegisteredStudent", back_populates="register")
 
 class RegisteredStudent(Base):
     __tablename__ = "REGISTERED_STUDENT"
@@ -82,7 +82,7 @@ class RegisteredStudent(Base):
     proof = Column(LONGTEXT)
 
     student = relationship("Student", back_populates="registered")
-    register = relationship("LessonRegister", back_populates="register")
+    register = relationship("LessonRegister", back_populates="registered_students")
 
 class User(Base):
     __tablename__ = "users"

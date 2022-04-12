@@ -10,7 +10,7 @@ from pydantic import BaseModel
    email: str
    password: str
    first_name: str
-   lastname: str
+   last_name: str
    
    -------
 
@@ -19,7 +19,7 @@ from pydantic import BaseModel
 class AdminBase(BaseModel):
     email: str
     first_name: str
-    lastname: str
+    last_name: str
 
 class AdminCreate(AdminBase):
     password: str
@@ -39,7 +39,7 @@ class Admin(AdminBase):
    email: str
    password: str
    first_name: str
-   lastname: str
+   last_name: str
    student_id: int
    class_uid: int | None 
    
@@ -51,7 +51,7 @@ class StudentBase(BaseModel):
     email: str
     student_id: int
     first_name: str
-    lastname: str
+    last_name: str
 
 class StudentCreate(StudentBase):
     password: str
@@ -117,6 +117,8 @@ class Lesson(LessonBase):
 """
 
 class RegisteredStudentBase(BaseModel):
+    lesson_register_uid: int
+    student_uid: int
     status: str = 'ABSENT'
     proof: str | None = None
 
@@ -125,8 +127,6 @@ class RegisteredStudentCreate(RegisteredStudentBase):
 
 class RegisteredStudent(RegisteredStudentBase):
     uid: str
-    lesson_register_uid: int
-    student_uid: int
 
     class Config:
         orm_mode = True
@@ -163,7 +163,7 @@ class LessonRegister(LessonRegisterBase):
    email: str
    password: str
    first_name: str
-   lastname: str
+   last_name: str
    lessons: list[Lesson]
    
    -------
@@ -173,7 +173,7 @@ class LessonRegister(LessonRegisterBase):
 class ProfessorBase(BaseModel):
     email: str
     first_name: str
-    lastname: str
+    last_name: str
 
 class ProfessorCreate(ProfessorBase):
     password: str

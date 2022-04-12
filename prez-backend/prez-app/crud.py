@@ -34,3 +34,19 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def get_admin_by_email(db: Session, email: str):
+    return db.query(models.Admin).filter(models.Admin.email == email).first()
+
+def create_admin(db: Session, admin: schemas.AdminCreate):
+    fake_hashed_password = admin.password + "notreallyhashed"
+    db_admin = models.Admin(
+        email=admin.email,
+        hashed_password=fake_hashed_password,
+        first_name=admin.first_name,
+        last_name=admin.last_name
+    )
+    db.add(db_admin)
+    db.commit()
+    db.refresh(db_admin)
+    return db_admin

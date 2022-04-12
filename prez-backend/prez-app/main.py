@@ -17,6 +17,12 @@ def get_db():
     finally:
         db.close()
 
+@app.post("/admins/", response_model=schemas.Admin)
+def create_admins(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
+    db_admin = crud.get_user_by_email(db, email=admin.email)
+    if db_admin:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_admin(db=db, admin=admin)
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
