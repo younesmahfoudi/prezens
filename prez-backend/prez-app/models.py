@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, LargeBinary
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import LONGTEXT
 
@@ -70,6 +70,7 @@ class LessonRegister(Base):
     signature = Column(LONGTEXT)
 
     lesson = relationship("Lesson", back_populates="register")
+    registered_students = relationship("RegisteredStudents", back_populates="register")
 
 class RegisteredStudent(Base):
     __tablename__ = "REGISTERED_STUDENT"
@@ -78,7 +79,7 @@ class RegisteredStudent(Base):
     lesson_register_uid = Column(Integer, ForeignKey("LESSON_REGISTER.uid"))
     student_uid = Column(Integer, ForeignKey("STUDENT.uid"))
     status = Column(String(50), index=True, default="ABSENT")
-    proof = Column(LargeBinary)
+    proof = Column(LONGTEXT)
 
     student = relationship("Student", back_populates="registered")
     register = relationship("LessonRegister", back_populates="register")
