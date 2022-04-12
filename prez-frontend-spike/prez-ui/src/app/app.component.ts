@@ -96,4 +96,23 @@ export class AppComponent {
     console.log(base64Data)
     this.signatureImg = base64Data;
   }
+
+  setPdf(data: any): void {
+    this.getBase64(data);
+  }
+
+   getBase64(event: any) {
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      //me.modelvalue = reader.result;
+      console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
 }

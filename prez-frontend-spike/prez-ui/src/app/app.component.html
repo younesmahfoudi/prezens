@@ -32,4 +32,4 @@
   <img src='{{ signatureImg }}' />
 </div>
 
-<input type="file" class="file-upload" onchange="console.log(event.target.files)">
+<input type="file" class="file-upload" (change)="setPdf($event)">
