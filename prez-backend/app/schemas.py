@@ -154,6 +154,9 @@ class LessonRegister(LessonRegisterBase):
     uid: int
     registered_students: list[RegisteredStudent] = []
 
+    class Config:
+        orm_mode = True
+
 """ Professeur Model.
 
    Attributs
@@ -212,6 +215,9 @@ class Classroom(ClassroomBase):
     uid: int
     students: list[Student] = []
     lessons: list[Lesson] = []
+
+    class Config:
+        orm_mode = True
 
 """
     A remove
