@@ -113,6 +113,71 @@ def create_classroom(db: Session, classroom: schemas.ClassroomCreate):
     db.refresh(db_classroom)
     return db_classroom
 
+'''
+    RegisteredStudent crud
+'''
+
+def get_registered_student(db: Session, registered_student_uid: int):
+    return db.query(models.RegisteredStudent).filter(models.RegisteredStudent.uid == registered_student_uid).first()
+
+def get_registered_students(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.RegisteredStudent).offset(skip).limit(limit).all()
+
+def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
+    db_registered_student = models.RegisteredStudent(
+        lesson_register_uid= registered_student.lesson_register_uid,
+        student_uid=registered_student.student_uid,
+        status=registered_student.status,
+        proof=registered_student.proof
+    )
+    db.add(db_registered_student)
+    db.commit()
+    db.refresh(db_registered_student)
+    return db_registered_student
+
+'''
+    LessonRegister crud
+'''
+
+def get_lesson_register(db: Session, lesson_register_uid: int):
+    return db.query(models.LessonRegister).filter(models.LessonRegister.uid == lesson_register_uid).first()
+
+def get_lesson_registers(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.LessonRegister).offset(skip).limit(limit).all()
+
+def create_lesson_register(db: Session, lesson_register: schemas.LessonRegisterCreate):
+    db_lesson_register = models.LessonRegister(
+        lesson_uid=lesson_register.lesson_uid,
+        signature=lesson_register.signature
+    )
+    db.add(db_lesson_register)
+    db.commit()
+    db.refresh(db_lesson_register)
+    return db_lesson_register
+
+'''
+    Lesson crud
+'''
+
+def get_lesson(db: Session, lesson_uid: int):
+    return db.query(models.Lesson).filter(models.Lesson.uid == lesson_uid).first()
+
+def get_lessons(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Lesson).offset(skip).limit(limit).all()
+
+def create_lesson(db: Session, lesson: schemas.LessonCreate):
+    db_lesson = models.Lesson(
+        description=lesson.description,
+        start_at=lesson.start_at,
+        end_at=lesson.end_at,
+        class_uid=lesson.class_uid,
+        professor_uid=lesson.class_uid
+    )
+    db.add(db_lesson)
+    db.commit()
+    db.refresh(db_lesson)
+    return db_lesson
+
 """
     A remove
 """

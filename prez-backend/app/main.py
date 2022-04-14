@@ -66,7 +66,7 @@ def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     students = crud.get_students(db, skip=skip, limit=limit)
     return students
 
-@app.post("/students/{student_uid}/classroom/", response_model=schemas.Student)
+@app.put("/students/{student_uid}/classroom/", response_model=schemas.Student)
 def update_student_classroom(
         student_uid: int,
         classroom_uid: int,
@@ -91,6 +91,29 @@ def create_classroom(classroom: schemas.ClassroomCreate, db: Session = Depends(g
 def read_classrooms(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     classrooms = crud.get_classrooms(db, skip=skip, limit=limit)
     return classrooms
+
+'''
+    LessonRegister routes
+'''
+
+@app.post("/register/", response_model=schemas.LessonRegister)
+def create_lesson_register(lesson_register: schemas.LessonRegisterCreate, db: Session = Depends(get_db)):
+    db_lesson_register = crud.create_lesson_register(db=db, lesson_register=lesson_register)
+    return db_lesson_register
+
+'''
+    Lesson routes
+'''
+
+@app.post("/lesson/", response_model=schemas.Lesson)
+def create_lesson(lesson: schemas.LessonCreate, db: Session = Depends(get_db)):
+    db_lesson = crud.create_lesson(db=db, lesson=lesson)
+    return db_lesson
+
+@app.get("/lessons/", response_model=list[schemas.Lesson])
+def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    lesson = crud.get_lessons(db, skip=skip, limit=limit)
+    return lesson
 
 """
     A remove

@@ -57,19 +57,20 @@ class Lesson(Base):
     end_at = Column(DateTime)
     class_uid = Column(Integer, ForeignKey("CLASSROOM.uid"))
     professor_uid = Column(Integer, ForeignKey("PROFESSOR.uid"))
-    lesson_register_uid = Column(Integer, ForeignKey("LESSON_REGISTER.uid"))
+    #lesson_register_uid = Column(Integer, ForeignKey("LESSON_REGISTER.uid"))
 
     classroom = relationship("Classroom", back_populates="lessons")
     professor = relationship("Professor", back_populates="lessons")
-    register = relationship("LessonRegister", back_populates="lesson")
+    lesson_register = relationship("LessonRegister", back_populates="lesson", uselist=False)
 
 class LessonRegister(Base):
     __tablename__ = "LESSON_REGISTER"
 
     uid = Column(Integer, primary_key=True, index=True)
+    lesson_uid = Column(Integer, ForeignKey("LESSON.uid"))
     signature = Column(LONGTEXT)
 
-    lesson = relationship("Lesson", back_populates="register")
+    lesson = relationship("Lesson", back_populates="lesson_register")
     registered_students = relationship("RegisteredStudent", back_populates="register")
 
 class RegisteredStudent(Base):
