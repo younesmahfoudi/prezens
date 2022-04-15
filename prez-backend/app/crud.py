@@ -135,6 +135,34 @@ def create_registered_student(db: Session,registered_student: schemas.Registered
     db.refresh(db_registered_student)
     return db_registered_student
 
+def get_student_in_register(db: Session, student_uid: int, lesson_register_uid: int):
+    return db.query(models.RegisteredStudent)\
+        .filter(
+            models.RegisteredStudent.student_uid == student_uid
+            and models.RegisteredStudent.lesson_register_uid == lesson_register_uid
+    ).first()
+
+def update_registered_student_status(db: Session,registered_student: schemas.RegisteredStudent, status: str):
+    db.query(models.RegisteredStudent) \
+        .filter(models.RegisteredStudent.uid == registered_student.uid) \
+        .update({'status': status})
+    db.commit()
+
+def create_registered_students(db: Session,registered_students: list[schemas.RegisteredStudentCreate]):
+    db_registered_students = []
+    for registered_student in registered_students:
+        db_registered_student = models.RegisteredStudent(
+            lesson_register_uid= registered_student.lesson_register_uid,
+            student_uid=registered_student.student_uid,
+            status=registered_student.status,
+            proof=registered_student.proof
+        )
+        db.add(db_registered_student)
+        db.commit()
+        db.refresh(db_registered_student)
+        db_registered_students.append(db_registered_student)
+    return db_registered_students
+
 '''
     LessonRegister crud
 '''
@@ -177,40 +205,3 @@ def create_lesson(db: Session, lesson: schemas.LessonCreate):
     db.commit()
     db.refresh(db_lesson)
     return db_lesson
-
-"""
-    A remove
-"""
-
-
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
-
-
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
-
-
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
-
-
-def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
-
-
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
