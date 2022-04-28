@@ -171,12 +171,12 @@ def create_lesson_register(lesson_register: schemas.LessonRegisterCreate, db: Se
     db_lesson_register = crud.create_lesson_register(db=db, lesson_register=lesson_register)
     return db_lesson_register
 
-@app.put("/register/{lesson_register_uid}/sign", response_model=schemas.LessonRegister)
-def update_lesson_register_signature(lesson_register_uid: int, lesson_register: schemas.LessonRegisterUpdate, db: Session = Depends(get_db)):
-    db_lesson_register = crud.get_lesson_register(db, lesson_register_uid=lesson_register_uid)
+@app.put("/register/{register_uid}/sign", response_model=schemas.LessonRegister)
+def update_lesson_register_signature(register_uid: int, lesson_register: schemas.LessonRegisterUpdate, db: Session = Depends(get_db)):
+    db_lesson_register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
     if not db_lesson_register:
         raise HTTPException(status_code=404, detail="Register not found")
-    crud.update_lesson_register_signature(db=db, lesson_register_uid=lesson_register_uid, signature=lesson_register.signature)
+    crud.update_lesson_register_signature(db=db, lesson_register_uid=register_uid, signature=lesson_register.signature)
     db.refresh(db_lesson_register)
     return db_lesson_register
 
@@ -186,6 +186,15 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.Student], d
     if not register:
         raise HTTPException(status_code=404, detail="Register not found")
     crud.init_lesson_register(db, students=students, register_uid=register_uid)
+    db.refresh(register)
+    return register
+
+@app.put("/register/{register_uid}/update", response_model=schemas.LessonRegister)
+def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredStudent], db: Session = Depends(get_db)):
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    crud.update_registered_students_status(db, registered_students=students, register_uid=register_uid)
     db.refresh(register)
     return register
 

@@ -98,7 +98,7 @@ class RegisteredStudentCreate(RegisteredStudentBase):
 
 class RegisteredStudent(RegisteredStudentBase):
     uid: int
-    #student: Student
+    student: Student
 
     class Config:
         orm_mode = True

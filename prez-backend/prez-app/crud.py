@@ -208,11 +208,22 @@ def update_lesson_register_signature(db: Session, lesson_register_uid: int, sign
 
 def init_lesson_register(db: Session, students: list[schemas.Student], register_uid: int):
     for student in students:
-        registered_student_tmp = models.RegisteredStudent(
-            lesson_register_uid=register_uid,
-            student_uid=student.uid
-        )
-        db.add(registered_student_tmp)
+        registered_student_tmp = None
+        registered_student_tmp = get_student_in_register(db, lesson_register_uid=register_uid, student_uid=student.uid)
+        if not registered_student_tmp:
+            registered_student_tmp = models.RegisteredStudent(
+                lesson_register_uid=register_uid,
+                student_uid=student.uid
+            )
+            db.add(registered_student_tmp)
+    db.commit()
+
+def update_registered_students_status(db: Session, registered_students: list[schemas.RegisteredStudent], register_uid: int):
+    for student in registered_students:
+        db.query(models.RegisteredStudent) \
+            .filter(models.RegisteredStudent.uid == student.uid
+                    and models.RegisteredStudent.lesson_register_uid == register_uid) \
+            .update({'status': student.status})
     db.commit()
 
 '''
