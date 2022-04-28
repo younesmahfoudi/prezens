@@ -63,6 +63,14 @@ class Student(StudentBase):
     class Config:
         orm_mode = True
 
+class StudentUpdate(BaseModel):
+    email: str | None = None
+    password: str | None = None
+    class_uid: int | None = None
+
+    class Config:
+        orm_mode = True
+
 
 """ RegisteredStudent Model.
 
@@ -91,6 +99,7 @@ class RegisteredStudentCreate(RegisteredStudentBase):
 class RegisteredStudent(RegisteredStudentBase):
     uid: int
     student: Student
+
     class Config:
         orm_mode = True
 
@@ -108,18 +117,21 @@ class RegisteredStudent(RegisteredStudentBase):
 """
 
 class LessonRegisterBase(BaseModel):
-    lesson_uid: int
     signature: str | None = None
+    lesson_uid: int
 
 class LessonRegisterCreate(LessonRegisterBase):
     pass
+
+class LessonRegisterUpdate(BaseModel):
+    signature: str
 
 class LessonRegister(LessonRegisterBase):
     uid: int
     registered_students: list[RegisteredStudent] = []
 
     class Config:
-        orm_mode = True
+            orm_mode = True
 
 """ Lesson Model.
 
@@ -154,7 +166,7 @@ class LessonCreate(LessonBase):
 
 class Lesson(LessonBase):
     uid: int
-    lesson_register: LessonRegister | None = None
+    #lesson_register: LessonRegister | None = None
 
     class Config:
         orm_mode = True
@@ -185,7 +197,7 @@ class ProfessorCreate(ProfessorBase):
 
 class Professor(ProfessorBase):
     uid: int
-    lessons: list[Lesson] = []
+    #lessons: list[Lesson] = []
 
     class Config:
         orm_mode = True
@@ -216,7 +228,7 @@ class ClassroomCreate(ClassroomBase):
 class Classroom(ClassroomBase):
     uid: int
     students: list[Student] = []
-    lessons: list[Lesson] = []
+    #lessons: list[Lesson] = []
 
     class Config:
         orm_mode = True

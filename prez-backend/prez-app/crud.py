@@ -75,6 +75,8 @@ def get_students(db: Session, skip: int = 0, limit: int = 100):
 def get_student_by_email(db: Session, email: str):
     return db.query(models.Student).filter(models.Student.email == email).first()
 
+def get_student_by_id(db: Session, id: int):
+    return db.query(models.Student).filter(models.Student.student_id == id).first()
 
 def create_student(db: Session, student: schemas.StudentCreate):
     fake_hashed_password = student.password + "notreallyhashed"
@@ -96,8 +98,24 @@ def update_student_classroom(db: Session, classroom_uid: int, student_uid: int):
         .update({'class_uid': classroom_uid})
     db.commit()
 
-'''
-    Classroom crud
+def update_students_classroom(db: Session, classroom_uid: int, students: list[schemas.Student]):
+    for student in students:
+        db.query(models.Student) \
+            .filter(models.Student.uid == student.uid) \
+            .update({'class_uid': classroom_uid})
+    db.commit()
+
+def update_student(db: Session, db_student: schemas.Student, student: schemas.StudentUpdate):
+    student_data = student.dict(exclude_unset=True)
+    for key, value in student_data.items():
+        setattr(db_student, key, value)
+    db.add(db_student)
+    db.commit()
+    db.refresh(db_student)
+    return db_student
+
+
+'''    Classroom crud
 '''
 
 def get_classroom(db: Session, classroom_uid: int):
@@ -149,19 +167,15 @@ def update_registered_student_status(db: Session,registered_student: schemas.Reg
     db.commit()
 
 def create_registered_students(db: Session,registered_students: list[schemas.RegisteredStudentCreate]):
-    db_registered_students = []
     for registered_student in registered_students:
-        db_registered_student = models.RegisteredStudent(
+        registered_student_tmp = models.RegisteredStudent(
             lesson_register_uid= registered_student.lesson_register_uid,
             student_uid=registered_student.student_uid,
             status=registered_student.status,
             proof=registered_student.proof
         )
-        db.add(db_registered_student)
-        db.commit()
-        db.refresh(db_registered_student)
-        db_registered_students.append(db_registered_student)
-    return db_registered_students
+        db.add(registered_student_tmp)
+    db.commit()
 
 '''
     LessonRegister crud
@@ -169,6 +183,9 @@ def create_registered_students(db: Session,registered_students: list[schemas.Reg
 
 def get_lesson_register(db: Session, lesson_register_uid: int):
     return db.query(models.LessonRegister).filter(models.LessonRegister.uid == lesson_register_uid).first()
+
+def get_register_by_lesson(db: Session, lesson_uid: int):
+    return db.query(models.LessonRegister).filter(models.LessonRegister.lesson_uid == lesson_uid).first()
 
 def get_lesson_registers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.LessonRegister).offset(skip).limit(limit).all()
@@ -182,6 +199,32 @@ def create_lesson_register(db: Session, lesson_register: schemas.LessonRegisterC
     db.commit()
     db.refresh(db_lesson_register)
     return db_lesson_register
+
+def update_lesson_register_signature(db: Session, lesson_register_uid: int, signature: str):
+    db.query(models.LessonRegister) \
+        .filter(models.LessonRegister.uid == lesson_register_uid) \
+        .update({'signature': signature})
+    db.commit()
+
+def init_lesson_register(db: Session, students: list[schemas.Student], register_uid: int):
+    for student in students:
+        registered_student_tmp = None
+        registered_student_tmp = get_student_in_register(db, lesson_register_uid=register_uid, student_uid=student.uid)
+        if not registered_student_tmp:
+            registered_student_tmp = models.RegisteredStudent(
+                lesson_register_uid=register_uid,
+                student_uid=student.uid
+            )
+            db.add(registered_student_tmp)
+    db.commit()
+
+def update_registered_students_status(db: Session, registered_students: list[schemas.RegisteredStudent], register_uid: int):
+    for student in registered_students:
+        db.query(models.RegisteredStudent) \
+            .filter(models.RegisteredStudent.uid == student.uid
+                    and models.RegisteredStudent.lesson_register_uid == register_uid) \
+            .update({'status': student.status})
+    db.commit()
 
 '''
     Lesson crud
@@ -205,3 +248,9 @@ def create_lesson(db: Session, lesson: schemas.LessonCreate):
     db.commit()
     db.refresh(db_lesson)
     return db_lesson
+
+def get_lessons_by_professor(db: Session, professor_uid: int):
+    return db.query(models.Lesson).filter(models.Lesson.professor_uid == professor_uid).all()
+
+def get_lessons_by_classroom(db: Session, classroom_uid: int):
+    return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid).all()
