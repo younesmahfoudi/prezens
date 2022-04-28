@@ -5,16 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SignaturePadModule } from 'angular2-signaturepad';
+import {ProfViewModule} from "../modules/prof-view/prof-view.module";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SignaturePadModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SignaturePadModule,
+        ProfViewModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

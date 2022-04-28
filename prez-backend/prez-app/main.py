@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
+from starlette.middleware.cors import CORSMiddleware
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
@@ -9,6 +10,20 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Dependency
 def get_db():
@@ -50,6 +65,19 @@ def read_professors(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
     professors = crud.get_professors(db, skip=skip, limit=limit)
     return professors
 
+@app.get("/professors/{professor_uid}", response_model=schemas.Professor)
+def read_professor(professor_uid: int, db: Session = Depends(get_db)):
+    professor = crud.get_professor(db, professor_id=professor_uid)
+    return professor
+
+@app.get("/professors/{professor_uid}/lessons", response_model=list[schemas.Lesson])
+def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
+    professor = crud.get_professor(db, professor_id=professor_uid)
+    if not professor:
+        raise HTTPException(status_code=404, detail="Professor not found")
+    lessons = crud.get_lessons_by_professor(db, professor_uid=professor_uid)
+    return lessons
+
 '''
     Students routes
 '''
@@ -59,6 +87,9 @@ def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)
     db_student = crud.get_student_by_email(db, email=student.email)
     if db_student:
         raise HTTPException(status_code=400, detail="Email already registered")
+    db_student = crud.get_student_by_id(db, id=student.student_id)
+    if db_student:
+        raise HTTPException(status_code=400, detail="Student id already registered")
     return crud.create_student(db=db, student=student)
 
 @app.get("/students/", response_model=list[schemas.Student])
@@ -66,7 +97,7 @@ def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     students = crud.get_students(db, skip=skip, limit=limit)
     return students
 
-@app.put("/students/{student_uid}/classroom/", response_model=schemas.Student)
+@app.put("/students/{student_uid}/classrooms/{classroom_uid}", response_model=schemas.Student)
 def update_student_classroom(
         student_uid: int,
         classroom_uid: int,
@@ -76,6 +107,18 @@ def update_student_classroom(
     if db_student is None:
         raise HTTPException(status_code=404, detail="Student not found")
     crud.update_student_classroom(db=db, student_uid=student_uid, classroom_uid=classroom_uid)
+    return db_student
+
+@app.put("/students/{student_uid}", response_model=schemas.Student)
+def update_student(
+        student_uid: int,
+        student: schemas.StudentUpdate,
+        db: Session = Depends(get_db)
+):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_student = crud.update_student(db=db, db_student=db_student, student=student)
     return db_student
 
 '''
@@ -102,6 +145,20 @@ def read_classroom_students(classroom_uid: int, db: Session = Depends(get_db)):
     classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
     return classroom.students
 
+@app.put("/classrooms/{classroom_uid}/students", response_model=list[schemas.Student])
+def update_students_classroom(classroom_uid: int, students: list[schemas.Student],db: Session = Depends(get_db)):
+    crud.update_students_classroom(db, classroom_uid=classroom_uid,students=students)
+    classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
+    return classroom.students
+
+@app.get("/classrooms/{classroom_uid}/lessons", response_model=list[schemas.Lesson])
+def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
+    classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
+    if not classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
+    lessons = crud.get_lessons_by_classroom(db, classroom_uid=classroom_uid)
+    return lessons
+
 '''
     LessonRegister routes
 '''
@@ -110,22 +167,44 @@ def read_classroom_students(classroom_uid: int, db: Session = Depends(get_db)):
 def create_lesson_register(lesson_register: schemas.LessonRegisterCreate, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_register.lesson_uid)
     if not db_lesson:
-        raise HTTPException(status_code=404, detail="Classroom not found")
+        raise HTTPException(status_code=404, detail="Lesson not found")
     db_lesson_register = crud.create_lesson_register(db=db, lesson_register=lesson_register)
     return db_lesson_register
 
+@app.put("/register/{lesson_register_uid}/sign", response_model=schemas.LessonRegister)
+def update_lesson_register_signature(lesson_register_uid: int, lesson_register: schemas.LessonRegisterUpdate, db: Session = Depends(get_db)):
+    db_lesson_register = crud.get_lesson_register(db, lesson_register_uid=lesson_register_uid)
+    if not db_lesson_register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    crud.update_lesson_register_signature(db=db, lesson_register_uid=lesson_register_uid, signature=lesson_register.signature)
+    db.refresh(db_lesson_register)
+    return db_lesson_register
+
+@app.put("/register/{register_uid}/init", response_model=schemas.LessonRegister)
+def read_classroom_lessons(register_uid: int, students: list[schemas.Student], db: Session = Depends(get_db)):
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    crud.init_lesson_register(db, students=students, register_uid=register_uid)
+    db.refresh(register)
+    return register
 
 '''
     Lesson routes
 '''
 
-@app.post("/lesson/", response_model=schemas.Lesson)
+@app.post("/lessons/", response_model=schemas.Lesson)
 def create_lesson(lesson: schemas.LessonCreate, db: Session = Depends(get_db)):
     db_professor = crud.get_professor(db, lesson.professor_uid)
     db_classroom = crud.get_classroom(db, lesson.class_uid)
     if (not db_classroom or not db_professor):
         raise HTTPException(status_code=404, detail="classroom or professor invalid")
     db_lesson = crud.create_lesson(db=db, lesson=lesson)
+    if db_lesson:
+        lesson_register = schemas.LessonRegisterCreate(
+            lesson_uid=db_lesson.uid
+        )
+        crud.create_lesson_register(db, lesson_register=lesson_register)
     return db_lesson
 
 @app.get("/lessons/", response_model=list[schemas.Lesson])
@@ -133,18 +212,45 @@ def read_lessons(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     lessons = crud.get_lessons(db, skip=skip, limit=limit)
     return lessons
 
-@app.get("/lesson/{lesson_uid}/register", response_model=schemas.LessonRegister)
+@app.get("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister)
 def read_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
-    lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
-    if not lesson:
+    db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
+    if not db_lesson:
         raise HTTPException(status_code=404, detail="lesson not found")
-    if not lesson.lesson_register:
-        lesson_register = schemas.LessonRegisterCreate(lesson_uid=lesson_uid)
-        db_lesson_register = crud.create_lesson_register(db, lesson_register)
+    db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson_uid)
+    return db_lesson_register
 
-    return
+@app.put("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister)
+def create_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
+    db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="lesson not found")
+    lesson_register = schemas.LessonRegisterCreate(
+        lesson_uid=lesson_uid
+    )
+    db_lesson_register = crud.create_lesson_register(db, lesson_register=lesson_register)
+    return db_lesson_register
+
+@app.post("/lessons/{lesson_uid}/registeredstudents", response_model=schemas.Lesson)
+def add_registered_students(lesson_uid: int,registered_students: list[schemas.RegisteredStudentCreate], db: Session = Depends(get_db)):
+    db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    if not db_lesson.lesson_register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    crud.create_registered_students(db, registered_students=registered_students)
+    return db_lesson
+
+
+@app.get("/lessons/{lesson_uid}", response_model=schemas.Lesson)
+def read_lesson(lesson_uid: int, db: Session = Depends(get_db)):
+    db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="lesson not found")
+    return db_lesson
+
 '''
-    Lesson routes
+    Registered student routes
 '''
 
 @app.post("/registeredstudent/", response_model=schemas.RegisteredStudent)
@@ -161,7 +267,17 @@ def create_registered_student(registered_student: schemas.RegisteredStudentCreat
 
 @app.post("/registeredstudents/", response_model=list[schemas.RegisteredStudent])
 def create_registered_student(registered_students: list[schemas.RegisteredStudentCreate], db: Session = Depends(get_db)):
-    db_registered_students = crud.create_registered_students(db=db, registered_students=registered_students)
+    #db_registered_students = crud.create_registered_students(db=db, registered_students=registered_students)
+    db_registered_students = []
+    for registered_student in registered_students:
+        db_register = crud.get_lesson_register(db, registered_student.lesson_register_uid)
+        db_student = crud.get_student(db, registered_student.student_uid)
+        if (not db_student or not db_register):
+            raise HTTPException(status_code=404, detail="register or student invalid")
+        db_registered_student = crud.get_student_in_register(db, student_uid=registered_student.student_uid, lesson_register_uid=registered_student.lesson_register_uid)
+        if (db_registered_student):
+            raise HTTPException(status_code=404, detail="student already registered")
+        registered_students.append(crud.create_registered_student(db=db, registered_student=registered_student))
     return db_registered_students
 
 @app.put("/registeredstudent/{registered_student_uid}", response_model=schemas.RegisteredStudent)
