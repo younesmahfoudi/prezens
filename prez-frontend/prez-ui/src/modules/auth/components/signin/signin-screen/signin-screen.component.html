@@ -1,0 +1,5 @@
+<div class="auth-content">
+    <prez-auth-logo class="p-2"></prez-auth-logo>
+    <prez-signin-form (formEmitter)="login($event)" class="p-2"></prez-signin-form>
+    <mat-error *ngIf="errorMessage" class="p-2">{{errorMessage}}</mat-error>
+</div>
