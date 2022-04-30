@@ -1,9 +1,8 @@
-import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
 
-from . import crud, models, schemas
+from . import crud, models, schemas, auth_handler, auth_bearer
 from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -33,18 +32,43 @@ def get_db():
     finally:
         db.close()
 
+"""
+    Common routes
+"""
+
+def check_user(data: schemas.UserLogin, user: schemas.StudentCreate |
+                                              schemas.ProfessorCreate |
+                                              schemas.AdminCreate):
+    if user.email == data.email and user.hashed_password == data.password:
+        return True
+    return False
+
+@app.post("/user/login", tags=["common"])
+def user_login(user: schemas.UserLogin, db: Session = Depends(get_db)):
+    user.password = crud.encrypt_string(user.password)
+    professor = crud.get_professor_by_email(db, email=user.email)
+    if professor and check_user(user, professor):
+        return auth_handler.signJWT(user_uid=professor.uid, role="professor")
+    student = crud.get_student_by_email(db, email=user.email)
+    if student and check_user(user, student):
+        return auth_handler.signJWT(user_uid=student.uid, role="student")
+    admin = crud.get_admin_by_email(db, email=user.email)
+    if admin and check_user(user, admin):
+        return auth_handler.signJWT(user_uid=admin.uid,role="admin")
+    raise HTTPException(status_code=400, detail="Wrong login details!")
+
 '''
     Admins routes
 '''
 
-@app.post("/admins/", response_model=schemas.Admin)
+@app.post("/admins/", response_model=schemas.Admin, tags=["admin"])
 def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
     db_admin = crud.get_admin_by_email(db, email=admin.email)
     if db_admin:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_admin(db=db, admin=admin)
 
-@app.get("/admins/", response_model=list[schemas.Admin])
+@app.get("/admins/", response_model=list[schemas.Admin], tags=["admin"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_admins(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     admins = crud.get_admins(db, skip=skip, limit=limit)
     return admins
@@ -53,24 +77,24 @@ def read_admins(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     Professors routes
 '''
 
-@app.post("/professors/", response_model=schemas.Professor)
+@app.post("/professors/", response_model=schemas.Professor, tags=["professors"])
 def create_professor(professor: schemas.ProfessorCreate, db: Session = Depends(get_db)):
     db_professor = crud.get_professor_by_email(db, email=professor.email)
     if db_professor:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_professor(db=db, professor=professor)
 
-@app.get("/professors/", response_model=list[schemas.Professor])
+@app.get("/professors/", response_model=list[schemas.Professor], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_professors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     professors = crud.get_professors(db, skip=skip, limit=limit)
     return professors
 
-@app.get("/professors/{professor_uid}", response_model=schemas.Professor)
+@app.get("/professors/{professor_uid}", response_model=schemas.Professor, tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_professor(professor_uid: int, db: Session = Depends(get_db)):
     professor = crud.get_professor(db, professor_id=professor_uid)
     return professor
 
-@app.get("/professors/{professor_uid}/lessons", response_model=list[schemas.Lesson])
+@app.get("/professors/{professor_uid}/lessons", response_model=list[schemas.Lesson], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
     professor = crud.get_professor(db, professor_id=professor_uid)
     if not professor:
@@ -78,11 +102,19 @@ def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
     lessons = crud.get_lessons_by_professor(db, professor_uid=professor_uid)
     return lessons
 
+@app.post("/professors/signup", response_model=auth_handler.Token, tags=["professors"])
+async def create_user(professor: schemas.ProfessorCreate, db: Session = Depends(get_db)):
+    db_professor = crud.get_professor_by_email(db, email=professor.email)
+    if db_professor:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    db_professor = crud.create_professor(db=db, professor=professor)
+    return auth_handler.signJWT(user_uid=db_professor.uid, role="professor")
+
 '''
     Students routes
 '''
 
-@app.post("/students/", response_model=schemas.Student)
+@app.post("/students/", response_model=schemas.Student, tags=["students"])
 def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_email(db, email=student.email)
     if db_student:
@@ -92,12 +124,12 @@ def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)
         raise HTTPException(status_code=400, detail="Student id already registered")
     return crud.create_student(db=db, student=student)
 
-@app.get("/students/", response_model=list[schemas.Student])
+@app.get("/students/", response_model=list[schemas.Student], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     students = crud.get_students(db, skip=skip, limit=limit)
     return students
 
-@app.put("/students/{student_uid}/classrooms/{classroom_uid}", response_model=schemas.Student)
+@app.put("/students/{student_uid}/classrooms/{classroom_uid}", response_model=schemas.Student, tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_student_classroom(
         student_uid: int,
         classroom_uid: int,
@@ -109,7 +141,7 @@ def update_student_classroom(
     crud.update_student_classroom(db=db, student_uid=student_uid, classroom_uid=classroom_uid)
     return db_student
 
-@app.put("/students/{student_uid}", response_model=schemas.Student)
+@app.put("/students/{student_uid}", response_model=schemas.Student, tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_student(
         student_uid: int,
         student: schemas.StudentUpdate,
@@ -121,37 +153,45 @@ def update_student(
     db_student = crud.update_student(db=db, db_student=db_student, student=student)
     return db_student
 
+@app.post("/students/signup", response_model=auth_handler.Token, tags=["students"])
+async def create_user(student: schemas.StudentCreate, db: Session = Depends(get_db)):
+    db_student = crud.get_student_by_email(db, email=student.email)
+    if db_student:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    db_student = crud.create_student(db=db, student=student)
+    return auth_handler.signJWT(user_uid=db_student.uid, role="student")
+
 '''
     Classrooms routes
 '''
 
-@app.post("/classrooms/", response_model=schemas.Classroom)
+@app.post("/classrooms/", response_model=schemas.Classroom, tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_classroom(classroom: schemas.ClassroomCreate, db: Session = Depends(get_db)):
     db_classroom = crud.create_classroom(db=db, classroom=classroom)
     return db_classroom
 
-@app.get("/classrooms/", response_model=list[schemas.Classroom])
+@app.get("/classrooms/", response_model=list[schemas.Classroom], tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classrooms(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     classrooms = crud.get_classrooms(db, skip=skip, limit=limit)
     return classrooms
 
-@app.get("/classrooms/{classroom_uid}", response_model=schemas.Classroom)
+@app.get("/classrooms/{classroom_uid}", response_model=schemas.Classroom, tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom(classroom_uid: int, db: Session = Depends(get_db)):
     classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
     return classroom
 
-@app.get("/classrooms/{classroom_uid}/students", response_model=list[schemas.Student])
+@app.get("/classrooms/{classroom_uid}/students", response_model=list[schemas.Student], tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_students(classroom_uid: int, db: Session = Depends(get_db)):
     classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
     return classroom.students
 
-@app.put("/classrooms/{classroom_uid}/students", response_model=list[schemas.Student])
+@app.put("/classrooms/{classroom_uid}/students", response_model=list[schemas.Student], tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_students_classroom(classroom_uid: int, students: list[schemas.Student],db: Session = Depends(get_db)):
     crud.update_students_classroom(db, classroom_uid=classroom_uid,students=students)
     classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
     return classroom.students
 
-@app.get("/classrooms/{classroom_uid}/lessons", response_model=list[schemas.Lesson])
+@app.get("/classrooms/{classroom_uid}/lessons", response_model=list[schemas.Lesson], tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
     classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
     if not classroom:
@@ -163,7 +203,7 @@ def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
     LessonRegister routes
 '''
 
-@app.post("/register/", response_model=schemas.LessonRegister)
+@app.post("/register/", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson_register(lesson_register: schemas.LessonRegisterCreate, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_register.lesson_uid)
     if not db_lesson:
@@ -171,7 +211,7 @@ def create_lesson_register(lesson_register: schemas.LessonRegisterCreate, db: Se
     db_lesson_register = crud.create_lesson_register(db=db, lesson_register=lesson_register)
     return db_lesson_register
 
-@app.put("/register/{register_uid}/sign", response_model=schemas.LessonRegister)
+@app.put("/register/{register_uid}/sign", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_lesson_register_signature(register_uid: int, lesson_register: schemas.LessonRegisterUpdate, db: Session = Depends(get_db)):
     db_lesson_register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
     if not db_lesson_register:
@@ -180,7 +220,7 @@ def update_lesson_register_signature(register_uid: int, lesson_register: schemas
     db.refresh(db_lesson_register)
     return db_lesson_register
 
-@app.put("/register/{register_uid}/init", response_model=schemas.LessonRegister)
+@app.put("/register/{register_uid}/init", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(register_uid: int, students: list[schemas.Student], db: Session = Depends(get_db)):
     register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
     if not register:
@@ -189,7 +229,7 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.Student], d
     db.refresh(register)
     return register
 
-@app.put("/register/{register_uid}/update", response_model=schemas.LessonRegister)
+@app.put("/register/{register_uid}/update", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredStudent], db: Session = Depends(get_db)):
     register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
     if not register:
@@ -202,7 +242,7 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredS
     Lesson routes
 '''
 
-@app.post("/lessons/", response_model=schemas.Lesson)
+@app.post("/lessons/", response_model=schemas.Lesson, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson(lesson: schemas.LessonCreate, db: Session = Depends(get_db)):
     db_professor = crud.get_professor(db, lesson.professor_uid)
     db_classroom = crud.get_classroom(db, lesson.class_uid)
@@ -216,12 +256,12 @@ def create_lesson(lesson: schemas.LessonCreate, db: Session = Depends(get_db)):
         crud.create_lesson_register(db, lesson_register=lesson_register)
     return db_lesson
 
-@app.get("/lessons/", response_model=list[schemas.Lesson])
+@app.get("/lessons/", response_model=list[schemas.Lesson], tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_lessons(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     lessons = crud.get_lessons(db, skip=skip, limit=limit)
     return lessons
 
-@app.get("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister)
+@app.get("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:
@@ -229,7 +269,7 @@ def read_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson_uid)
     return db_lesson_register
 
-@app.put("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister)
+@app.put("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:
@@ -240,7 +280,7 @@ def create_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson_register = crud.create_lesson_register(db, lesson_register=lesson_register)
     return db_lesson_register
 
-@app.post("/lessons/{lesson_uid}/registeredstudents", response_model=schemas.Lesson)
+@app.post("/lessons/{lesson_uid}/registeredstudents", response_model=schemas.Lesson, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def add_registered_students(lesson_uid: int,registered_students: list[schemas.RegisteredStudentCreate], db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:
@@ -251,7 +291,7 @@ def add_registered_students(lesson_uid: int,registered_students: list[schemas.Re
     return db_lesson
 
 
-@app.get("/lessons/{lesson_uid}", response_model=schemas.Lesson)
+@app.get("/lessons/{lesson_uid}", response_model=schemas.Lesson, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_lesson(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:
@@ -262,7 +302,7 @@ def read_lesson(lesson_uid: int, db: Session = Depends(get_db)):
     Registered student routes
 '''
 
-@app.post("/registeredstudent/", response_model=schemas.RegisteredStudent)
+@app.post("/registeredstudent/", response_model=schemas.RegisteredStudent, tags=["registered students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_registered_student(registered_student: schemas.RegisteredStudentCreate, db: Session = Depends(get_db)):
     db_register = crud.get_lesson_register(db, registered_student.lesson_register_uid)
     db_student = crud.get_student(db, registered_student.student_uid)
@@ -274,7 +314,7 @@ def create_registered_student(registered_student: schemas.RegisteredStudentCreat
     db_registered_student = crud.create_registered_student(db=db, registered_student=registered_student)
     return db_registered_student
 
-@app.post("/registeredstudents/", response_model=list[schemas.RegisteredStudent])
+@app.post("/registeredstudents/", response_model=list[schemas.RegisteredStudent], tags=["registered students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_registered_student(registered_students: list[schemas.RegisteredStudentCreate], db: Session = Depends(get_db)):
     #db_registered_students = crud.create_registered_students(db=db, registered_students=registered_students)
     db_registered_students = []
@@ -289,7 +329,7 @@ def create_registered_student(registered_students: list[schemas.RegisteredStuden
         registered_students.append(crud.create_registered_student(db=db, registered_student=registered_student))
     return db_registered_students
 
-@app.put("/registeredstudent/{registered_student_uid}", response_model=schemas.RegisteredStudent)
+@app.put("/registeredstudent/{registered_student_uid}", response_model=schemas.RegisteredStudent, tags=["registered students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_registered_student(registered_student_uid: int ,status: str, db: Session = Depends(get_db)):
     db_registered_student = crud.get_registered_student(db, registered_student_uid=registered_student_uid)
     if not db_registered_student:
@@ -297,3 +337,4 @@ def update_registered_student(registered_student_uid: int ,status: str, db: Sess
     crud.update_registered_student_status(db, registered_student=db_registered_student, status=status)
     db_registered_student = crud.get_registered_student(db=db, registered_student_uid=registered_student_uid)
     return db_registered_student
+
