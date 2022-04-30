@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from pydantic import BaseModel
 
 """ Admin Model.
@@ -131,7 +132,38 @@ class LessonRegister(LessonRegisterBase):
     registered_students: list[RegisteredStudent] = []
 
     class Config:
-            orm_mode = True
+        orm_mode = True
+
+""" Professeur Model.
+
+   Attributs
+   ----------
+   
+   uid: int
+   email: str
+   password: str
+   first_name: str
+   last_name: str
+   lessons: list[Lesson]
+   
+   -------
+
+"""
+
+class ProfessorBase(BaseModel):
+    email: str
+    first_name: str
+    last_name: str
+
+class ProfessorCreate(ProfessorBase):
+    password: str
+
+class Professor(ProfessorBase):
+    uid: int
+    #lessons: list[Lesson] = []
+
+    class Config:
+        orm_mode = True
 
 """ Lesson Model.
 
@@ -167,37 +199,7 @@ class LessonCreate(LessonBase):
 class Lesson(LessonBase):
     uid: int
     #lesson_register: LessonRegister | None = None
-
-    class Config:
-        orm_mode = True
-
-""" Professeur Model.
-
-   Attributs
-   ----------
-   
-   uid: int
-   email: str
-   password: str
-   first_name: str
-   last_name: str
-   lessons: list[Lesson]
-   
-   -------
-
-"""
-
-class ProfessorBase(BaseModel):
-    email: str
-    first_name: str
-    last_name: str
-
-class ProfessorCreate(ProfessorBase):
-    password: str
-
-class Professor(ProfessorBase):
-    uid: int
-    #lessons: list[Lesson] = []
+    professor: Professor
 
     class Config:
         orm_mode = True
