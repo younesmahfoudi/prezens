@@ -129,29 +129,6 @@ def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     students = crud.get_students(db, skip=skip, limit=limit)
     return students
 
-@app.get("/students/{student_uid}", response_model=schemas.Student, tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
-def read_student(
-        student_uid: int,
-        db: Session = Depends(get_db)
-):
-    db_student = crud.get_student(db, student_uid=student_uid)
-    if db_student is None:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return db_student
-
-@app.get("/students/{student_uid}/lessons", response_model=list[schemas.Lesson], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
-def read_student(
-        student_uid: int,
-        db: Session = Depends(get_db)
-):
-    db_student = crud.get_student(db, student_uid=student_uid)
-    if db_student is None:
-        raise HTTPException(status_code=404, detail="Student not found")
-    if db_student.class_uid is None:
-        raise HTTPException(status_code=404, detail="Classroom not found")
-    db_lessons = crud.get_lessons_by_classroom(db, classroom_uid=db_student.class_uid)
-    return db_lessons
-
 @app.put("/students/{student_uid}/classrooms/{classroom_uid}", response_model=schemas.Student, tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def update_student_classroom(
         student_uid: int,
