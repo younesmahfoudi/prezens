@@ -1,4 +1,4 @@
-<div *ngIf="lessonElement && data"style="width: 80vh; height: 80vh; display: flex; flex-direction: column">
+<div *ngIf="lessonElement && data"style="width: 80vh; display: flex; flex-direction: column">
     <prez-student-absence *ngIf="studentIsAbsent(data.registeredStudentElement)"
                           [classroomElement]="data.classroomElement"
                           [lessonElement]="lessonElement"

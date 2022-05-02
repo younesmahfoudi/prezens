@@ -3,6 +3,9 @@ import {CommonModule} from '@angular/common';
 import {StudentPresenceComponent} from "./student-presence.component";
 import {MatDividerModule} from "@angular/material/divider";
 import {LessonDetailModule} from "../../../../lesson/components/lesson-detail/lesson-detail.module";
+import {MatIconModule} from "@angular/material/icon";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -15,7 +18,10 @@ import {LessonDetailModule} from "../../../../lesson/components/lesson-detail/le
     imports: [
         CommonModule,
         MatDividerModule,
-        LessonDetailModule
+        LessonDetailModule,
+        MatIconModule,
+        MatDialogModule,
+        MatButtonModule
     ]
 })
 export class StudentPresenceModule { }

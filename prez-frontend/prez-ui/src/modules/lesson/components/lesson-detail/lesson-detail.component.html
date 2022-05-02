@@ -1,5 +1,8 @@
 <div *ngIf="lessonElement" style="width: 100%">
-    <h1>{{lessonElement.description}}</h1>
-    <h2>{{lessonElement.professor_name}}</h2>
-    <h3>{{lessonElement.start_at | date : 'short'}} - {{lessonElement.end_at | date : 'short'}}</h3>
+    <h2>Lesson: {{lessonElement.description}}</h2>
+    <h4>Professor: <span style="font-style: oblique">{{lessonElement.professor_name}}</span></h4>
+    <h3>Date: {{lessonElement.start_at | date : 'fullDate'}} from
+        {{lessonElement.start_at | date : 'shortTime'}} to
+        {{lessonElement.end_at | date : 'shortTime'}}
+    </h3>
 </div>
