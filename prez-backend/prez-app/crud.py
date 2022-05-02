@@ -1,5 +1,6 @@
 import hashlib
 
+from sqlalchemy import select, and_
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -148,11 +149,11 @@ def get_registered_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.RegisteredStudent).offset(skip).limit(limit).all()
 
 def get_registered_student_history(db: Session, student_uid: int, skip: int = 0, limit: int = 100):
-    return db\
-        .query(models.RegisteredStudent)\
-        .filter(models.RegisteredStudent.student_uid == student_uid)\
-        .offset(skip)\
-        .limit(limit)\
+    return db \
+        .query(models.RegisteredStudent) \
+        .filter(models.RegisteredStudent.student_uid == student_uid) \
+        .offset(skip) \
+        .limit(limit) \
         .all()
 
 def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
@@ -168,11 +169,13 @@ def create_registered_student(db: Session,registered_student: schemas.Registered
     return db_registered_student
 
 def get_student_in_register(db: Session, student_uid: int, lesson_register_uid: int):
-    return db.query(models.RegisteredStudent) \
-        .filter(
-        models.RegisteredStudent.student_uid == student_uid
-        and models.RegisteredStudent.lesson_register_uid == lesson_register_uid
-    ).first()
+    stmt = select([
+        models.RegisteredStudent.student_uid,
+        models.RegisteredStudent.lesson_register_uid]
+    ).where(and_(
+        models.RegisteredStudent.lesson_register_uid == lesson_register_uid,
+        models.RegisteredStudent.student_uid == student_uid))
+    return db.execute(stmt).fetchall()
 
 def update_registered_student_status(db: Session,registered_student: schemas.RegisteredStudent, status: str):
     db.query(models.RegisteredStudent) \

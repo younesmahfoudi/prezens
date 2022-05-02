@@ -103,45 +103,6 @@ class Professor(ProfessorBase):
     class Config:
         orm_mode = True
 
-""" Lesson Model.
-
-   Attributs
-   ----------
-   
-   uid: int
-   description: str
-   start_at: datetime
-   end_at: datetime
-   class_uid: int
-   professor_uid: int
-   lesson_register_uid: int | None 
-   
-   -------
-
-"""
-
-class LessonBase(BaseModel):
-    description: str
-    start_at: datetime
-    end_at: datetime
-    class_uid: int
-    professor_uid: int
-
-    class Config:
-        arbitrary_types_allowed: True
-        orm_mode = True
-
-class LessonCreate(LessonBase):
-    pass
-
-class Lesson(LessonBase):
-    uid: int
-    #lesson_register: LessonRegister | None = None
-    professor: Professor
-
-    class Config:
-        orm_mode = True
-
 """ RegisteredStudent Model.
 
    Attributs
@@ -199,6 +160,45 @@ class LessonRegisterUpdate(BaseModel):
 class LessonRegister(LessonRegisterBase):
     uid: int
     registered_students: list[RegisteredStudent] = []
+
+    class Config:
+        orm_mode = True
+
+""" Lesson Model.
+
+   Attributs
+   ----------
+   
+   uid: int
+   description: str
+   start_at: datetime
+   end_at: datetime
+   class_uid: int
+   professor_uid: int
+   lesson_register_uid: int | None 
+   
+   -------
+
+"""
+
+class LessonBase(BaseModel):
+    description: str
+    start_at: datetime
+    end_at: datetime
+    class_uid: int
+    professor_uid: int
+
+    class Config:
+        arbitrary_types_allowed: True
+        orm_mode = True
+
+class LessonCreate(LessonBase):
+    pass
+
+class Lesson(LessonBase):
+    uid: int
+    lesson_register: LessonRegister | None = None
+    professor: Professor
 
     class Config:
         orm_mode = True

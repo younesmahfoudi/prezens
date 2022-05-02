@@ -6,6 +6,7 @@ import {LessonElementService} from "../../../../lesson/components/lesson-element
 import {Lesson} from "../../../../core/domain/lesson/lesson.model";
 import {LessonElement} from "../../../../lesson/components/lesson-element/lesson-element.model";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {Status} from "../../../../core/domain/register/status.enum";
 
 @Component({
     selector: 'prez-student-history-detail',
@@ -38,6 +39,26 @@ export class StudentHistoryDetailComponent implements OnInit, OnChanges {
         }
     }
 
+    public studentIsAbsent(registeredStudentElement: RegisteredStudentElement): boolean{
+        return ( registeredStudentElement.status ==  Status.Absent);
+    }
+
+    public studentIsPresent(registeredStudentElement: RegisteredStudentElement): boolean{
+        return ( registeredStudentElement.status ==  Status.Present);
+    }
+
+    public studentIsJustified(registeredStudentElement: RegisteredStudentElement): boolean{
+        return ( registeredStudentElement.status ==  Status.Justified);
+    }
+
+    public studentIsPending(registeredStudentElement: RegisteredStudentElement): boolean{
+        return ( registeredStudentElement.status ==  Status.Pending);
+    }
+
+    public studentIsDenied(registeredStudentElement: RegisteredStudentElement): boolean{
+        return ( registeredStudentElement.status ==  Status.Denied);
+    }
+
     private initLessonData(lessonUid?: number): void{
         if (!lessonUid) return;
         this.lessonService.getLessonByRegister(lessonUid).subscribe(
@@ -50,5 +71,4 @@ export class StudentHistoryDetailComponent implements OnInit, OnChanges {
             }
         )
     }
-
 }
