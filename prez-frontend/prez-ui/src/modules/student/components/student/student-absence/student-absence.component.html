@@ -22,12 +22,21 @@
             <div style="flex: 1">
                 <h3>You have been noted: <span style="font-style: italic; color: red">{{registeredStudentElement.status}}</span></h3>
             </div>
-            <div>
-                In case of justified absence, you can import your receipt here:
-            </div>
+            <prez-student-proof-uploader (fileEmitter)="updateRegisteredStudent($event)"></prez-student-proof-uploader>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Close</button>
+        <button
+            (click)="submit()"
+            *ngIf="!submitLoading && !submitDone"
+            [disabled]="hideSubmit"
+            cdkFocusInitial
+            mat-button>Submit</button>
+        <mat-spinner *ngIf="submitLoading" [diameter]="20"></mat-spinner>
+        <span *ngIf="submitDone" class="material-icons" style="color: green">
+            mark_email_read
+        </span>
+        <button *ngIf="!submitDone" mat-button mat-dialog-close>Cancel</button>
+        <button *ngIf="submitDone" mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
 </div>

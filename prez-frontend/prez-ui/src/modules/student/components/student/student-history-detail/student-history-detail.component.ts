@@ -1,4 +1,4 @@
-import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Inject, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {RegisteredStudentElement} from "../../../../register/components/register-element/register-element.model";
 import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
 import {LessonService} from "../../../../core/domain/lesson/lesson.service";

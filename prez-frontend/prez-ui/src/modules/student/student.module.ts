@@ -6,6 +6,7 @@ import { StudentPresenceComponent } from './components/student/student-presence/
 import { StudentJustifiedComponent } from './components/student/student-justified/student-justified.component';
 import { StudentDeniedComponent } from './components/student/student-denied/student-denied.component';
 import { StudentPendingComponent } from './components/student/student-pending/student-pending.component';
+import { StudentProofUploaderComponent } from './components/student/student-proof-uploader/student-proof-uploader.component';
 
 @NgModule({
     declarations: [

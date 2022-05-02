@@ -16,3 +16,8 @@ export interface RegisteredStudent{
     uid: number;
     student: Student;
 }
+
+export interface RegisteredStudentUpdate{
+    status?: Status;
+    proof?: string;
+}

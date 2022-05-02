@@ -391,3 +391,11 @@ def update_registered_student(registered_student_uid: int ,status: str, db: Sess
     db_registered_student = crud.get_registered_student(db=db, registered_student_uid=registered_student_uid)
     return db_registered_student
 
+@app.put("/registeredstudents/{registered_student_uid}/update", response_model=schemas.RegisteredStudent, tags=["registered students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def update_registered_student(registered_student_uid: int ,registered_student: schemas.RegisteredStudentUpdate, db: Session = Depends(get_db)):
+    db_registered_student = crud.get_registered_student(db, registered_student_uid=registered_student_uid)
+    if not db_registered_student:
+        raise HTTPException(status_code=404, detail="registered student not found")
+    result = crud.update_registered_student(db, db_registered_student=db_registered_student, registered_student=registered_student)
+    return result
+

@@ -127,6 +127,10 @@ class RegisteredStudentBase(BaseModel):
 class RegisteredStudentCreate(RegisteredStudentBase):
     pass
 
+class RegisteredStudentUpdate(BaseModel):
+    status: str | None = None
+    proof: str | None = None
+
 class RegisteredStudent(RegisteredStudentBase):
     uid: int
     student: Student

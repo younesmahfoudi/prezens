@@ -183,6 +183,15 @@ def update_registered_student_status(db: Session,registered_student: schemas.Reg
         .update({'status': status})
     db.commit()
 
+def update_registered_student(db: Session,db_registered_student: models.RegisteredStudent, registered_student):
+    registered_student_data = registered_student.dict(exclude_unset=True)
+    for key, value in registered_student_data.items():
+        setattr(db_registered_student, key, value)
+    db.add(db_registered_student)
+    db.commit()
+    db.refresh(db_registered_student)
+    return db_registered_student
+
 def create_registered_students(db: Session,registered_students: list[schemas.RegisteredStudentCreate]):
     for registered_student in registered_students:
         registered_student_tmp = models.RegisteredStudent(

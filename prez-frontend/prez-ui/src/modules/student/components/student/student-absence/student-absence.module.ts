@@ -6,6 +6,8 @@ import {LessonDetailModule} from "../../../../lesson/components/lesson-detail/le
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {StudentProofUploaderModule} from "../student-proof-uploader/student-proof-uploader.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import {MatButtonModule} from "@angular/material/button";
         LessonDetailModule,
         MatDialogModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        StudentProofUploaderModule,
+        MatProgressSpinnerModule
     ]
 })
 export class StudentAbsenceModule { }
