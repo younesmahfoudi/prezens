@@ -1,5 +1,7 @@
-<ul>
+<!--<ul>
     <li *ngFor="let lesson of lessonElements">
         {{lesson.description}}
     </li>
-</ul>
+</ul>-->
+
+<ejs-schedule *ngIf="timelineSettings" [eventSettings]='timelineSettings' height="75vh"></ejs-schedule>

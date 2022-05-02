@@ -147,6 +147,14 @@ def get_registered_student(db: Session, registered_student_uid: int):
 def get_registered_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.RegisteredStudent).offset(skip).limit(limit).all()
 
+def get_registered_student_history(db: Session, student_uid: int, skip: int = 0, limit: int = 100):
+    return db\
+        .query(models.RegisteredStudent)\
+        .filter(models.RegisteredStudent.student_uid == student_uid)\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
+
 def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
     db_registered_student = models.RegisteredStudent(
         lesson_register_uid= registered_student.lesson_register_uid,

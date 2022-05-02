@@ -11,8 +11,8 @@
                 Lessons
             </ng-template>
             <prez-student-lesson-screen
-                *ngIf="studentElement?.uid"
-                [studentUid]="studentElement?.uid"></prez-student-lesson-screen>
+                *ngIf="studentElement"
+                [studentElement]="studentElement"></prez-student-lesson-screen>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>

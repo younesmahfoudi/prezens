@@ -18,7 +18,7 @@ export class StudentElementService {
         }
     }
 
-    public mapStudentsElement(students: Student[]): StudentElement[]{
+    public mapStudentElements(students: Student[]): StudentElement[]{
         if (!students) return [];
         return students.map(student => this.mapStudentElement(student));
     }

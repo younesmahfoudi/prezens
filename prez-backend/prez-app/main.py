@@ -139,6 +139,17 @@ def read_student(
         raise HTTPException(status_code=404, detail="Student not found")
     return db_student
 
+@app.get("/students/{student_uid}/history", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_student(
+        student_uid: int,
+        db: Session = Depends(get_db)
+):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_history = crud.get_registered_student_history(db, student_uid=db_student.uid)
+    return db_history
+
 @app.get("/students/{student_uid}/lessons", response_model=list[schemas.Lesson], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_student(
         student_uid: int,
@@ -175,6 +186,7 @@ def update_student(
         raise HTTPException(status_code=404, detail="Student not found")
     db_student = crud.update_student(db=db, db_student=db_student, student=student)
     return db_student
+
 
 @app.post("/students/signup", response_model=auth_handler.Token, tags=["students"])
 async def create_user(student: schemas.StudentCreate, db: Session = Depends(get_db)):
