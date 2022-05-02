@@ -1,0 +1,15 @@
+<div *ngIf="lessonElement"style="width: 80vh; height: 80vh; display: flex; flex-direction: column">
+    <div *ngIf="data.registeredStudentElement" style="flex: 1">
+        {{data.registeredStudentElement.status}}
+        {{data.registeredStudentElement.student.first_name}}
+        {{data.registeredStudentElement.student.last_name}}
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="data.classroomElement" style="flex: 1">
+        {{data.classroomElement.promotion}}
+        {{data.classroomElement.description}}
+    </div>
+    <mat-divider></mat-divider>
+    <prez-lesson-detail [lessonElement]="lessonElement" style="flex: 1"></prez-lesson-detail>
+    <mat-divider></mat-divider>
+</div>

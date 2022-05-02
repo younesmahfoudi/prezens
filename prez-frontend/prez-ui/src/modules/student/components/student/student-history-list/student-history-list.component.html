@@ -1,0 +1,91 @@
+<div *ngFor="let registered of historyElement" style="padding: 5px">
+    <mat-card [style.background-color]="getPriority(registered.status)">
+        <mat-card-title>{{registered.status}}</mat-card-title>
+        <mat-card-subtitle>
+            <div>
+                {{registered.student.last_name}} {{registered.student.first_name}}
+            </div>
+            <div>
+                {{classroomElement.promotion}} {{classroomElement.description}}
+            </div>
+        </mat-card-subtitle>
+        <mat-card-actions>
+            <button mat-button (click)="openDialog(registered)">show details</button>
+        </mat-card-actions>
+    </mat-card>
+    <!--
+        <mat-divider style="padding: 5px"></mat-divider>
+    -->
+</div>
+
+<!--<mat-accordion class="example-headers-align">
+    <mat-expansion-panel
+        (opened)="setStep(0)"
+        *ngFor="let register of historyElement"
+        [expanded]="step === 0" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{register.status}}
+            </mat-panel-title>
+            <mat-panel-description>
+                <span>
+                    {{register.student.last_name | uppercase}} {{register.student.first_name}}
+                </span>
+                <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field appearance="fill">
+            <mat-label>First name</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Age</mat-label>
+            <input matInput min="1" type="number">
+        </mat-form-field>
+        <mat-action-row>
+            <button (click)="nextStep()" color="primary" mat-button>Next</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="setStep(1)" [expanded]="step === 1" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Destination
+            </mat-panel-title>
+            <mat-panel-description>
+                Type the country name
+                <mat-icon>map</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Country</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-action-row>
+            <button (click)="prevStep()" color="warn" mat-button>Previous</button>
+            <button (click)="nextStep()" color="primary" mat-button>Next</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="setStep(2)" [expanded]="step === 2" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Day of the trip
+            </mat-panel-title>
+            <mat-panel-description>
+                Inform the date you wish to travel
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-action-row>
+            <button (click)="prevStep()" color="warn" mat-button>Previous</button>
+            <button (click)="nextStep()" color="primary" mat-button>End</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+</mat-accordion>-->

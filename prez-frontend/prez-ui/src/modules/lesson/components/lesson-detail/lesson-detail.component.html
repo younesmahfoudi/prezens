@@ -1,0 +1,5 @@
+<div *ngIf="lessonElement" style="width: 100%">
+    <h1>{{lessonElement.description}}</h1>
+    <h2>{{lessonElement.professor_name}}</h2>
+    <h3>{{lessonElement.start_at | date : 'short'}} - {{lessonElement.end_at | date : 'short'}}</h3>
+</div>
