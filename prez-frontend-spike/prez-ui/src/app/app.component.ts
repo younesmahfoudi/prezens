@@ -3,7 +3,8 @@ import {Component, ViewChild} from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-import { SignaturePad } from 'angular2-signaturepad';
+import {SignaturePad} from 'angular2-signaturepad';
+import {NgxFileDropEntry} from "ngx-file-drop";
 
 @Component({
   selector: 'app-root',
@@ -59,6 +60,7 @@ export class AppComponent {
       "phone": "1-477-935-8478 x6430"
     }
   ];
+  public files: NgxFileDropEntry[] = [];
 
   public openPDF(): void {
     let DATA: any = document.getElementById('htmlData');
@@ -101,7 +103,7 @@ export class AppComponent {
     this.getBase64(data);
   }
 
-   getBase64(event: any) {
+  getBase64(event: any) {
     let me = this;
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -113,6 +115,51 @@ export class AppComponent {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
+
+  public dropped(files: NgxFileDropEntry[]) {
+    this.files = files;
+    for (const droppedFile of files) {
+
+      // Is it a file?
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+
+          // Here you can access the real file
+          console.log(droppedFile.relativePath, file);
+
+          /**
+           // You could upload it like this:
+           const formData = new FormData()
+           formData.append('logo', file, relativePath)
+
+           // Headers
+           const headers = new HttpHeaders({
+            'security-token': 'mytoken'
+          })
+
+           this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+           .subscribe(data => {
+            // Sanitized logo returned from backend
+          })
+           **/
+
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    }
+  }
+
+  public fileOver(event: any){
+    console.log(event);
+  }
+
+  public fileLeave(event: any){
+    console.log(event);
   }
 
 }

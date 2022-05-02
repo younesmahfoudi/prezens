@@ -16,11 +16,11 @@
 </div>
 
 <div class="col-md-4 text-right">
-  <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
+  <button (click)="openPDF()" class="btn btn-success btn-block">Download PDF</button>
 </div>
 
 <div class="signature-container">
-  <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+  <signature-pad (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" [options]="signaturePadOptions"></signature-pad>
 </div>
 
 <div class="buttons">
@@ -28,12 +28,36 @@
   <button (click)="savePad()" class="btn btn-success btn-block">Save signature</button>
 </div>
 
-<div class="signature-image" *ngIf="signatureImg">
+<div *ngIf="signatureImg" class="signature-image">
   <img src='{{ signatureImg }}' />
 </div>
 
-<input type="file" class="file-upload" (change)="setPdf($event)">
+<input (change)="setPdf($event)" class="file-upload" type="file">
 
 <!--
 <prez-prof-view></prez-prof-view>
 -->
+
+<div class="center">
+  <ngx-file-drop (onFileDrop)="dropped($event)" (onFileLeave)="fileLeave($event)"
+                 (onFileOver)="fileOver($event)" dropZoneLabel="Drop files here">
+    <ng-template let-openFileSelector="openFileSelector" ngx-file-drop-content-tmp>
+      Optional custom content that replaces the the entire default content.
+      <button (click)="openFileSelector()" type="button">Browse Files</button>
+    </ng-template>
+  </ngx-file-drop>
+  <div class="upload-table">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody class="upload-name-style">
+      <tr *ngFor="let item of files; let i=index">
+        <td><strong>{{ item.relativePath }}</strong></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
