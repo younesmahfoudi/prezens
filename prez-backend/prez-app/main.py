@@ -264,6 +264,16 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.Student], d
     db.refresh(register)
     return register
 
+@app.get("/register/{register_uid}/lesson", response_model=schemas.Lesson, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_register_lesson(register_uid: int, db: Session = Depends(get_db)):
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    db_lesson = crud.get_lesson(db, lesson_uid=register.lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    return db_lesson
+
 @app.put("/register/{register_uid}/update", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredStudent], db: Session = Depends(get_db)):
     register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
@@ -304,7 +314,7 @@ def read_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson_uid)
     return db_lesson_register
 
-@app.put("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
+@app.post("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:

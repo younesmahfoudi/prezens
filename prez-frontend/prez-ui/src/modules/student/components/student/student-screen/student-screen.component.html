@@ -12,6 +12,7 @@
             </ng-template>
             <prez-student-lesson-screen
                 *ngIf="studentElement"
+                [classroomElement]="classroomElement"
                 [studentElement]="studentElement"></prez-student-lesson-screen>
         </mat-tab>
         <mat-tab>
@@ -19,7 +20,10 @@
                 <mat-icon style="margin-right: 5px">history</mat-icon>
                 History
             </ng-template>
-            Content 2
+            <prez-student-history-screen
+                *ngIf="studentElement && classroomElement"
+                [classroomElement]="classroomElement"
+                [studentElement]="studentElement"></prez-student-history-screen>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>

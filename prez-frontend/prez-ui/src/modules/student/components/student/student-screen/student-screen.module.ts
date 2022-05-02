@@ -7,6 +7,7 @@ import {StudentLogoModule} from "../student-logo/student-logo.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {StudentLessonScreenModule} from "../student-lesson-screen/student-lesson-screen.module";
+import {StudentHistoryScreenModule} from "../student-history-screen/student-history-screen.module";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import {StudentLessonScreenModule} from "../student-lesson-screen/student-lesson
         StudentLogoModule,
         MatIconModule,
         MatButtonModule,
-        StudentLessonScreenModule
+        StudentLessonScreenModule,
+        StudentHistoryScreenModule
     ]
 })
 export class StudentScreenModule { }

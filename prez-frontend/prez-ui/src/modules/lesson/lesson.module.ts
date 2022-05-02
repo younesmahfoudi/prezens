@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LessonComponent} from './lesson.component';
 import {LessonTimelineModule} from "./components/lesson-timeline/lesson-timeline.module";
+import { LessonDetailComponent } from './components/lesson-detail/lesson-detail.component';
+import {LessonDetailModule} from "./components/lesson-detail/lesson-detail.module";
 
 
 @NgModule({
@@ -10,7 +12,8 @@ import {LessonTimelineModule} from "./components/lesson-timeline/lesson-timeline
     ],
     imports: [
         CommonModule,
-        LessonTimelineModule
+        LessonTimelineModule,
+        LessonDetailModule
     ]
 })
 export class LessonModule { }

@@ -17,16 +17,14 @@ import {ClassroomElement} from "../../../../classroom/components/classroom-eleme
 export class StudentLessonScreenComponent implements OnInit {
 
     @Input() studentElement?: StudentElement;
+    @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
-    public classroomElement?: ClassroomElement;
     private lessonData?: Lesson[];
     private classroomData?: Classroom;
 
     constructor(
         private lessonService: LessonService,
         private lessonElementService: LessonElementService,
-        private classroomService: ClassroomService,
-        private classroomElementService: ClassroomElementService
     ) { }
 
     ngOnInit(): void {
@@ -35,7 +33,6 @@ export class StudentLessonScreenComponent implements OnInit {
 
     private initData(): void{
         this.initLessonData(this.studentElement?.uid);
-        this.initClassroomData(this.studentElement?.class_uid)
     }
 
     private initLessonData(studentUid?: number): void{
@@ -44,19 +41,6 @@ export class StudentLessonScreenComponent implements OnInit {
             lessons => {
                 this.lessonData = lessons;
                 this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
-    }
-
-    private initClassroomData(classroomUid?: number): void{
-        if (!classroomUid) return;
-        this.classroomService.getClassroom(classroomUid).subscribe(
-            classroom => {
-                this.classroomData = classroom;
-                this.classroomElement = this.classroomElementService.mapClassroomElement(this.classroomData);
             },
             error => {
                 console.warn(error);

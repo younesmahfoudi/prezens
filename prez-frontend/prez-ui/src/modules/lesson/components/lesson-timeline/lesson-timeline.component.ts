@@ -30,7 +30,7 @@ import {
 export class LessonTimelineComponent implements OnInit, OnChanges {
 
     @Input() lessonElements: LessonElement[] = [];
-    @Input() readOnly: boolean = false;
+    @Input() readOnly: boolean = true;
 
     public timelineSettings?: EventSettingsModel;
 

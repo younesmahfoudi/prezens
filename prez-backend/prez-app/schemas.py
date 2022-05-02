@@ -72,68 +72,6 @@ class StudentUpdate(BaseModel):
     class Config:
         orm_mode = True
 
-
-""" RegisteredStudent Model.
-
-   Attributs
-   ----------
-   
-   uid: int
-   status: str 
-   proof: str | None 
-   lesson_register_uid: int
-   student_uid: int
-   
-   -------
-
-"""
-
-class RegisteredStudentBase(BaseModel):
-    lesson_register_uid: int
-    student_uid: int
-    status: str = 'ABSENT'
-    proof: str | None = None
-
-class RegisteredStudentCreate(RegisteredStudentBase):
-    pass
-
-class RegisteredStudent(RegisteredStudentBase):
-    uid: int
-    student: Student
-
-    class Config:
-        orm_mode = True
-
-""" LessonRegister Model.
-
-   Attributs
-   ----------
-   
-   uid: int
-   signature: str | None 
-   registered_students: list[RegisteredStudent]
-   
-   -------
-
-"""
-
-class LessonRegisterBase(BaseModel):
-    signature: str | None = None
-    lesson_uid: int
-
-class LessonRegisterCreate(LessonRegisterBase):
-    pass
-
-class LessonRegisterUpdate(BaseModel):
-    signature: str
-
-class LessonRegister(LessonRegisterBase):
-    uid: int
-    registered_students: list[RegisteredStudent] = []
-
-    class Config:
-        orm_mode = True
-
 """ Professeur Model.
 
    Attributs
@@ -200,6 +138,67 @@ class Lesson(LessonBase):
     uid: int
     #lesson_register: LessonRegister | None = None
     professor: Professor
+
+    class Config:
+        orm_mode = True
+
+""" RegisteredStudent Model.
+
+   Attributs
+   ----------
+   
+   uid: int
+   status: str 
+   proof: str | None 
+   lesson_register_uid: int
+   student_uid: int
+   
+   -------
+
+"""
+
+class RegisteredStudentBase(BaseModel):
+    lesson_register_uid: int
+    student_uid: int
+    status: str = 'ABSENT'
+    proof: str | None = None
+
+class RegisteredStudentCreate(RegisteredStudentBase):
+    pass
+
+class RegisteredStudent(RegisteredStudentBase):
+    uid: int
+    student: Student
+
+    class Config:
+        orm_mode = True
+
+""" LessonRegister Model.
+
+   Attributs
+   ----------
+   
+   uid: int
+   signature: str | None 
+   registered_students: list[RegisteredStudent]
+   
+   -------
+
+"""
+
+class LessonRegisterBase(BaseModel):
+    signature: str | None = None
+    lesson_uid: int
+
+class LessonRegisterCreate(LessonRegisterBase):
+    pass
+
+class LessonRegisterUpdate(BaseModel):
+    signature: str
+
+class LessonRegister(LessonRegisterBase):
+    uid: int
+    registered_students: list[RegisteredStudent] = []
 
     class Config:
         orm_mode = True

@@ -10,7 +10,11 @@ export class LessonService {
 
     constructor(private http: HttpClient) { }
 
-    public getStudentLessons(student_uid: number): Observable<Lesson[]>{
-        return this.http.get<Lesson[]>(`/api/students/${student_uid}/lessons`)
+    public getStudentLessons(studentUid: number): Observable<Lesson[]>{
+        return this.http.get<Lesson[]>(`/api/students/${studentUid}/lessons`)
+    }
+
+    public getLessonByRegister(registerUid: number): Observable<Lesson>{
+        return this.http.get<Lesson>(`/api/register/${registerUid}/lesson`);
     }
 }
