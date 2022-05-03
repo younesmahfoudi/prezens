@@ -28,7 +28,7 @@ services:
   web_api:
     build:
       dockerfile: Dockerfile
-      context: ..
+      context: .
     image: prez-app
     depends_on:
       - db

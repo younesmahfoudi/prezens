@@ -1,0 +1,28 @@
+<div *ngIf="lessonElement && data"style=" display: flex; flex-direction: column">
+    <prez-student-absence *ngIf="studentIsAbsent(data.registeredStudentElement)"
+                          [classroomElement]="data.classroomElement"
+                          [lessonElement]="lessonElement"
+                          [registeredStudentElement]="data.registeredStudentElement"
+                          style="flex: 1; display: flex; flex-direction: column"></prez-student-absence>
+    <prez-student-presence *ngIf="studentIsPresent(data.registeredStudentElement)"
+                           [classroomElement]="data.classroomElement"
+                           [lessonElement]="lessonElement"
+                           [registeredStudentElement]="data.registeredStudentElement"
+                           style="flex: 1; display: flex; flex-direction: column"></prez-student-presence>
+    <prez-student-denied *ngIf="studentIsDenied(data.registeredStudentElement)"
+                         [classroomElement]="data.classroomElement"
+                         [lessonElement]="lessonElement"
+                         [registeredStudentElement]="data.registeredStudentElement"
+                         style="flex: 1; display: flex; flex-direction: column"></prez-student-denied>
+    <prez-student-justified *ngIf="studentIsJustified(data.registeredStudentElement)"
+                            [classroomElement]="data.classroomElement"
+                            [lessonElement]="lessonElement"
+                            [registeredStudentElement]="data.registeredStudentElement"
+                            style="flex: 1; display: flex; flex-direction: column"></prez-student-justified>
+    <prez-student-pending *ngIf="studentIsPending(data.registeredStudentElement)"
+                          [classroomElement]="data.classroomElement"
+                          [lessonElement]="lessonElement"
+                          [registeredStudentElement]="data.registeredStudentElement"
+                          style="flex: 1; display: flex; flex-direction: column"></prez-student-pending>
+    <p-progressBar></p-progressBar>
+</div>

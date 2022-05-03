@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from pydantic import BaseModel
 
 """ Admin Model.
@@ -71,6 +72,36 @@ class StudentUpdate(BaseModel):
     class Config:
         orm_mode = True
 
+""" Professeur Model.
+
+   Attributs
+   ----------
+   
+   uid: int
+   email: str
+   password: str
+   first_name: str
+   last_name: str
+   lessons: list[Lesson]
+   
+   -------
+
+"""
+
+class ProfessorBase(BaseModel):
+    email: str
+    first_name: str
+    last_name: str
+
+class ProfessorCreate(ProfessorBase):
+    password: str
+
+class Professor(ProfessorBase):
+    uid: int
+    #lessons: list[Lesson] = []
+
+    class Config:
+        orm_mode = True
 
 """ RegisteredStudent Model.
 
@@ -95,6 +126,10 @@ class RegisteredStudentBase(BaseModel):
 
 class RegisteredStudentCreate(RegisteredStudentBase):
     pass
+
+class RegisteredStudentUpdate(BaseModel):
+    status: str | None = None
+    proof: str | None = None
 
 class RegisteredStudent(RegisteredStudentBase):
     uid: int
@@ -131,7 +166,7 @@ class LessonRegister(LessonRegisterBase):
     registered_students: list[RegisteredStudent] = []
 
     class Config:
-            orm_mode = True
+        orm_mode = True
 
 """ Lesson Model.
 
@@ -166,38 +201,8 @@ class LessonCreate(LessonBase):
 
 class Lesson(LessonBase):
     uid: int
-    #lesson_register: LessonRegister | None = None
-
-    class Config:
-        orm_mode = True
-
-""" Professeur Model.
-
-   Attributs
-   ----------
-   
-   uid: int
-   email: str
-   password: str
-   first_name: str
-   last_name: str
-   lessons: list[Lesson]
-   
-   -------
-
-"""
-
-class ProfessorBase(BaseModel):
-    email: str
-    first_name: str
-    last_name: str
-
-class ProfessorCreate(ProfessorBase):
-    password: str
-
-class Professor(ProfessorBase):
-    uid: int
-    #lessons: list[Lesson] = []
+    lesson_register: LessonRegister | None = None
+    professor: Professor
 
     class Config:
         orm_mode = True
@@ -232,3 +237,22 @@ class Classroom(ClassroomBase):
 
     class Config:
         orm_mode = True
+
+""" UserLogin Model.
+
+   Attributs
+   ----------
+   
+   email: str
+   password: str
+   
+   -------
+
+"""
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+    class Config:
+        orm_mode: True
