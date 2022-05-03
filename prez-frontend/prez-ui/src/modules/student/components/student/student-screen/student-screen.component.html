@@ -10,10 +10,15 @@
                 <mat-icon style="margin-right: 5px">school</mat-icon>
                 Lessons
             </ng-template>
-            <prez-student-lesson-screen
-                *ngIf="studentElement"
-                [classroomElement]="classroomElement"
-                [studentElement]="studentElement"></prez-student-lesson-screen>
+            <div *ngIf="classroomLoading || studentLoading" class="loader">
+                <mat-spinner></mat-spinner>
+            </div>
+            <div *ngIf="!classroomLoading && !studentLoading">
+                <prez-student-lesson-screen
+                    *ngIf="studentElement"
+                    [classroomElement]="classroomElement"
+                    [studentElement]="studentElement"></prez-student-lesson-screen>
+            </div>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>

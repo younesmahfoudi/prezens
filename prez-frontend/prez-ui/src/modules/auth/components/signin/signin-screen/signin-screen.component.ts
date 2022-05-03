@@ -10,6 +10,7 @@ import {FormGroup} from "@angular/forms";
 export class SigninScreenComponent implements OnInit {
 
     public errorMessage?: string;
+    public loginLoading: boolean = false;
 
     constructor(private authService: AuthService) {
     }
@@ -20,6 +21,7 @@ export class SigninScreenComponent implements OnInit {
     public login(form: FormGroup) {
         const val = form.value;
         if (val.email && val.password) {
+            this.loginLoading = true;
             this.authService.login({email:val.email, password:val.password})
                 .subscribe(
                     () => {
@@ -27,6 +29,7 @@ export class SigninScreenComponent implements OnInit {
                     }
                     ,
                     error => {
+                        this.loginLoading = false;
                         this.errorMessage = error.error.detail;
                     }
                 );
