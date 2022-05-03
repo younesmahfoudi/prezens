@@ -1,5 +1,6 @@
 import hashlib
 
+from sqlalchemy import select, and_, or_
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -147,6 +148,26 @@ def get_registered_student(db: Session, registered_student_uid: int):
 def get_registered_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.RegisteredStudent).offset(skip).limit(limit).all()
 
+def get_registered_student_history(db: Session, student_uid: int, skip: int = 0, limit: int = 100):
+    return db \
+        .query(models.RegisteredStudent) \
+        .filter(models.RegisteredStudent.student_uid == student_uid) \
+        .offset(skip) \
+        .limit(limit) \
+        .all()
+
+def get_registered_student_notifications(db: Session, student_uid: int):
+    return db \
+        .query(models.RegisteredStudent) \
+        .filter(
+        or_(
+            models.RegisteredStudent.status == "PENDING",
+            models.RegisteredStudent.status == "JUSTIFIED",
+            models.RegisteredStudent.status == "DENIED"
+        ),
+        models.RegisteredStudent.student_uid == student_uid
+    ).all()
+
 def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
     db_registered_student = models.RegisteredStudent(
         lesson_register_uid= registered_student.lesson_register_uid,
@@ -160,17 +181,28 @@ def create_registered_student(db: Session,registered_student: schemas.Registered
     return db_registered_student
 
 def get_student_in_register(db: Session, student_uid: int, lesson_register_uid: int):
-    return db.query(models.RegisteredStudent) \
-        .filter(
-        models.RegisteredStudent.student_uid == student_uid
-        and models.RegisteredStudent.lesson_register_uid == lesson_register_uid
-    ).first()
+    stmt = select([
+        models.RegisteredStudent.student_uid,
+        models.RegisteredStudent.lesson_register_uid]
+    ).where(and_(
+        models.RegisteredStudent.lesson_register_uid == lesson_register_uid,
+        models.RegisteredStudent.student_uid == student_uid))
+    return db.execute(stmt).fetchall()
 
 def update_registered_student_status(db: Session,registered_student: schemas.RegisteredStudent, status: str):
     db.query(models.RegisteredStudent) \
         .filter(models.RegisteredStudent.uid == registered_student.uid) \
         .update({'status': status})
     db.commit()
+
+def update_registered_student(db: Session,db_registered_student: models.RegisteredStudent, registered_student):
+    registered_student_data = registered_student.dict(exclude_unset=True)
+    for key, value in registered_student_data.items():
+        setattr(db_registered_student, key, value)
+    db.add(db_registered_student)
+    db.commit()
+    db.refresh(db_registered_student)
+    return db_registered_student
 
 def create_registered_students(db: Session,registered_students: list[schemas.RegisteredStudentCreate]):
     for registered_student in registered_students:

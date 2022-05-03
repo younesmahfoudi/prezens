@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LessonTimelineComponent} from "./lesson-timeline.component";
 import {TimelineModule} from "primeng/timeline";
+import {ScheduleModule} from "@syncfusion/ej2-angular-schedule";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {TimelineModule} from "primeng/timeline";
     ],
     imports: [
         CommonModule,
-        TimelineModule
+        TimelineModule,
+        ScheduleModule
     ]
 })
 export class LessonTimelineModule { }

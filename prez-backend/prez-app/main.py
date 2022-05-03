@@ -139,6 +139,28 @@ def read_student(
         raise HTTPException(status_code=404, detail="Student not found")
     return db_student
 
+@app.get("/students/{student_uid}/history", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_student_history(
+        student_uid: int,
+        db: Session = Depends(get_db)
+):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_history = crud.get_registered_student_history(db, student_uid=db_student.uid)
+    return db_history
+
+@app.get("/students/{student_uid}/notifications", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_student_notifications(
+        student_uid: int,
+        db: Session = Depends(get_db)
+):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_history = crud.get_registered_student_notifications(db, student_uid=db_student.uid)
+    return db_history
+
 @app.get("/students/{student_uid}/lessons", response_model=list[schemas.Lesson], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_student(
         student_uid: int,
@@ -176,6 +198,9 @@ def update_student(
     db_student = crud.update_student(db=db, db_student=db_student, student=student)
     return db_student
 
+<<<<<<< HEADnd/prez-ui
+
+>>>>>>> 5dba0eae22f5c72007a7e20099adc99f9b664350
 @app.post("/students/signup", response_model=auth_handler.Token, tags=["students"])
 async def create_user(student: schemas.StudentCreate, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_email(db, email=student.email)
@@ -252,6 +277,23 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.Student], d
     db.refresh(register)
     return register
 
+@app.get("/register/{register_uid}/lesson", response_model=schemas.Lesson, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_register_lesson(register_uid: int, db: Session = Depends(get_db)):
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    db_lesson = crud.get_lesson(db, lesson_uid=register.lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    return db_lesson
+
+@app.get("/register/{register_uid}", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_register_lesson(register_uid: int, db: Session = Depends(get_db)):
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    return register
+
 @app.put("/register/{register_uid}/update", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredStudent], db: Session = Depends(get_db)):
     register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
@@ -292,7 +334,7 @@ def read_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson_uid)
     return db_lesson_register
 
-@app.put("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
+@app.post("/lessons/{lesson_uid}/register", response_model=schemas.LessonRegister, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson_register(lesson_uid: int, db: Session = Depends(get_db)):
     db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
     if not db_lesson:
@@ -360,4 +402,12 @@ def update_registered_student(registered_student_uid: int ,status: str, db: Sess
     crud.update_registered_student_status(db, registered_student=db_registered_student, status=status)
     db_registered_student = crud.get_registered_student(db=db, registered_student_uid=registered_student_uid)
     return db_registered_student
+
+@app.put("/registeredstudents/{registered_student_uid}/update", response_model=schemas.RegisteredStudent, tags=["registered students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def update_registered_student(registered_student_uid: int ,registered_student: schemas.RegisteredStudentUpdate, db: Session = Depends(get_db)):
+    db_registered_student = crud.get_registered_student(db, registered_student_uid=registered_student_uid)
+    if not db_registered_student:
+        raise HTTPException(status_code=404, detail="registered student not found")
+    result = crud.update_registered_student(db, db_registered_student=db_registered_student, registered_student=registered_student)
+    return result
 

@@ -1,0 +1,21 @@
+<div>
+    <ngx-file-drop (onFileDrop)="dropped($event)"
+                   (onFileLeave)="fileLeave($event)"
+                   (onFileOver)="fileOver($event)"
+                   accept=".pdf"
+                   dropZoneLabel="Drop files here">
+        <ng-template let-openFileSelector="openFileSelector" ngx-file-drop-content-tmp style="color: red">
+            <div style="padding: 10px">
+                In case of justified absence, you can drag your receipt here:
+                <button (click)="openFileSelector()" mat-button type="button">
+                    <mat-icon>download</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </ngx-file-drop>
+    <div>
+        <span *ngFor="let item of files; let i=index">
+            {{item.relativePath}}
+        </span>
+    </div>
+</div>

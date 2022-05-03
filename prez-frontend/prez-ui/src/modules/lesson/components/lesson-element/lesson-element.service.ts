@@ -13,8 +13,7 @@ export class LessonElementService {
             start_at: lesson.start_at,
             end_at: lesson.end_at,
             class_uid: lesson.class_uid,
-            professor_first_name: lesson.professor.first_name,
-            professor_last_name: lesson.professor.last_name,
+            professor_name: lesson.professor.last_name + " " + lesson.professor.first_name,
             uid: lesson.uid
         }
     }
