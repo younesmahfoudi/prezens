@@ -7,6 +7,7 @@ import { StudentJustifiedComponent } from './components/student/student-justifie
 import { StudentDeniedComponent } from './components/student/student-denied/student-denied.component';
 import { StudentPendingComponent } from './components/student/student-pending/student-pending.component';
 import { StudentProofUploaderComponent } from './components/student/student-proof-uploader/student-proof-uploader.component';
+import { StudentNotificationScreenComponent } from './components/student/student-notification-screen/student-notification-screen.component';
 
 @NgModule({
     declarations: [

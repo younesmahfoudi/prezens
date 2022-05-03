@@ -30,7 +30,10 @@
                 <mat-icon style="margin-right: 5px">notifications</mat-icon>
                 Notifications
             </ng-template>
-            Content 3
+            <prez-student-notification-screen
+                *ngIf="studentElement && classroomElement"
+                [classroomElement]="classroomElement"
+                [studentElement]="studentElement"></prez-student-notification-screen>
         </mat-tab>
     </mat-tab-group>
 </div>

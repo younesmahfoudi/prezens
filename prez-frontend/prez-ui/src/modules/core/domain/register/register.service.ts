@@ -17,4 +17,8 @@ export class RegisterService {
     public updateRegisteredStudent(registeredStudentUid: number, registeredStudentUpdate: RegisteredStudentUpdate): Observable<RegisteredStudent>{
         return this.http.put<RegisteredStudent>(`/api/registeredstudents/${registeredStudentUid}/update`, registeredStudentUpdate);
     }
+
+    public getNotifications(studentUid: number): Observable<RegisteredStudent[]>{
+        return this.http.get<RegisteredStudent[]>(`/api/students/${studentUid}/notifications`);
+    }
 }

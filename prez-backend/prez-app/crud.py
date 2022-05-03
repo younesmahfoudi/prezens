@@ -1,6 +1,6 @@
 import hashlib
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, or_
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -155,6 +155,18 @@ def get_registered_student_history(db: Session, student_uid: int, skip: int = 0,
         .offset(skip) \
         .limit(limit) \
         .all()
+
+def get_registered_student_notifications(db: Session, student_uid: int):
+    return db \
+        .query(models.RegisteredStudent) \
+        .filter(
+        or_(
+            models.RegisteredStudent.status == "PENDING",
+            models.RegisteredStudent.status == "JUSTIFIED",
+            models.RegisteredStudent.status == "DENIED"
+        ),
+        models.RegisteredStudent.student_uid == student_uid
+    ).all()
 
 def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
     db_registered_student = models.RegisteredStudent(

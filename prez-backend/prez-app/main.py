@@ -140,7 +140,7 @@ def read_student(
     return db_student
 
 @app.get("/students/{student_uid}/history", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
-def read_student(
+def read_student_history(
         student_uid: int,
         db: Session = Depends(get_db)
 ):
@@ -148,6 +148,17 @@ def read_student(
     if db_student is None:
         raise HTTPException(status_code=404, detail="Student not found")
     db_history = crud.get_registered_student_history(db, student_uid=db_student.uid)
+    return db_history
+
+@app.get("/students/{student_uid}/notifications", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_student_notifications(
+        student_uid: int,
+        db: Session = Depends(get_db)
+):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_history = crud.get_registered_student_notifications(db, student_uid=db_student.uid)
     return db_history
 
 @app.get("/students/{student_uid}/lessons", response_model=list[schemas.Lesson], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
