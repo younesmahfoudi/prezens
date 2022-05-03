@@ -18,8 +18,10 @@ import {ClassroomElementService} from "../../../../classroom/components/classroo
 export class StudentScreenComponent implements OnInit {
 
     public studentElement?: StudentElement
-    private studentData?: Student;
     public classroomElement?: ClassroomElement;
+    public studentLoading: boolean = false;
+    public classroomLoading: boolean = false;
+    private studentData?: Student;
     private classroomData?: Classroom;
 
     constructor(
@@ -47,27 +49,33 @@ export class StudentScreenComponent implements OnInit {
 
     private initStudentData(student_uid: number): void{
         if (!student_uid) return;
+        this.studentLoading = true;
         this.studentService.getStudent(student_uid).subscribe(
             student => {
                 this.studentData = student;
                 this.studentElement = this.studentElementService.mapStudentElement(this.studentData);
+                this.studentLoading = false;
                 this.initClassroomData(this.studentElement.class_uid);
             },
             err =>{
                 console.warn(err);
+                this.studentLoading = false;
             }
         )
     }
 
     private initClassroomData(classroomUid?: number): void{
         if (!classroomUid) return;
+        this.classroomLoading = true;
         this.classroomService.getClassroom(classroomUid).subscribe(
             classroom => {
                 this.classroomData = classroom;
                 this.classroomElement = this.classroomElementService.mapClassroomElement(this.classroomData);
+                this.classroomLoading = false;
             },
             error => {
                 console.warn(error);
+                this.classroomLoading = false;
             }
         )
     }
