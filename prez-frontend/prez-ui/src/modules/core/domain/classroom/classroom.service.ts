@@ -10,8 +10,12 @@ export class ClassroomService {
 
     constructor(private http: HttpClient) { }
 
-    public getClassroom(classroom_uid: number): Observable<Classroom>{
-        return this.http.get<Classroom>(`/api/classrooms/${classroom_uid}`)
+    public getClassroom(classroomUid: number): Observable<Classroom>{
+        return this.http.get<Classroom>(`/api/classrooms/${classroomUid}`);
+    }
+
+    public getClassrooms(): Observable<Classroom[]>{
+        return this.http.get<Classroom[]>(`/api/classrooms/`);
     }
 
 }
