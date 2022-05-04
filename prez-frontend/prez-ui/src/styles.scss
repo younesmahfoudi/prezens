@@ -9,4 +9,23 @@
 @import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: ghostwhite}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: ghostwhite; white-space: nowrap;}
+
+.mat-tab-body-wrapper{
+    height: 100%;
+}
+
+.mat-tab-body.mat-tab-body-active{
+    height: 100%;
+}
+
+.mat-tab-body-content{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-tab-body{
+    max-height: 84vh;
+}
+
