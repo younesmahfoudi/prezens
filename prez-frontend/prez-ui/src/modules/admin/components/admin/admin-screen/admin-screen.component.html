@@ -1,0 +1,36 @@
+<div>
+    <button (click)="logout()" class="logout" color="warn" mat-button>
+        <mat-icon style="margin-right: 2px">logout</mat-icon>
+        Logout
+    </button>
+    <div style="display: flex; flex-direction: column">
+        <prez-admin-logo style="display: flex; flex-direction: row"></prez-admin-logo>
+        <mat-tab-group color="warn" mat-align-tabs="center" style="margin-top: 10px; flex: 1; display: flex; flex-direction: column">
+            <div style="flex: 1">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon style="margin-right: 5px">school</mat-icon>
+                        Students
+                    </ng-template>
+
+                    <prez-admin-classrooms-screen
+                        style="flex: 1;"></prez-admin-classrooms-screen>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon style="margin-right: 5px">group</mat-icon>
+                        Professors
+                    </ng-template>
+
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon style="margin-right: 5px">notifications</mat-icon>
+                        Notifications
+                    </ng-template>
+                </mat-tab>
+            </div>
+        </mat-tab-group>
+    </div>
+
+</div>
