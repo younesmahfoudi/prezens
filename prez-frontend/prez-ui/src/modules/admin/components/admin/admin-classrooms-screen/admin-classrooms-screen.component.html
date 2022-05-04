@@ -1,0 +1,27 @@
+<!--<prez-admin-classrooms-toolbar></prez-admin-classrooms-toolbar>
+<div style="display: flex; flex-direction: row; flex: 1">
+    <prez-classroom-list
+        *ngIf="classroomElements"
+        [classroomElements]="classroomElements"
+        style="flex: 1"></prez-classroom-list>
+    <prez-lesson-timeline
+        *ngIf="lessonElements"
+        [lessonElements]="lessonElements"
+        [readOnly]="true"
+        style="flex: 1"></prez-lesson-timeline>
+</div>-->
+
+<div style="flex: 1; display: flex; flex-direction: column; height: 100%">
+
+    <div style="height: 15px; background-color: white"></div>
+    <prez-admin-students-toolbar
+        (filterEmitter)="setStudentsFilter($event)"></prez-admin-students-toolbar>
+    <div *ngIf="isLoadingResults"
+         class="loader">
+        <mat-spinner></mat-spinner>
+    </div>
+    <prez-student-grid
+        *ngIf="studentElements"
+        [studentElements]="studentElements"
+        style="flex: 1"></prez-student-grid>
+</div>

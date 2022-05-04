@@ -1,0 +1,7 @@
+<mat-selection-list #classrooms [multiple]="false">
+    <mat-list-option *ngFor="let studentElement of studentElements" [value]="studentElement">
+        <span (click)="emitStudent(studentElement)">
+            <span style="color: #2daae1">{{studentElement.first_name}}</span> {{studentElement.last_name | uppercase}}
+        </span>
+    </mat-list-option>
+</mat-selection-list>

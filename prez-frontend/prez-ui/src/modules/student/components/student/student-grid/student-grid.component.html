@@ -1,0 +1,73 @@
+<div class="example-table-container">
+    <table [dataSource]="dataSource" class="example-table" mat-table >
+        <ng-container matColumnDef="student_id">
+            <th *matHeaderCellDef mat-header-cell>Student id</th>
+            <td *matCellDef="let row" mat-cell>{{row.student_id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="first_name">
+            <th *matHeaderCellDef mat-header-cell>First name</th>
+            <td *matCellDef="let row" mat-cell>{{row.first_name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="last_name">
+            <th *matHeaderCellDef mat-header-cell>Last Name</th>
+            <td *matCellDef="let row" mat-cell>{{row.last_name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th *matHeaderCellDef mat-header-cell>Email</th>
+            <td *matCellDef="let row" mat-cell>{{row.email}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let row" mat-cell>
+                <button mat-button>
+                    <mat-icon>manage_accounts</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+</div>
+<mat-paginator [pageSize]="20" aria-label="Select page of students"></mat-paginator>
+<!--<mat-table [dataSource]="dataSource" style="display: flex; flex-direction: column; flex: 1">
+    &lt;!&ndash; User name Definition &ndash;&gt;
+    <ng-container matColumnDef="student_id">
+        <mat-header-cell *matHeaderCellDef> Student_id </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.student_id}} </mat-cell>
+    </ng-container>
+
+    &lt;!&ndash; Age Definition &ndash;&gt;
+    <ng-container matColumnDef="first_name">
+        <mat-header-cell *matHeaderCellDef> First name </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.first_name}} </mat-cell>
+    </ng-container>
+
+    &lt;!&ndash; Title Definition &ndash;&gt;
+    <ng-container matColumnDef="last_name">
+        <mat-header-cell *matHeaderCellDef> Last name </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.last_name}} </mat-cell>
+    </ng-container>
+
+    &lt;!&ndash; Title Definition &ndash;&gt;
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+    </ng-container>
+
+    &lt;!&ndash; Title Definition &ndash;&gt;
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+    </ng-container>
+
+    &lt;!&ndash; Header and Row Declarations &ndash;&gt;
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>-->
+
+
