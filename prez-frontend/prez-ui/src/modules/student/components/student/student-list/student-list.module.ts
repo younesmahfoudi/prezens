@@ -8,9 +8,6 @@ import {MatListModule} from "@angular/material/list";
     declarations: [
         StudentListComponent
     ],
-    exports: [
-        StudentListComponent
-    ],
     imports: [
         CommonModule,
         MatListModule

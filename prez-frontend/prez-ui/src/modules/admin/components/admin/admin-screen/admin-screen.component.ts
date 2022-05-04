@@ -13,8 +13,8 @@ import {AuthService} from "../../../../core/domain/auth/auth.service";
 })
 export class AdminScreenComponent implements OnInit {
 
-    public adminElement?: AdminElement;
-    private adminData?: Admin;
+    public adminElement: AdminElement;
+    private adminData: Admin;
 
     constructor(private authService: AuthService,
                 private route: ActivatedRoute,

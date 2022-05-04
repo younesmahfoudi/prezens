@@ -9,9 +9,7 @@ import {ClassroomElement} from "../classroom-element/classroom-element.model";
 export class ClassroomSelectComponent implements OnInit {
 
     @Input() classroomElements: ClassroomElement[];
-    @Input() classroomSelected?: ClassroomElement;
     @Output() classroomEmitter = new EventEmitter<ClassroomElement>();
-
 
     constructor() { }
 
@@ -19,7 +17,6 @@ export class ClassroomSelectComponent implements OnInit {
     }
 
     public emitClassroom(classroomElement?: ClassroomElement): void{
-        this.classroomSelected = classroomElement;
         this.classroomEmitter.emit(classroomElement);
     }
 

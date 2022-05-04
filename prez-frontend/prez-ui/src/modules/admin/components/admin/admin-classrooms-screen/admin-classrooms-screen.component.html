@@ -21,7 +21,6 @@
         <mat-spinner></mat-spinner>
     </div>
     <prez-student-grid
-        (studentEmitter)="openStudentConfigDialog($event)"
         *ngIf="studentElements"
         [studentElements]="studentElements"
         style="flex: 1"></prez-student-grid>

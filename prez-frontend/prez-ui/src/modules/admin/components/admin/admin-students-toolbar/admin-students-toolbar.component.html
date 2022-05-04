@@ -4,17 +4,11 @@
         *ngIf="classroomElements"
         [classroomElements]="classroomElements"
         style="padding: 5px"></prez-classroom-select>
-    <button
-        (click)="openClassroomScheduleDialog(studentsFilter?.classroom)"
-        *ngIf="studentsFilter?.classroom"
-        mat-button>
+    <button *ngIf="studentsFilter?.classroom" mat-button>
         <mat-icon>calendar_month</mat-icon>
     </button>
-    <button (click)="openClassroomDialog()" mat-button>
-        <mat-icon>add</mat-icon>
-    </button>
     <span class="spacer"></span>
-    <button (click)="openStudentDialog()" mat-button>
+    <button mat-button>
         <mat-icon>person_add</mat-icon>
     </button>
 </mat-toolbar>

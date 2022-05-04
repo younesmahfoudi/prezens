@@ -1,6 +1,6 @@
 <mat-form-field>
     <mat-label>classroom</mat-label>
-    <mat-select [(value)]="classroomSelected">
+    <mat-select>
         <mat-option (click)="emitClassroom(undefined)">None</mat-option>
         <mat-option
             (click)="emitClassroom(classroom)"
