@@ -15,8 +15,7 @@ export class StudentElementService {
             class_uid: student.class_uid,
             first_name: student.first_name,
             last_name: student.last_name,
-            student_id: student.student_id,
-            email: student.email
+            student_id: student.student_id
         }
     }
 

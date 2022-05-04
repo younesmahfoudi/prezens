@@ -25,6 +25,8 @@ import { ProfessorModule } from 'src/modules/professor/professor.module';
         LessonDetailModule,
         AdminModule,
         LessonDetailModule,
+        AdminModule,
+        LessonDetailModule,
         ProfessorModule
     ],
     providers: [

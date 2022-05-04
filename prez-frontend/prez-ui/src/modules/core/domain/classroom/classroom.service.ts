@@ -15,6 +15,7 @@ export class ClassroomService {
         return this.http.get<Classroom>(`/api/classrooms/${classroomUid}`);
     }
 
+
     public getClassrooms(): Observable<Classroom[]>{
         return this.http.get<Classroom[]>(`/api/classrooms/`);
     }

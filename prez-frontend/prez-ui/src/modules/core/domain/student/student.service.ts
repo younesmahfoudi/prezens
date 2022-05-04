@@ -21,6 +21,7 @@ export class StudentService {
         return this.http.get<Student[]>(`${pathUrl}`)
     }
 
+
     public updateStudentClassroom(studentUid: number, classroomUid: number): Observable<Student>{
         return this.http.put<Student>(`/api/students/${studentUid}`,{class_uid:classroomUid});
     }
