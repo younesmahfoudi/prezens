@@ -198,9 +198,6 @@ def update_student(
     db_student = crud.update_student(db=db, db_student=db_student, student=student)
     return db_student
 
-<<<<<<< HEADnd/prez-ui
-
->>>>>>> 5dba0eae22f5c72007a7e20099adc99f9b664350
 @app.post("/students/signup", response_model=auth_handler.Token, tags=["students"])
 async def create_user(student: schemas.StudentCreate, db: Session = Depends(get_db)):
     db_student = crud.get_student_by_email(db, email=student.email)
