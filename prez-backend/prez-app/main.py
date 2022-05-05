@@ -244,6 +244,15 @@ def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
     lessons = crud.get_lessons_by_classroom(db, classroom_uid=classroom_uid)
     return lessons
 
+@app.get("/classrooms/{classroom_uid}/register/{register_uid}/init", response_model=schemas.LessonRegister, tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_classroom_lessons(register_uid: int, classroomUid: int, db: Session = Depends(get_db)):
+    classroom = crud.get_classroom(db, classroom_uid = classroomUid)
+    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    crud.init_lesson_register(db, students= classroom.students, register_uid=register_uid)
+    db.refresh(register)
+    return register
 '''
     LessonRegister routes
 '''
@@ -265,14 +274,7 @@ def update_lesson_register_signature(register_uid: int, lesson_register: schemas
     db.refresh(db_lesson_register)
     return db_lesson_register
 
-@app.put("/register/{register_uid}/init", response_model=schemas.LessonRegister, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
-def read_classroom_lessons(register_uid: int, students: list[schemas.Student], db: Session = Depends(get_db)):
-    register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
-    if not register:
-        raise HTTPException(status_code=404, detail="Register not found")
-    crud.init_lesson_register(db, students=students, register_uid=register_uid)
-    db.refresh(register)
-    return register
+    
 
 @app.get("/register/{register_uid}/lesson", response_model=schemas.Lesson, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_register_lesson(register_uid: int, db: Session = Depends(get_db)):

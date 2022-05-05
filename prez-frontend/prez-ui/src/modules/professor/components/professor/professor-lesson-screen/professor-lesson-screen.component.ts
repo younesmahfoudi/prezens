@@ -31,5 +31,20 @@ export class ProfessorLessonScreenComponent implements OnInit {
   }
 
 
-  private initData(): void{}
+  private initData(): void{
+    this.initLessonData(this.professorElement?.uid);
+  }
+
+  private initLessonData(professorUid?: number): void{
+    if (!professorUid) return;
+    this.lessonService.getLessonByProfessor(professorUid).subscribe(
+      lessons => {
+        this.lessonData = lessons;
+        this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+      },
+      error => {
+        console.warn(error);
+      }
+    )
+  }
 }

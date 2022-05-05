@@ -6,6 +6,7 @@ import {IsProfSignedInGuard} from "./guards/professor/is-prof-signed-in.guard";
 import {IsAdminSignedInGuard} from "./guards/admin/is-admin-signed-in.guard";
 import {IsStudentSignedInGuard} from "./guards/student/is-student-signed-in.guard";
 import {StudentComponent} from "../modules/student/student.component";
+import { ProfessorComponent } from '../modules/professor/professor.component';
 
 const routes: Routes = [
     {
@@ -17,7 +18,7 @@ const routes: Routes = [
     },
     {
         path:'professor/:id',
-        component:AuthComponent,
+        component:ProfessorComponent,
         canActivate: [
             IsProfSignedInGuard
         ]

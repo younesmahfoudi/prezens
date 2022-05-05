@@ -8,6 +8,9 @@ import { ProfessorScreenComponent } from './professor-screen.component';
   declarations: [
     ProfessorScreenComponent
   ],
+  exports: [
+    ProfessorScreenComponent
+  ],
   imports: [
     CommonModule
   ]
