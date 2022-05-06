@@ -1,0 +1,21 @@
+<button (click)="logout()" class="logout" color="warn" mat-button>
+    <mat-icon style="margin-right: 2px">logout</mat-icon>
+    Logout
+</button>
+<div style="display: flex; flex-direction: column">
+    <prez-professor-logo style="display: flex; flex-direction: row"></prez-professor-logo>
+    <mat-tab-group color="warn" mat-align-tabs="center" style="margin-top: 10px">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon style="margin-right: 5px">school</mat-icon>
+                Lessons
+            </ng-template>
+            <prez-professor-lesson-screen 
+                *ngIf="professorElement"
+                [proffessorElement]="professorElement"></prez-professor-lesson-screen>
+        </mat-tab>
+        <mat-tab>
+        </mat-tab>
+        
+    </mat-tab-group>
+</div>

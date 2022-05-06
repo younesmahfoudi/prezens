@@ -4,11 +4,17 @@ import {Professor, ProfessorCreate} from "./professor.model";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ProfessorService {
 
-    constructor(private http: HttpClient) { }
+  private pathUrl: string = '/api/professors';
+
+  constructor(private http: HttpClient) { }
+
+  public getProfessor(professor_uid: number) : Observable<Professor>{
+    return this.http.get<Professor>(`${this.pathUrl}/${professor_uid}`)
+  }
 
     public getProfessors(): Observable<Professor[]>{
         return this.http.get<Professor[]>(`/api/professors/`);
