@@ -11,7 +11,6 @@ import {MatButtonModule} from "@angular/material/button";
 // import {StudentNotificationScreenModule} from "../student-notification-screen/student-notification-screen.module";
 import { ProfessorLogoModule } from '../professor-logo/professor-logo.module';
 import { ProfessorLessonScreenModule } from '../professor-lesson-screen/professor-lesson-screen.module';
-import { ProfessorHistoryModule } from '../professor-history/professor-history.module';
 
 
 
@@ -29,8 +28,7 @@ import { ProfessorHistoryModule } from '../professor-history/professor-history.m
     ProfessorLogoModule,
     MatIconModule,
     MatButtonModule,
-    ProfessorLessonScreenModule,
-    ProfessorHistoryModule
+    ProfessorLessonScreenModule
   ]
 })
 export class ProfessorScreenModule { }
