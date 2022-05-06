@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {StudentElement} from "../student-element/student-element.model";
 import {MatTableDataSource} from "@angular/material/table";
@@ -11,6 +20,7 @@ import {MatTableDataSource} from "@angular/material/table";
 export class StudentGridComponent implements AfterViewInit, OnChanges {
 
     @Input() studentElements: StudentElement[];
+    @Output() studentEmitter = new EventEmitter<StudentElement>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public dataSource: MatTableDataSource<StudentElement>
@@ -27,6 +37,11 @@ export class StudentGridComponent implements AfterViewInit, OnChanges {
         if (changes["studentElements"]){
             this.initDataSource()
         }
+    }
+
+    public emitStudentElement(studentElement: StudentElement){
+        if (!studentElement) return;
+        this.studentEmitter.emit(studentElement);
     }
 
     private initDataSource(): void{

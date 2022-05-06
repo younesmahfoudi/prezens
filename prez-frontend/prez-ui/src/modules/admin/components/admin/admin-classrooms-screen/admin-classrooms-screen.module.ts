@@ -7,6 +7,7 @@ import {StudentGridModule} from "../../../../student/components/student/student-
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AdminStudentsToolbarModule} from "../admin-students-toolbar/admin-students-toolbar.module";
+import {AdminManageStudentModule} from "../admin-manage-student/admin-manage-student.module";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {AdminStudentsToolbarModule} from "../admin-students-toolbar/admin-studen
         StudentGridModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
-        AdminStudentsToolbarModule
+        AdminStudentsToolbarModule,
+        AdminManageStudentModule
     ]
 })
 export class AdminClassroomsScreenModule { }
