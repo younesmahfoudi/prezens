@@ -255,4 +255,27 @@ class UserLogin(BaseModel):
     password: str
 
     class Config:
-        orm_mode: True
+        orm_mode = True
+
+""" User Model.
+
+   Attributs
+   ----------
+   
+   email: str
+   role: str
+   
+   -------
+
+"""
+
+class UserBase(BaseModel):
+    email: str
+    role: str | None = None
+
+class User(UserBase):
+    uid: int
+
+    class Config:
+        orm_mode = True
+

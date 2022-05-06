@@ -84,3 +84,11 @@ class RegisteredStudent(Base):
 
     student = relationship("Student", back_populates="registered")
     register = relationship("LessonRegister", back_populates="registered_students")
+
+class User(Base):
+    __tablename__ = "USERS"
+
+    uid = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, index=True)
+    role = Column(String(255), index=True)
+
