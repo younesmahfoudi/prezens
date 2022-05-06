@@ -14,6 +14,10 @@ export class LessonService {
         return this.http.get<Lesson[]>(`/api/students/${studentUid}/lessons`)
     }
 
+    public getClassroomLessons(classroomUid: number): Observable<Lesson[]>{
+        return this.http.get<Lesson[]>(`/api/classrooms/${classroomUid}/lessons`);
+    }
+
     public getLessonByRegister(registerUid: number): Observable<Lesson>{
         return this.http.get<Lesson>(`/api/register/${registerUid}/lesson`);
     }

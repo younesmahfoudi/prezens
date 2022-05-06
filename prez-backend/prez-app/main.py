@@ -57,21 +57,48 @@ def user_login(user: schemas.UserLogin, db: Session = Depends(get_db)):
         return auth_handler.signJWT(user_uid=admin.uid,role="admin")
     raise HTTPException(status_code=400, detail="Wrong login details!")
 
+@app.post("/users/", response_model=schemas.User, dependencies=[Depends(auth_bearer.JWTBearer())], tags=["common"])
+def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="User already registered")
+    return crud.add_user(db, user)
+
+@app.post("/users/provider", response_model=schemas.User, tags=["common"])
+async def read_user(user: schemas.UserBase, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Email address not provided or already registered")
+    return db_user
+
 '''
     Admins routes
 '''
 
-@app.post("/admins/", response_model=schemas.Admin, tags=["admin"])
+@app.post("/admins/", response_model=schemas.Admin, tags=["admins"])
 def create_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
     db_admin = crud.get_admin_by_email(db, email=admin.email)
     if db_admin:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_admin(db=db, admin=admin)
 
-@app.get("/admins/", response_model=list[schemas.Admin], tags=["admin"], dependencies=[Depends(auth_bearer.JWTBearer())])
+@app.get("/admins/", response_model=list[schemas.Admin], tags=["admins"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_admins(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     admins = crud.get_admins(db, skip=skip, limit=limit)
     return admins
+
+@app.get("/admins/{admin_uid}", response_model=schemas.Admin, tags=["admins"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_professor(admin_uid: int, db: Session = Depends(get_db)):
+    admin = crud.get_admin(db, admin_id=admin_uid)
+    return admin
+
+@app.post("/admins/signup", response_model=auth_handler.Token, tags=["admins"])
+async def create_user(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
+    db_admin = crud.get_admin_by_email(db, email=admin.email)
+    if db_admin:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    db_admin = crud.create_admin(db=db, admin=admin)
+    return auth_handler.signJWT(user_uid=db_admin.uid, role="admin")
 
 '''
     Professors routes
@@ -200,11 +227,15 @@ def update_student(
 
 
 @app.post("/students/signup", response_model=auth_handler.Token, tags=["students"])
-async def create_user(student: schemas.StudentCreate, db: Session = Depends(get_db)):
+async def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=student.email)
+    if not db_user or db_user.role != 'student':
+        raise HTTPException(status_code=400, detail="Email not provided")
     db_student = crud.get_student_by_email(db, email=student.email)
     if db_student:
         raise HTTPException(status_code=400, detail="Email already registered")
     db_student = crud.create_student(db=db, student=student)
+    crud.delete_user(db, uid=db_user.uid)
     return auth_handler.signJWT(user_uid=db_student.uid, role="student")
 
 '''
