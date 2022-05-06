@@ -31,6 +31,7 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
 
     @Input() lessonElements: LessonElement[] = [];
     @Input() readOnly: boolean = false;
+    @Input() size: string = '75vh';
 
     public timelineSettings?: EventSettingsModel;
 

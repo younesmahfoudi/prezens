@@ -5,6 +5,9 @@ import {ClassroomSelectModule} from "../../../../classroom/components/classroom-
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {AdminAddClassroomModule} from "../admin-add-classroom/admin-add-classroom.module";
+import {AdminAddStudentModule} from "../admin-add-student/admin-add-student.module";
+import {AdminClassroomScheduleModule} from "../admin-classroom-schedule/admin-classroom-schedule.module";
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import {MatButtonModule} from "@angular/material/button";
         ClassroomSelectModule,
         MatToolbarModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        AdminAddClassroomModule,
+        AdminAddStudentModule,
+        AdminClassroomScheduleModule
     ]
 })
 export class AdminStudentsToolbarModule { }

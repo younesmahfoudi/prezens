@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {LessonService} from "../../../../core/domain/lesson/lesson.service";
 import {LessonElementService} from "../../../../lesson/components/lesson-element/lesson-element.service";
-import {LessonElement} from "../../../../lesson/components/lesson-element/lesson-element.model";
-import {Lesson} from "../../../../core/domain/lesson/lesson.model";
 import {StudentService} from "../../../../core/domain/student/student.service";
 import {StudentElementService} from "../../../../student/components/student/student-element/student-element.service";
 import {Student} from "../../../../core/domain/student/student.model";
 import {StudentElement} from "../../../../student/components/student/student-element/student-element.model";
 import {MatPaginator} from "@angular/material/paginator";
 import {AdminStudentsFilter} from "./admin-students-filter.model";
+import {MatDialog} from "@angular/material/dialog";
+import {AdminManageStudentComponent} from "../admin-manage-student/admin-manage-student.component";
 
 @Component({
     selector: 'prez-admin-classrooms-screen',
@@ -17,20 +17,19 @@ import {AdminStudentsFilter} from "./admin-students-filter.model";
 })
 export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
 
-    public lessonElements: LessonElement[];
     public studentElements: StudentElement[];
     public studentsFilter: AdminStudentsFilter = {}
 
     isLoadingResults: boolean = false;
     isRateLimitReached = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    private lessonsData: Lesson[] = [];
     private studentsData: Student[] = [];
 
     constructor(private lessonService: LessonService,
                 private lessonElementService: LessonElementService,
                 private studentService: StudentService,
-                private studentElementService: StudentElementService) { }
+                private studentElementService: StudentElementService,
+                public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.initData();
@@ -45,21 +44,23 @@ export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
         this.initStudentsData(this.studentsFilter);
     }
 
-    private initData(): void{
-        this.initLessonsData();
-        this.initStudentsData(this.studentsFilter);
+    public openStudentConfigDialog(studentElement: StudentElement) {
+        if (!studentElement) return;
+        const dialogRef = this.dialog.open(
+            AdminManageStudentComponent,
+            {
+                data : {
+                    studentElement: studentElement
+                }
+            });
+        dialogRef.afterClosed().subscribe(result => {
+            this.initStudentsData({})
+            console.log(`Dialog result: ${result}`);
+        });
     }
 
-    private initLessonsData(): void{
-        this.lessonService.getLessons().subscribe(
-            lessons => {
-                this.lessonsData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonsData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
+    private initData(): void{
+        this.initStudentsData(this.studentsFilter);
     }
 
     private initStudentsData(studentFilter: AdminStudentsFilter): void{
@@ -78,5 +79,4 @@ export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
             }
         )
     }
-
 }
