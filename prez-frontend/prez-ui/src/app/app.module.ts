@@ -9,6 +9,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {JwtInterceptor} from "../modules/core/common/interceptor/jwt.interceptor";
 import {StudentModule} from "../modules/student/student.module";
 import {LessonDetailModule} from "../modules/lesson/components/lesson-detail/lesson-detail.module";
+import { ProfessorModule } from 'src/modules/professor/professor.module';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import {LessonDetailModule} from "../modules/lesson/components/lesson-detail/les
         AuthModule,
         StudentModule,
         BrowserAnimationsModule,
-        LessonDetailModule
+        LessonDetailModule,
+        ProfessorModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
