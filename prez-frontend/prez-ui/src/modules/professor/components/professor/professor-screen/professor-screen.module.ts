@@ -32,5 +32,4 @@ import {ProfessorHistoryModule} from '../professor-history/professor-history.mod
         ProfessorHistoryModule
     ]
 })
-export class ProfessorScreenModule {
-}
+export class ProfessorScreenModule { }
