@@ -1,0 +1,25 @@
+<div class="form-content">
+
+    <form [formGroup]="userStudentForm" style="display: flex; flex-direction: column">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Enter the email address</mat-label>
+            <input formControlName="email" matInput placeholder="pat@cy-tech.fr" required>
+            <mat-error *ngIf="userStudentForm.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
+        </mat-form-field>
+
+        <button
+            (click)="provideStudent(userStudentForm.value.email)"
+            [disabled]="!userStudentForm.valid"
+            [formGroup]="userStudentForm"
+            class="submit-btn"
+            mat-raised-button>
+            Provide
+        </button>
+        <span *ngIf="addLoading" style="text-align: center; justify-content: center">
+            <mat-spinner diameter="20"></mat-spinner>
+        </span>
+        <span *ngIf="addDone" style="color: green;text-align: center; justify-content: center">student successfully added</span>
+        <span *ngIf="errorMessage" style="color: red; text-align: center; justify-content: center">{{errorMessage}}</span>
+    </form>
+</div>
