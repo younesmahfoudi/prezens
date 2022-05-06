@@ -276,8 +276,10 @@ def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
     return lessons
 
 @app.get("/classrooms/{classroom_uid}/register/{register_uid}/init", response_model=schemas.LessonRegister, tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
-def read_classroom_lessons(register_uid: int, classroomUid: int, db: Session = Depends(get_db)):
-    classroom = crud.get_classroom(db, classroom_uid = classroomUid)
+def read_classroom_lessons(register_uid: int, classroom_uid: int, db: Session = Depends(get_db)):
+    classroom = crud.get_classroom(db, classroom_uid = classroom_uid)
+    if not classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
     register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
     if not register:
         raise HTTPException(status_code=404, detail="Register not found")
@@ -305,7 +307,7 @@ def update_lesson_register_signature(register_uid: int, lesson_register: schemas
     db.refresh(db_lesson_register)
     return db_lesson_register
 
-    
+
 
 @app.get("/register/{register_uid}/lesson", response_model=schemas.Lesson, tags=["registers"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_register_lesson(register_uid: int, db: Session = Depends(get_db)):
