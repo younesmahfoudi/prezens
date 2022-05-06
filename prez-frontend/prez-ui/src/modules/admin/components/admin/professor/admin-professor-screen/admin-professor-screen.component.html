@@ -1,0 +1,8 @@
+<div style="flex: 1; display: flex; flex-direction: column;">
+    <div style="height: 15px; background-color: white"></div>
+    <prez-admin-professor-toolbar></prez-admin-professor-toolbar>
+    <prez-professor-grid
+        *ngIf="professorElements"
+        [professorElements]="professorElements"
+        (professorEmitter)="openProfessorScheduleDialog($event)"></prez-professor-grid>
+</div>
