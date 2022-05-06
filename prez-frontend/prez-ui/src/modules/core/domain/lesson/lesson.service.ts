@@ -26,7 +26,7 @@ export class LessonService {
         return this.http.get<Lesson[]>(`/api/lessons/`)
     }
 
-    public getLessonByProfessor(professorUid: number): Observable<Lesson[]>{
+    public getLessonsByProfessor(professorUid: number): Observable<Lesson[]>{
         return this.http.get<Lesson[]>(`/api/professors/${professorUid}/lessons`)
     }
 }

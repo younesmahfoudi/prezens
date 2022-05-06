@@ -6,6 +6,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {AdminLogoComponent} from "../admin-logo/admin-logo.component";
 import {AdminClassroomsScreenModule} from "../admin-classrooms-screen/admin-classrooms-screen.module";
+import {AdminProfessorScreenModule} from "../professor/admin-professor-screen/admin-professor-screen.module";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {AdminClassroomsScreenModule} from "../admin-classrooms-screen/admin-clas
         MatTabsModule,
         MatIconModule,
         MatButtonModule,
-        AdminClassroomsScreenModule
+        AdminClassroomsScreenModule,
+        AdminProfessorScreenModule
     ]
 })
 export class AdminScreenModule { }

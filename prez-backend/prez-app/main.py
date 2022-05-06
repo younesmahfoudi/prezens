@@ -131,10 +131,14 @@ def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
 
 @app.post("/professors/signup", response_model=auth_handler.Token, tags=["professors"])
 async def create_user(professor: schemas.ProfessorCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=professor.email)
+    if not db_user or db_user.role != 'professor':
+        raise HTTPException(status_code=400, detail="Email not provided")
     db_professor = crud.get_professor_by_email(db, email=professor.email)
     if db_professor:
         raise HTTPException(status_code=400, detail="Email already registered")
     db_professor = crud.create_professor(db=db, professor=professor)
+    crud.delete_user(db, uid=db_user.uid)
     return auth_handler.signJWT(user_uid=db_professor.uid, role="professor")
 
 '''
