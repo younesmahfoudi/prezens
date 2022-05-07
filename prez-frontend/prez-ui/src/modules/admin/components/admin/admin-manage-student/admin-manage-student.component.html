@@ -8,20 +8,19 @@
     </h2>
     <mat-dialog-content class="mat-typography" style="flex: 1">
         <prez-student-detail *ngIf="data" [studentElement]="data.studentElement"></prez-student-detail>
-        <h3 *ngIf="classroomElement">Classroom: {{classroomElement.promotion}} {{classroomElement.description}}</h3>
         <mat-divider></mat-divider>
-        <span style="color: gray">Add to: </span>
+        <span style="color: gray">Classroom: </span>
         <prez-classroom-select
             (classroomEmitter)="classroomSelected = $event"
             [classroomElements]="classroomElements"
             [classroomSelected]="classroomElement"></prez-classroom-select>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
         <button (click)="updateStudentClassroom(classroomSelected.uid)"
                 *ngIf="classroomSelected"
                 mat-button>
             <mat-icon>sync_alt</mat-icon>
         </button>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
 </div>
