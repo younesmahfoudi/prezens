@@ -17,6 +17,8 @@ import {AdminClassroomScheduleComponent} from "../admin-classroom-schedule/admin
 export class AdminStudentsToolbarComponent implements OnInit {
 
     @Output() filterEmitter = new EventEmitter<AdminStudentsFilter>();
+    @Output() classroomEmitter = new EventEmitter<ClassroomElement>();
+
     public classroomElements?: ClassroomElement[];
     public studentsFilter: AdminStudentsFilter = {};
     private classroomsData: Classroom[] = [];
@@ -68,6 +70,10 @@ export class AdminStudentsToolbarComponent implements OnInit {
             this.emitFilter({})
             console.log(`Dialog result: ${result}`);
         });
+    }
+
+    public emitClassroom(classroomElement: ClassroomElement): void {
+        this.classroomEmitter.emit(classroomElement);
     }
 
     private initClassroomsData(): void{

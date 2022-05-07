@@ -35,7 +35,7 @@ export class StudentGridComponent implements AfterViewInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes["studentElements"]){
-            this.initDataSource()
+            this.initDataSource();
         }
     }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ProfessorService} from "../../../../../core/domain/professor/professor.service";
 import {
     ProfessorElementService
@@ -18,6 +18,7 @@ import {AdminProfessorScheduleComponent} from "../admin-professor-schedule/admin
 export class AdminProfessorScreenComponent implements OnInit {
 
     public professorElements?: ProfessorElement[];
+    @Output() professorEmitter = new EventEmitter<ProfessorElement>();
     private professorsData?: Professor[];
 
     constructor(private professorService: ProfessorService,
@@ -28,18 +29,8 @@ export class AdminProfessorScreenComponent implements OnInit {
         this.initData();
     }
 
-    public openProfessorScheduleDialog(professorElement: ProfessorElement) {
-        if (!professorElement) return;
-        const dialogRef = this.dialog.open(
-            AdminProfessorScheduleComponent,
-            {
-                data : {
-                    professorElement: professorElement
-                }
-            });
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
-        });
+    public emitProfessor(professorElement: ProfessorElement): void{
+        this.professorEmitter.emit(professorElement);
     }
 
     private initData(): void {

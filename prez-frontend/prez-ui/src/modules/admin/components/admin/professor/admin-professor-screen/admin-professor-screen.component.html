@@ -2,7 +2,7 @@
     <div style="height: 15px; background-color: white"></div>
     <prez-admin-professor-toolbar></prez-admin-professor-toolbar>
     <prez-professor-grid
+        (professorEmitter)="emitProfessor($event)"
         *ngIf="professorElements"
-        [professorElements]="professorElements"
-        (professorEmitter)="openProfessorScheduleDialog($event)"></prez-professor-grid>
+        [professorElements]="professorElements"></prez-professor-grid>
 </div>

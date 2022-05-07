@@ -1,6 +1,7 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LessonElement} from "../lesson-element/lesson-element.model";
 import {
+    ActionEventArgs,
     AgendaService,
     DayService,
     EventSettingsModel,
@@ -11,6 +12,7 @@ import {
     WeekService,
     WorkWeekService
 } from "@syncfusion/ej2-angular-schedule";
+import {SelectEventArgs} from "@syncfusion/ej2-schedule/src/schedule/base/interface";
 
 @Component({
     selector: 'prez-lesson-timeline',
@@ -30,21 +32,45 @@ import {
 export class LessonTimelineComponent implements OnInit, OnChanges {
 
     @Input() lessonElements: LessonElement[] = [];
-    @Input() readOnly: boolean = false;
+    @Input() readOnly: boolean = true;
     @Input() size: string = '75vh';
+    @Output() deleteLessonEmitter = new EventEmitter<LessonElement>();
+    @Output() addLessonEmitter = new EventEmitter<LessonElement>();
+    @Output() openLessonRegisterEmitter = new EventEmitter<LessonElement>();
 
     public timelineSettings?: EventSettingsModel;
 
     constructor() { }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes["lessonElements"] && changes["lessonElements"].isFirstChange()){
+        if (changes["lessonElements"]){
             this.initTimeline(this.lessonElements);
         }
     }
 
     ngOnInit(): void {
         this.initTimeline(this.lessonElements);
+    }
+
+    public test(test: any){
+        console.log(test)
+    }
+
+    public addLesson(args: SelectEventArgs): void {
+        if (!this.readOnly && args.name == 'cellDoubleClick'){
+            console.log("in add event: ", args)
+        }
+    }
+
+    public deleteLesson(args: ActionEventArgs): void {
+        if (!this.readOnly && args.name == 'actionComplete' && args.requestType == 'eventRemoved'){
+            console.log("in delete event :", args)
+        }
+    }
+    public selectLesson(args: SelectEventArgs): void {
+        if (!this.readOnly && args.requestType == 'eventSelect'){
+            console.log("in select event: ",args)
+        }
     }
 
     private initTimeline(lessonElements: LessonElement[]): void{
@@ -59,9 +85,9 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
                 endTime: { name: 'end_at' },
                 description: { name: 'professor_name' }
             },
-            allowAdding: this.readOnly ,
-            allowDeleting: this.readOnly,
-            allowEditing: this.readOnly
+            allowAdding: false,
+            allowDeleting: !this.readOnly,
+            allowEditing: false
         };
     }
 }

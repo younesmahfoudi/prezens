@@ -279,6 +279,18 @@ def read_classroom_lessons(classroom_uid: int, db: Session = Depends(get_db)):
     lessons = crud.get_lessons_by_classroom(db, classroom_uid=classroom_uid)
     return lessons
 
+@app.get("/classrooms/{classroom_uid}/professors/{professor_uid}/lessons", response_model=list[schemas.Lesson], tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_classroom_professor_lessons(classroom_uid: int, professor_uid: int, db: Session = Depends(get_db)):
+    classroom = crud.get_classroom(db, classroom_uid=classroom_uid)
+    if not classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
+    professor = crud.get_professor(db, professor_id=professor_uid)
+    if not professor:
+        raise HTTPException(status_code=404, detail="Professor not found")
+    lessons = crud.get_lessons_by_classroom_professor(db, classroom_uid=classroom_uid, professor_uid=professor_uid)
+    return lessons
+
+
 @app.get("/classrooms/{classroom_uid}/register/{register_uid}/init", response_model=schemas.LessonRegister, tags=["classrooms"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_classroom_lessons(register_uid: int, classroom_uid: int, db: Session = Depends(get_db)):
     classroom = crud.get_classroom(db, classroom_uid = classroom_uid)

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {LessonService} from "../../../../core/domain/lesson/lesson.service";
 import {LessonElementService} from "../../../../lesson/components/lesson-element/lesson-element.service";
 import {StudentService} from "../../../../core/domain/student/student.service";
@@ -9,6 +9,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {AdminStudentsFilter} from "./admin-students-filter.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AdminManageStudentComponent} from "../admin-manage-student/admin-manage-student.component";
+import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
 
 @Component({
     selector: 'prez-admin-classrooms-screen',
@@ -17,12 +18,14 @@ import {AdminManageStudentComponent} from "../admin-manage-student/admin-manage-
 })
 export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
 
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @Output() classroomEmitter = new EventEmitter<ClassroomElement>()
+
     public studentElements: StudentElement[];
     public studentsFilter: AdminStudentsFilter = {}
+    public isLoadingResults: boolean = false;
 
-    isLoadingResults: boolean = false;
-    isRateLimitReached = false;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    public isRateLimitReached = false;
     private studentsData: Student[] = [];
 
     constructor(private lessonService: LessonService,
@@ -57,6 +60,10 @@ export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
             this.initStudentsData({})
             console.log(`Dialog result: ${result}`);
         });
+    }
+
+    public emitClassroom(classroomElement: ClassroomElement): void {
+        this.classroomEmitter.emit(classroomElement);
     }
 
     private initData(): void{

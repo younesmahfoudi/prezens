@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {RegisteredStudentElement} from "../../../../register/components/register-element/register-element.model";
 import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
 import {LessonService} from "../../../../core/domain/lesson/lesson.service";
@@ -34,7 +34,6 @@ export class StudentHistoryDetailComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes["registeredStudentElement"] && changes["registeredStudentElement"].isFirstChange()){
-            debugger;
             this.initLessonData(this.data.registeredStudentElement.lesson_register_uid);
         }
     }

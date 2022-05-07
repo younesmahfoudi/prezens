@@ -15,6 +15,7 @@
 
     <div style="height: 15px; background-color: white"></div>
     <prez-admin-students-toolbar
+        (classroomEmitter)="emitClassroom($event)"
         (filterEmitter)="setStudentsFilter($event)"></prez-admin-students-toolbar>
     <div *ngIf="isLoadingResults"
          class="loader">

@@ -1,9 +1,8 @@
 <mat-form-field>
     <mat-label>classroom</mat-label>
-    <mat-select [(value)]="classroomSelected">
-        <mat-option (click)="emitClassroom(undefined)">None</mat-option>
+    <mat-select (valueChange)="emitClassroom($event)" [(ngModel)]="classroomElement">
+        <mat-option [value]="undefined">None</mat-option>
         <mat-option
-            (click)="emitClassroom(classroom)"
             *ngFor="let classroom of classroomElements"
             [value]="classroom"><span style="color: #2daae1">{{classroom.promotion}}</span> {{classroom.description}}</mat-option>
     </mat-select>

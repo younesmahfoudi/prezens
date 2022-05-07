@@ -11,7 +11,9 @@
         <prez-lesson-timeline
             *ngIf="lessonElements"
             [lessonElements]="lessonElements"
-            [size]="'60vh'"></prez-lesson-timeline>
+            [readOnly]="false"
+            [size]="'60vh'"
+        ></prez-lesson-timeline>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Close</button>

@@ -18,7 +18,6 @@ export class AdminProfessorToolbarComponent implements OnInit {
 
     @Output() filterEmitter = new EventEmitter<AdminStudentsFilter>();
     public classroomElements?: ClassroomElement[];
-    public professorFilter: AdminProfessorFilter = {};
     private classroomsData: Classroom[] = [];
 
     constructor(private classroomService: ClassroomService,
@@ -31,25 +30,6 @@ export class AdminProfessorToolbarComponent implements OnInit {
 
     public emitFilter(filter: AdminProfessorFilter): void{
         this.filterEmitter.emit(filter);
-    }
-
-    public setClassroomFilter(classroomElement: ClassroomElement): void {
-        this.professorFilter.classroom = classroomElement;
-        this.emitFilter(this.professorFilter);
-    }
-
-    public openClassroomScheduleDialog(classroomElement: ClassroomElement) {
-        const dialogRef = this.dialog.open(
-            AdminClassroomScheduleComponent,
-            {
-                data: {
-                    classroomElement: classroomElement
-                }
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
-        });
     }
 
     public openAddProfessorDialog() {

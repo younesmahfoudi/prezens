@@ -5,7 +5,7 @@
         [classroomElements]="classroomElements"
         style="padding: 5px"></prez-classroom-select>
     <button
-        (click)="openClassroomScheduleDialog(studentsFilter?.classroom)"
+        (click)="emitClassroom(studentsFilter?.classroom)"
         *ngIf="studentsFilter?.classroom"
         mat-button>
         <mat-icon>calendar_month</mat-icon>

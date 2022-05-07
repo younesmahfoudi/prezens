@@ -4,7 +4,6 @@ import {Lesson} from "../../../../../core/domain/lesson/lesson.model";
 import {LessonService} from "../../../../../core/domain/lesson/lesson.service";
 import {LessonElementService} from "../../../../../lesson/components/lesson-element/lesson-element.service";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ClassroomElement} from "../../../../../classroom/components/classroom-element/classroom-element.model";
 import {
     ProfessorElement
 } from "../../../../../professor/components/professor/professor-element/professor-element.model";
@@ -34,7 +33,7 @@ export class AdminProfessorScheduleComponent implements OnInit {
     }
 
     private initLessonsData(professorUid: number): void {
-        if (professorUid) return;
+        if (!professorUid) return;
         this.lessonService.getLessonsByProfessor(professorUid).subscribe(
             lessons => {
                 this.lessonsData = lessons;

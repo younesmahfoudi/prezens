@@ -5,6 +5,9 @@ import {AdminService} from "../../../../core/domain/admin/admin.service";
 import {AdminElementService} from "../admin-element/admin-element.service";
 import {AdminElement} from "../admin-element/admin-element.model";
 import {AuthService} from "../../../../core/domain/auth/auth.service";
+import {ProfessorElement} from "../../../../professor/components/professor/professor-element/professor-element.model";
+import {LessonFilter} from "../lesson/admin-lesson-toolbar/lesson-filter.model";
+import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
 
 @Component({
     selector: 'prez-admin-screen',
@@ -14,6 +17,8 @@ import {AuthService} from "../../../../core/domain/auth/auth.service";
 export class AdminScreenComponent implements OnInit {
 
     public adminElement?: AdminElement;
+    public indexSelected: number = 0;
+    public lessonFilter: LessonFilter = {};
     private adminData?: Admin;
 
     constructor(private authService: AuthService,
@@ -28,6 +33,16 @@ export class AdminScreenComponent implements OnInit {
     public logout(): void{
         this.authService.logout();
         window.location.reload();
+    }
+
+    public professorLessonTabNavigate(professorElement: ProfessorElement): void {
+        this.lessonFilter = {professor: professorElement}
+        this.indexSelected = 2;
+    }
+
+    public classroomLessonTabNavigate(classroomElement: ClassroomElement): void {
+        this.lessonFilter = {classroom: classroomElement};
+        this.indexSelected = 2;
     }
 
     private initAdminData(adminUid: number): void{
