@@ -38,6 +38,13 @@ def create_admin(db: Session, admin: schemas.AdminCreate):
     db.refresh(db_admin)
     return db_admin
 
+def get_registered_admins_notifications(db: Session):
+    return db \
+        .query(models.RegisteredStudent) \
+        .filter(
+        models.RegisteredStudent.status == "PENDING"
+    ).all()
+
 '''
     Professor crud
 '''
@@ -293,18 +300,27 @@ def get_lessons_by_professor(db: Session, professor_uid: int):
 def get_lessons_by_classroom(db: Session, classroom_uid: int):
     return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid).all()
 
+def get_lessons_by_classroom_professor(db: Session, classroom_uid: int, professor_uid: int):
+    return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid and models.Lesson.professor_uid == professor_uid).all()
+
 '''
     Common crud
 '''
 
 
 def get_user_by_email(db: Session, email: str):
-    professor = get_professor_by_email(db, email=email)
-    if professor:
-        return professor
-    student = get_student_by_email(db, email=email)
-    if student:
-        return student
-    admin = get_admin_by_email(db, email=email)
-    if admin:
-        return admin
+    return db.query(models.User).filter(models.User.email == email).first()
+
+def delete_user(db: Session, uid: int):
+    db.query(models.User).filter(models.User.uid == uid).delete()
+    db.commit()
+
+def add_user(db: Session, user: schemas.UserBase):
+    db_user = models.User(
+        email=user.email,
+        role=user.role
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user

@@ -1,0 +1,9 @@
+<mat-form-field>
+    <mat-label>professor</mat-label>
+    <mat-select (valueChange)="emitProfessor($event)" [(ngModel)]="professorElement">
+        <mat-option [value]="undefined">None</mat-option>
+        <mat-option
+            *ngFor="let professor of professorElements"
+            [value]="professor"><span>{{professor.first_name | uppercase}}</span> {{professor.last_name}}</mat-option>
+    </mat-select>
+</mat-form-field>

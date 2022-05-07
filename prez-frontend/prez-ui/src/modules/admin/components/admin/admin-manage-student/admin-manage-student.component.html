@@ -1,0 +1,26 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+    <h2 mat-dialog-title style="flex: 1">
+        <div>
+            <span>
+                <mat-icon>manage_accounts</mat-icon>
+            </span>
+        </div>
+    </h2>
+    <mat-dialog-content class="mat-typography" style="flex: 1">
+        <prez-student-detail *ngIf="data" [studentElement]="data.studentElement"></prez-student-detail>
+        <mat-divider></mat-divider>
+        <span style="color: gray">Classroom: </span>
+        <prez-classroom-select
+            (classroomEmitter)="classroomSelected = $event"
+            [classroomElements]="classroomElements"
+            [classroomSelected]="classroomElement"></prez-classroom-select>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button (click)="updateStudentClassroom(classroomSelected.uid)"
+                *ngIf="classroomSelected"
+                mat-button>
+            <mat-icon>sync_alt</mat-icon>
+        </button>
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>

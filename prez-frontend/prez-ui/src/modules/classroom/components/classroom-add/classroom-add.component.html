@@ -1,0 +1,34 @@
+<div class="form-content">
+    <form [formGroup]="classroomForm" style="display: flex; flex-direction: column">
+        <mat-form-field appearance="outline">
+            <mat-label>Enter a promotion</mat-label>
+            <input formControlName="promotion" matInput placeholder="ING" required>
+            <mat-error *ngIf="classroomForm.controls['promotion'].invalid">{{getErrorMessagePromotion()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Enter a description</mat-label>
+            <input formControlName="description" matInput placeholder="GI" required>
+            <mat-error *ngIf="classroomForm.controls['description'].invalid">{{getErrorMessageDesc()}}</mat-error>
+        </mat-form-field>
+
+        <button
+            (click)="submit(classroomForm.value)"
+            [disabled]="!classroomForm.valid"
+            [formGroup]="classroomForm"
+            class="submit-btn"
+            mat-raised-button>
+            Add
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+        <mat-spinner *ngIf="addLoading" [diameter]="20"></mat-spinner>
+        <span *ngIf="addDone" style="color: green">
+            added successfully
+            <span class="material-icons">
+                check
+            </span>
+        </span>
+    </form>
+</div>

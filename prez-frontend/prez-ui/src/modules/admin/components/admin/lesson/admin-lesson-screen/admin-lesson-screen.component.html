@@ -1,0 +1,13 @@
+<div style="flex: 1; display: flex; flex-direction: column; height: 100%">
+
+    <div style="height: 15px; background-color: white"></div>
+
+    <prez-admin-lesson-toolbar
+        (filterEmitter)="applyFilter($event)"
+        [lessonFilter]="lessonFilter"></prez-admin-lesson-toolbar>
+    <prez-lesson-timeline
+        *ngIf="lessonElements"
+        [lessonElements]="lessonElements"
+        [readOnly]="false"
+    ></prez-lesson-timeline>
+</div>

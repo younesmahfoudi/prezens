@@ -4,4 +4,11 @@
     </li>
 </ul>-->
 
-<ejs-schedule *ngIf="timelineSettings" [eventSettings]='timelineSettings' height="75vh"></ejs-schedule>
+<ejs-schedule
+    (actionComplete)="deleteLesson($event)"
+    (cellDoubleClick)="addLesson($event)"
+    (select)="selectLesson($event)"
+    *ngIf="timelineSettings"
+    [eventSettings]='timelineSettings'
+    [readonly]="readOnly"
+    height="{{size}}"></ejs-schedule>

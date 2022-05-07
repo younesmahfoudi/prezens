@@ -1,0 +1,21 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+    <h2 mat-dialog-title style="flex: 1">
+        <div>
+            <span>
+                <mat-icon>calendar_month</mat-icon>
+                <span>{{data.professorElement.first_name}} {{data.professorElement.last_name}}</span>
+            </span>
+        </div>
+    </h2>
+    <mat-dialog-content class="mat-typography" style="flex: 1">
+        <prez-lesson-timeline
+            *ngIf="lessonElements"
+            [lessonElements]="lessonElements"
+            [readOnly]="false"
+            [size]="'60vh'"
+        ></prez-lesson-timeline>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>

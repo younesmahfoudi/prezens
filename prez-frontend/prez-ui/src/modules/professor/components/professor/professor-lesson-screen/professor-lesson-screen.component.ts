@@ -25,7 +25,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
   public lessonElements?: LessonElement[];
   private lessonData?: Lesson[];
   private classroomData?: Classroom;
-  
+
   ngOnInit(): void {
     this.initData();
   }
@@ -37,7 +37,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
 
   private initLessonData(professorUid?: number): void{
     if (!professorUid) return;
-    this.lessonService.getLessonByProfessor(professorUid).subscribe(
+    this.lessonService.getLessonsByProfessor(professorUid).subscribe(
       lessons => {
         this.lessonData = lessons;
         this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);

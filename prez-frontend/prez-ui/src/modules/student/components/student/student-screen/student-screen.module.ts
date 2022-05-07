@@ -9,6 +9,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {StudentLessonScreenModule} from "../student-lesson-screen/student-lesson-screen.module";
 import {StudentHistoryScreenModule} from "../student-history-screen/student-history-screen.module";
 import {StudentNotificationScreenModule} from "../student-notification-screen/student-notification-screen.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import {StudentNotificationScreenModule} from "../student-notification-screen/st
         MatButtonModule,
         StudentLessonScreenModule,
         StudentHistoryScreenModule,
-        StudentNotificationScreenModule
+        StudentNotificationScreenModule,
+        MatProgressSpinnerModule
     ]
 })
 export class StudentScreenModule { }
