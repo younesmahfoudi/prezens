@@ -100,6 +100,11 @@ async def create_user(admin: schemas.AdminCreate, db: Session = Depends(get_db))
     db_admin = crud.create_admin(db=db, admin=admin)
     return auth_handler.signJWT(user_uid=db_admin.uid, role="admin")
 
+@app.get("/admins/notifications/", response_model=list[schemas.RegisteredStudent], tags=["admins"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_notifications(db: Session = Depends(get_db)):
+    registered_students = crud.get_admin_notifications(db)
+    return registered_students
+
 '''
     Professors routes
 '''

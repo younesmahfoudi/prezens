@@ -8,6 +8,8 @@ import {ClassroomService} from "../../../../../core/domain/classroom/classroom.s
 import {ClassroomElementService} from "../../../../../classroom/components/classroom-element/classroom-element.service";
 import {Classroom} from "../../../../../core/domain/classroom/classroom.model";
 import {ClassroomElement} from "../../../../../classroom/components/classroom-element/classroom-element.model";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 @Component({
     selector: 'prez-admin-lesson-detail',
@@ -49,6 +51,19 @@ export class AdminLessonDetailComponent implements OnInit {
                 this.errorMessage = error.error.detail;
             }
         )
+    }
+
+    public openPDF(): void {
+        let DATA: any = document.getElementById('htmlData');
+        html2canvas(DATA).then((canvas) => {
+            let fileWidth = 208;
+            let fileHeight = (canvas.height * fileWidth) / canvas.width;
+            const FILEURI = canvas.toDataURL('image/png');
+            let PDF = new jsPDF('p', 'mm', 'a4');
+            let position = 0;
+            PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+            PDF.save(this.classroomElement.promotion+'-register.pdf');
+        });
     }
 
     private initData(): void {

@@ -179,6 +179,9 @@ def get_registered_student_notifications(db: Session, student_uid: int):
         models.RegisteredStudent.student_uid == student_uid
     ).all()
 
+def get_admin_notifications(db: Session):
+    return db.query(models.RegisteredStudent).filter(models.RegisteredStudent.status == "JUSTIFIED").all()
+
 def create_registered_student(db: Session,registered_student: schemas.RegisteredStudentCreate):
     db_registered_student = models.RegisteredStudent(
         lesson_register_uid= registered_student.lesson_register_uid,

@@ -18,7 +18,11 @@ export class RegisterService {
         return this.http.put<RegisteredStudent>(`/api/registeredstudents/${registeredStudentUid}/update`, registeredStudentUpdate);
     }
 
-    public getNotifications(studentUid: number): Observable<RegisteredStudent[]>{
+    public getStudentNotifications(studentUid: number): Observable<RegisteredStudent[]>{
         return this.http.get<RegisteredStudent[]>(`/api/students/${studentUid}/notifications`);
+    }
+
+    public getAdminNotifications(): Observable<RegisteredStudent[]>{
+        return this.http.get<RegisteredStudent[]>(`/api/admins/notifications/`);
     }
 }

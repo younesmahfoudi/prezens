@@ -5,11 +5,11 @@
             <span>{{classroomElement.description}}</span>
         </div>
     </h2>
-    <mat-dialog-content class="mat-typography" style="flex: 1">
+    <mat-dialog-content class="mat-typography"  style="flex: 1">
         <div>
-            <div style="display:flex; flex-direction: column; flex: 1">
+            <div id="htmlData" style="display:flex; flex-direction: column; flex: 1">
                 <prez-lesson-detail *ngIf="lessonElement" [lessonElement]="lessonElement" style="flex: 1"></prez-lesson-detail>
-                <div *ngIf="lessonElement.register.registered_students.length > 0">
+                <div *ngIf="lessonElement?.register?.registered_students.length > 0" >
                     <mat-divider></mat-divider>
                     <prez-register-detail [registerElement]="lessonElement.register"></prez-register-detail>
                 </div>
@@ -22,6 +22,10 @@
         <button (click)="deleteLesson()" *ngIf="!errorMessage && !deleteMessage" mat-button>
             delete lesson
             <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="openPDF()" *ngIf="lessonElement?.register?.registered_students.length > 0" mat-button>
+            download
+            <mat-icon>file_download</mat-icon>
         </button>
         <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
