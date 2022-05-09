@@ -299,7 +299,7 @@ def create_lesson(db: Session, lesson: schemas.LessonCreate):
         start_at=lesson.start_at,
         end_at=lesson.end_at,
         class_uid=lesson.class_uid,
-        professor_uid=lesson.class_uid
+        professor_uid=lesson.professor_uid
     )
     db.add(db_lesson)
     db.commit()

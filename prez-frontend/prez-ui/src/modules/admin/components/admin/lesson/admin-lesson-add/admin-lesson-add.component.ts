@@ -6,8 +6,7 @@ import {
     ProfessorElement
 } from "../../../../../professor/components/professor/professor-element/professor-element.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AdminLessonAdd} from "./admin-lesson-add.model";
-import {AdminLessonAddService} from "./admin-lesson-add.service";
+import {LessonPost} from "../../../../../core/domain/lesson/lesson.model";
 
 @Component({
     selector: 'prez-admin-lesson-add',
@@ -21,14 +20,13 @@ export class AdminLessonAddComponent implements OnInit {
             start_at: new FormControl('', [Validators.required]),
             end_at: new FormControl('', [Validators.required]),
             professor_uid: new FormControl('', [Validators.required]),
-            classroom_uid: new FormControl('', [Validators.required])
+            class_uid: new FormControl('', [Validators.required])
         }
     )
     public addLoading: boolean = false;
     public addMessage?: string;
 
     constructor(private lessonService: LessonService,
-                private adminLessonAddService: AdminLessonAddService,
                 @Inject(MAT_DIALOG_DATA) public data: {
                     classroomElements: ClassroomElement[],
                     professorElements: ProfessorElement[]
@@ -37,17 +35,15 @@ export class AdminLessonAddComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    public addLesson(lesson: AdminLessonAdd): void {
+    public addLesson(lesson: LessonPost): void {
         if (!lesson) return;
         this.addLoading = true;
-        this.lessonService.addLesson(this.adminLessonAddService.mapLessonAdd(lesson)).subscribe(
-            lesson => {
-                console.log(lesson);
-                this.addMessage = 'Lesson added successfully'
+        this.lessonService.addLesson(lesson).subscribe(
+            () => {
+                this.addMessage = 'Lesson successfully added'
                 this.addLoading = false;
             },
             error => {
-                console.warn(error);
                 this.addLoading = false;
                 this.addMessage = error.error.detail;
             }

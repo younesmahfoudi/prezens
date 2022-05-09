@@ -6,6 +6,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
 import {LessonDetailModule} from "../../../../../lesson/components/lesson-detail/lesson-detail.module";
+import {RegisterDetailModule} from "../../../../../register/components/register-detail/register-detail.module";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {LessonDetailModule} from "../../../../../lesson/components/lesson-detail
         MatButtonModule,
         MatIconModule,
         MatDividerModule,
-        LessonDetailModule
+        LessonDetailModule,
+        RegisterDetailModule
     ]
 })
 export class AdminLessonDetailModule { }

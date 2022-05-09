@@ -1,4 +1,4 @@
-import {ClassroomElement} from "../../../classroom/components/classroom-element/classroom-element.model";
+import {Register} from "../../../core/domain/register/register.model";
 
 export interface LessonElement{
     description: string;
@@ -7,4 +7,5 @@ export interface LessonElement{
     class_uid: number;
     professor_name: string;
     uid: number;
+    register: Register;
 }

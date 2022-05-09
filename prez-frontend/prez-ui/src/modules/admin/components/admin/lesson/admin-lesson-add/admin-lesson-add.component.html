@@ -24,7 +24,7 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Classroom</mat-label>
-                <mat-select formControlName="classroom_uid">
+                <mat-select formControlName="class_uid">
                     <mat-option *ngFor="let classroom of data.classroomElements" [value]="classroom.uid">{{classroom.promotion}} {{classroom.description}}</mat-option>
                 </mat-select>
             </mat-form-field>

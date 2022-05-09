@@ -60,7 +60,7 @@ export class AdminLessonToolbarComponent implements OnInit, OnChanges {
         this.emitFilter(this.lessonFilter);
     }
 
-    public openLessonAddDialog(lessonScheduleData: any) {
+    public openLessonAddDialog() {
         const dialogRef = this.dialog.open(
             AdminLessonAddComponent,{
                 data:{
@@ -69,6 +69,7 @@ export class AdminLessonToolbarComponent implements OnInit, OnChanges {
                 }
             });
         dialogRef.afterClosed().subscribe(result => {
+            this.emitFilter(this.lessonFilter);
             console.log(`Dialog result: ${result}`);
         });
     }
