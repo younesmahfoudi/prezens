@@ -1,18 +1,12 @@
 <div *ngFor="let lesson of lessonElements" style="padding: 5px">
-    <mat-card>
+    <mat-card [style.background-color]= "blue">
         <mat-card-title>{{lesson.description}}</mat-card-title>
         <mat-card-subtitle>
             <div>
                 Start :{{lesson.start_at}} | End:{{lesson.end_at}}
             </div>
-            <li>
-                <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
-                    <mat-icon style="margin-right: 2px">schedule</mat-icon>
-                    Register
-                </button>
-            </li>
             <div>
-                <!-- {{getClassroomByUid(lesson.class_uid)}} -->
+                {{getClassroomByUid(lesson.class_uid)}}
             </div>
         </mat-card-subtitle>
         <!-- <mat-card-actions>
