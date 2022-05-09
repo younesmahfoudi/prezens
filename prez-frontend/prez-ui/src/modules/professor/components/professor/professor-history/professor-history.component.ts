@@ -30,7 +30,6 @@ export class ProfessorHistoryComponent implements OnInit {
 
 
   ngOnInit(): void {
-    debugger
     this.initData();
   }
 
