@@ -29,7 +29,8 @@ import { ProfessorHistoryModule } from '../professor-history/professor-history.m
     ProfessorLogoModule,
     MatIconModule,
     MatButtonModule,
-    ProfessorLessonScreenModule
+    ProfessorLessonScreenModule,
+    ProfessorHistoryModule
   ]
 })
 export class ProfessorScreenModule {
