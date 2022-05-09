@@ -10,9 +10,9 @@ import { LessonElementService } from 'src/modules/lesson/components/lesson-eleme
 import { ProfessorElement } from '../professor-element/professor-element.model';
 
 @Component({
-  selector: 'prez-professor-history',
-  templateUrl: './professor-history.component.html',
-  styleUrls: ['./professor-history.component.scss']
+    selector: 'prez-professor-history',
+    templateUrl: './professor-history.component.html',
+    styleUrls: ['./professor-history.component.scss']
 })
 export class ProfessorHistoryComponent implements OnInit {
 
@@ -35,22 +35,22 @@ export class ProfessorHistoryComponent implements OnInit {
     }
 
 
-    private initData(): void {
-        this.initLessonData(this.professorElement?.uid);
-    }
+  private initData(): void{
+    this.initLessonData(this.professorElement?.uid);
+  }
 
-    private initLessonData(professorUid?: number): void {
-        if (!professorUid) return;
-        this.lessonService.getLessonsByProfessor(professorUid).subscribe(
-            lessons => {
-                this.lessonData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
-    }
+  private initLessonData(professorUid?: number): void{
+    if (!professorUid) return;
+    this.lessonService.getLessonByProfessor(professorUid).subscribe(
+      lessons => {
+        this.lessonData = lessons;
+        this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+      },
+      error => {
+        console.warn(error);
+      }
+    )
+  }
 
     openDialog(lesson: LessonElement): void {
         const dialogRef = this.dialog.open(ProfessorDialogComponent, {

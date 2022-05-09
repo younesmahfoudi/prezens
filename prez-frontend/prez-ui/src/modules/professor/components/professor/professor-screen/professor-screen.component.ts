@@ -14,9 +14,9 @@ import { ProfessorElementService } from '../professor-element/professor-element.
 import { Professor } from '../../../../core/domain/professor/professor.model';
 
 @Component({
-    selector: 'prez-professor-screen',
-    templateUrl: './professor-screen.component.html',
-    styleUrls: ['./professor-screen.component.scss']
+  selector: 'prez-professor-screen',
+  templateUrl: './professor-screen.component.html',
+  styleUrls: ['./professor-screen.component.scss']
 })
 export class ProfessorScreenComponent implements OnInit {
 
@@ -34,11 +34,9 @@ export class ProfessorScreenComponent implements OnInit {
     private professorElementService: ProfessorElementService
   ) { }
 
-    ngOnInit(): void {
-        this.initData()
-    }
-
-
+  ngOnInit(): void {
+    this.initData()
+  }
 
   public logout(): void{
     this.authService.logout();
