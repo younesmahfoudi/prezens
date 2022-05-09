@@ -1,0 +1,8 @@
+<div *ngIf="registeredStudents">
+    <mat-list role="list">
+        <mat-list-item *ngFor="let registeredStudent of registeredStudents" role="listitem">
+            <span>{{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}: </span>
+            <span [style.color]="getPriority(registeredStudent.status)" style="font-style: italic">{{registeredStudent.status}}</span>
+        </mat-list-item>
+    </mat-list>
+</div>
