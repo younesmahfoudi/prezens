@@ -17,12 +17,11 @@ import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.com
 import {ProfessorRegisterDialogComponent} from "../professor-register-dialog/professor-register-dialog.component";
 
 @Component({
-    selector: 'prez-professor-lesson-screen',
-    templateUrl: './professor-lesson-screen.component.html',
-    styleUrls: ['./professor-lesson-screen.component.scss']
+  selector: 'prez-professor-lesson-screen',
+  templateUrl: './professor-lesson-screen.component.html',
+  styleUrls: ['./professor-lesson-screen.component.scss']
 })
-export class ProfessorLessonScreenComponent implements OnInit, OnChanges {
-
+export class ProfessorLessonScreenComponent implements OnInit {
 
     constructor(
         private lessonService: LessonService,
@@ -34,14 +33,11 @@ export class ProfessorLessonScreenComponent implements OnInit, OnChanges {
     }
 
     private currentDate: Date;
-    private professorElement?: ProfessorElement;
-    private classroomElement?: ClassroomElement;
-    @Input() lessonFilter: LessonFilter;
-    public lessonElements?: LessonElement[];
-    private lessonData?: Lesson[];
-    private classroomData?: Classroom;
-    private singleLessonData?: Lesson;
-    private lessonElement?: LessonElement
+  @Input() professorElement?: ProfessorElement;
+  @Input() classroomElement?: ClassroomElement;
+  public lessonElements?: LessonElement[];
+  private lessonData?: Lesson[];
+  private classroomData?: Classroom;
 
     ngOnInit(): void {
         this.initData();
