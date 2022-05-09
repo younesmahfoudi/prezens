@@ -8,13 +8,20 @@
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon style="margin-right: 5px">school</mat-icon>
-                Lessons
+                Planning
             </ng-template>
             <prez-professor-lesson-screen 
                 *ngIf="professorElement"
-                [proffessorElement]="professorElement"></prez-professor-lesson-screen>
+                [professorElement]="professorElement"></prez-professor-lesson-screen>
         </mat-tab>
         <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon style="margin-right: 5px">school</mat-icon>
+                History
+            </ng-template>
+            <prez-professor-history 
+                *ngIf="professorElement"
+                [proffessorElement]="professorElement"></prez-professor-history>
         </mat-tab>
         
     </mat-tab-group>
