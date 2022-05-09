@@ -35,6 +35,7 @@ export class ProfessorScreenComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initData()
   }
 
   public logout(): void{
