@@ -27,8 +27,8 @@ export class ProfessorHistoryComponent implements OnInit {
   // @Input() classroomElement?: ClassroomElement;
   public lessonElements?: LessonElement[];
   private lessonData?: Lesson[];
-  
-  
+
+
   ngOnInit(): void {
     this.initData();
   }
