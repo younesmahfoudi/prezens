@@ -1,7 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { throwError } from 'rxjs';
-import { ClassroomElement } from 'src/modules/classroom/components/classroom-element/classroom-element.model';
-import { Classroom } from 'src/modules/core/domain/classroom/classroom.model';
 import { ClassroomService } from 'src/modules/core/domain/classroom/classroom.service';
 import { Lesson } from 'src/modules/core/domain/lesson/lesson.model';
 import { LessonService } from 'src/modules/core/domain/lesson/lesson.service';
