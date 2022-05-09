@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {Lesson} from "./lesson.model";
+import {Lesson, LessonPost} from "./lesson.model";
 import {HttpClient} from "@angular/common/http";
 import {LessonFilter} from "../../../admin/components/admin/lesson/admin-lesson-toolbar/lesson-filter.model";
+import {AdminLessonAdd} from "../../../admin/components/admin/lesson/admin-lesson-add/admin-lesson-add.model";
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,10 @@ import {LessonFilter} from "../../../admin/components/admin/lesson/admin-lesson-
 export class LessonService {
 
     constructor(private http: HttpClient) { }
+
+    public getLesson(lessonUid: number): Observable<Lesson>{
+        return this.http.get<Lesson>(`/api/lessons/${lessonUid}`);
+    }
 
     public getStudentLessons(studentUid: number): Observable<Lesson[]>{
         return this.http.get<Lesson[]>(`/api/students/${studentUid}/lessons`)
@@ -40,5 +45,13 @@ export class LessonService {
         if (lessonFilter.classroom) return this.getClassroomLessons(lessonFilter.classroom.uid);
         if (lessonFilter.professor) return this.getLessonsByProfessor(lessonFilter.professor.uid);
         return this.getLessons();
+    }
+
+    public deleteLesson(lessonUid: number): Observable<any>{
+        return this.http.delete<any>(`/api/lessons/${lessonUid}`);
+    }
+
+    public addLesson(lesson: LessonPost): Observable<Lesson>{
+        return this.http.post<Lesson>(`/api/lessons/`,lesson);
     }
 }

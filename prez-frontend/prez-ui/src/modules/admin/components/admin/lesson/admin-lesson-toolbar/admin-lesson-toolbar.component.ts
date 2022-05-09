@@ -14,6 +14,7 @@ import {Professor} from "../../../../../core/domain/professor/professor.model";
 import {
     ProfessorElement
 } from "../../../../../professor/components/professor/professor-element/professor-element.model";
+import {AdminLessonAddComponent} from "../admin-lesson-add/admin-lesson-add.component";
 
 @Component({
     selector: 'prez-admin-lesson-toolbar',
@@ -57,6 +58,19 @@ export class AdminLessonToolbarComponent implements OnInit, OnChanges {
     public setProfessorFilter(professorElement?: ProfessorElement): void {
         this.lessonFilter.professor = professorElement;
         this.emitFilter(this.lessonFilter);
+    }
+
+    public openLessonAddDialog(lessonScheduleData: any) {
+        const dialogRef = this.dialog.open(
+            AdminLessonAddComponent,{
+                data:{
+                    professorElements: this.professorElements,
+                    classroomElements: this.classroomElements
+                }
+            });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
     }
 
     private initData(){

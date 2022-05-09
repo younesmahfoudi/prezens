@@ -152,6 +152,10 @@ def create_classroom(db: Session, classroom: schemas.ClassroomCreate):
 def get_registered_student(db: Session, registered_student_uid: int):
     return db.query(models.RegisteredStudent).filter(models.RegisteredStudent.uid == registered_student_uid).first()
 
+def delete_registeredStudents(db: Session, register_uid: int):
+    db.query(models.RegisteredStudent).filter(models.RegisteredStudent.lesson_register_uid == register_uid).delete()
+    db.commit()
+
 def get_registered_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.RegisteredStudent).offset(skip).limit(limit).all()
 
@@ -229,6 +233,10 @@ def create_registered_students(db: Session,registered_students: list[schemas.Reg
 def get_lesson_register(db: Session, lesson_register_uid: int):
     return db.query(models.LessonRegister).filter(models.LessonRegister.uid == lesson_register_uid).first()
 
+def delete_lesson_register(db: Session, register_uid: int):
+    db.query(models.LessonRegister).filter(models.LessonRegister.uid == register_uid).delete()
+    db.commit()
+
 def get_register_by_lesson(db: Session, lesson_uid: int):
     return db.query(models.LessonRegister).filter(models.LessonRegister.lesson_uid == lesson_uid).first()
 
@@ -277,6 +285,10 @@ def update_registered_students_status(db: Session, registered_students: list[sch
 
 def get_lesson(db: Session, lesson_uid: int):
     return db.query(models.Lesson).filter(models.Lesson.uid == lesson_uid).first()
+
+def delete_lesson(db: Session, lesson_uid: int):
+    db.query(models.Lesson).filter(models.Lesson.uid == lesson_uid).delete()
+    db.commit()
 
 def get_lessons(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Lesson).offset(skip).limit(limit).all()

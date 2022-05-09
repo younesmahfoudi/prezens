@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {AdminLessonScreenComponent} from "./admin-lesson-screen.component";
 import {AdminLessonToolbarModule} from "../admin-lesson-toolbar/admin-lesson-toolbar.module";
 import {LessonTimelineModule} from "../../../../../lesson/components/lesson-timeline/lesson-timeline.module";
+import {AdminLessonDetailModule} from "../admin-lesson-detail/admin-lesson-detail.module";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {LessonTimelineModule} from "../../../../../lesson/components/lesson-time
     imports: [
         CommonModule,
         AdminLessonToolbarModule,
-        LessonTimelineModule
+        LessonTimelineModule,
+        AdminLessonDetailModule
     ]
 })
 export class AdminLessonScreenModule { }

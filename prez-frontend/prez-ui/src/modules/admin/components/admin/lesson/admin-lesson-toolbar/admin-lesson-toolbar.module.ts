@@ -10,6 +10,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {
     ProfessorSelectModule
 } from "../../../../../professor/components/professor/professor-select/professor-select.module";
+import {MatButtonModule} from "@angular/material/button";
+import {AdminLessonAddModule} from "../admin-lesson-add/admin-lesson-add.module";
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {
         MatFormFieldModule,
         MatOptionModule,
         MatSelectModule,
-        ProfessorSelectModule
+        ProfessorSelectModule,
+        MatButtonModule,
+        AdminLessonAddModule
     ]
 })
 export class AdminLessonToolbarModule { }

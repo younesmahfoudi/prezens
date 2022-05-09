@@ -1,3 +1,5 @@
+import {ClassroomElement} from "../../../classroom/components/classroom-element/classroom-element.model";
+
 export interface LessonElement{
     description: string;
     start_at: Date;
