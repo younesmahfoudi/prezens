@@ -21,7 +21,7 @@ export class AdminNotificationsScreenComponent implements OnInit {
         this.initData();
     }
 
-    private initData(): void{
+    public initData(): void{
         this.initRegisteredStudentsData();
     }
 

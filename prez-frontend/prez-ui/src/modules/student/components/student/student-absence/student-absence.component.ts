@@ -29,6 +29,7 @@ export class StudentAbsenceComponent implements OnInit {
     public updateRegisteredStudent(proof: string){
         if (!proof || !this.registeredStudentElement) return;
         this.registeredStudentUpdate.proof = proof;
+        console.log(proof)
         this.registeredStudentUpdate.status = Status.Pending;
         this.hideSubmit = false;
     }

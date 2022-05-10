@@ -38,15 +38,19 @@
         </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <span *ngIf="addMessage">{{addMessage}}</span>
+        <span *ngIf="addMessage" style="color: green; padding: 2px; text-align: center;">{{addMessage}}</span>
         <button
             (click)="addLesson(lessonForm.value)"
+            *ngIf="!addLoading"
             [disabled]="!lessonForm.valid"
             [formGroup]="lessonForm"
             class="submit-btn"
             mat-raised-button>
             Add lesson
         </button>
+        <span *ngIf="addLoading" style="text-align: center; justify-content: center">
+            <mat-spinner diameter="20"></mat-spinner>
+        </span>
         <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
 </div>

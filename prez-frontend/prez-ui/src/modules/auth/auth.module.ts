@@ -5,6 +5,8 @@ import {SigninFormModule} from "./components/signin/signin-form/signin-form.modu
 import {AuthLogoModule} from "./components/common/auth-logo/auth-logo.module";
 import {HttpClientModule} from "@angular/common/http";
 import {SigninScreenModule} from "./components/signin/signin-screen/signin-screen.module";
+import {SignupScreenModule} from "./components/signup-screen/signup-screen.module";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import {SigninScreenModule} from "./components/signin/signin-screen/signin-scree
         SigninFormModule,
         AuthLogoModule,
         HttpClientModule,
-        SigninScreenModule
+        SigninScreenModule,
+        SignupScreenModule,
+        MatButtonModule
     ]
 })
 export class AuthModule { }

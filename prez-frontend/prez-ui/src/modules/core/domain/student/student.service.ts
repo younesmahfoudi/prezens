@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Student} from "./student.model";
+import {Student, StudentCreate} from "./student.model";
 import {Observable} from "rxjs";
 import {AdminStudentsFilter} from "../../../admin/components/admin/admin-classrooms-screen/admin-students-filter.model";
 
@@ -23,5 +23,9 @@ export class StudentService {
 
     public updateStudentClassroom(studentUid: number, classroomUid: number): Observable<Student>{
         return this.http.put<Student>(`/api/students/${studentUid}`,{class_uid:classroomUid});
+    }
+
+    public signupStudent(studentCreate: StudentCreate): Observable<any>{
+        return this.http.post<any>(`/api/students/signup`, studentCreate);
     }
 }

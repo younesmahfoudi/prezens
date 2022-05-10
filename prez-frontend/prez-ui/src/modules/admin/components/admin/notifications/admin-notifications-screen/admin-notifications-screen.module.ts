@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdminNotificationsScreenComponent} from "./admin-notifications-screen.component";
+import {AdminNotificationsListModule} from "../admin-notifications-list/admin-notifications-list.module";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import {AdminNotificationsScreenComponent} from "./admin-notifications-screen.co
         AdminNotificationsScreenComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        AdminNotificationsListModule,
+        MatIconModule
     ]
 })
 export class AdminNotificationsScreenModule { }

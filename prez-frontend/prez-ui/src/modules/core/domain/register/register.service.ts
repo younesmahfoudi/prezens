@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {RegisteredStudent, RegisteredStudentUpdate} from "./register.model";
+import {Register, RegisteredStudent, RegisteredStudentUpdate} from "./register.model";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -24,5 +24,9 @@ export class RegisterService {
 
     public getAdminNotifications(): Observable<RegisteredStudent[]>{
         return this.http.get<RegisteredStudent[]>(`/api/admins/notifications/`);
+    }
+
+    public getRegister(registerUid: number): Observable<Register>{
+        return this.http.get<Register>(`/api/register/${registerUid}`);
     }
 }
