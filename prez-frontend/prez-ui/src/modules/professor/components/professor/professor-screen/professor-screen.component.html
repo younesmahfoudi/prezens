@@ -12,7 +12,8 @@
             </ng-template>
             <prez-professor-lesson-screen
                 *ngIf="professorElement"
-                [professorElement]="professorElement"></prez-professor-lesson-screen>
+                [professorElement]="professorElement"
+                [lessonFilter]="lessonFilter"></prez-professor-lesson-screen>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
@@ -26,4 +27,3 @@
 
     </mat-tab-group>
 </div>
-
