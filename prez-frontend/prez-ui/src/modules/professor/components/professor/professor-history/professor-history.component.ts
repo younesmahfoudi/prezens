@@ -11,9 +11,9 @@ import {RegisterService} from "../../../../core/domain/register/register.service
 import {RegisterElement} from "../../../../register/components/register-element/register-element.model";
 
 @Component({
-  selector: 'prez-professor-history',
-  templateUrl: './professor-history.component.html',
-  styleUrls: ['./professor-history.component.scss']
+    selector: 'prez-professor-history',
+    templateUrl: './professor-history.component.html',
+    styleUrls: ['./professor-history.component.scss']
 })
 export class ProfessorHistoryComponent implements OnInit {
 
@@ -34,9 +34,9 @@ export class ProfessorHistoryComponent implements OnInit {
     private registerElement?: RegisterElement;
 
 
-    ngOnInit(): void {
-        this.initData();
-    }
+  ngOnInit(): void {
+    this.initData();
+  }
 
 
     private initData(): void {

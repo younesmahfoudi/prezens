@@ -32,7 +32,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
     ) {
     }
 
-    private currentDate: Date;
+  private currentDate: Date;
   @Input() professorElement?: ProfessorElement;
   @Input() classroomElement?: ClassroomElement;
   public lessonElements?: LessonElement[];
