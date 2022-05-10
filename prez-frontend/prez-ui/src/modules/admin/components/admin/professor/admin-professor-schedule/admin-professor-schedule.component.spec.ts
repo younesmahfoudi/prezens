@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminProfessorScheduleComponent } from './admin-professor-schedule.component';
+import {AdminProfessorScheduleComponent} from './admin-professor-schedule.component';
 
 describe('AdminProfessorScheduleComponent', () => {
   let component: AdminProfessorScheduleComponent;

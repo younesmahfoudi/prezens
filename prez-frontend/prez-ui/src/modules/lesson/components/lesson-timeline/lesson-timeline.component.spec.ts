@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LessonTimelineComponent } from './lesson-timeline.component';
+import {LessonTimelineComponent} from './lesson-timeline.component';
 
 describe('LessonTimelineComponent', () => {
   let component: LessonTimelineComponent;
