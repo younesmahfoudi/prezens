@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { throwError } from 'rxjs';
+import { ClassroomElement } from 'src/modules/classroom/components/classroom-element/classroom-element.model';
+import { Classroom } from 'src/modules/core/domain/classroom/classroom.model';
 import { ClassroomService } from 'src/modules/core/domain/classroom/classroom.service';
 import { Lesson } from 'src/modules/core/domain/lesson/lesson.model';
 import { LessonService } from 'src/modules/core/domain/lesson/lesson.service';
@@ -32,22 +35,22 @@ export class ProfessorHistoryComponent implements OnInit {
     }
 
 
-  private initData(): void{
-    this.initLessonData(this.professorElement?.uid);
-  }
+    private initData(): void {
+        this.initLessonData(this.professorElement?.uid);
+    }
 
-  private initLessonData(professorUid?: number): void{
-    if (!professorUid) return;
-    this.lessonService.getLessonByProfessor(professorUid).subscribe(
-      lessons => {
-        this.lessonData = lessons;
-        this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-      },
-      error => {
-        console.warn(error);
-      }
-    )
-  }
+    private initLessonData(professorUid?: number): void {
+        if (!professorUid) return;
+        this.lessonService.getLessonsByProfessor(professorUid).subscribe(
+            lessons => {
+                this.lessonData = lessons;
+                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+            },
+            error => {
+                console.warn(error);
+            }
+        )
+    }
 
     openDialog(lesson: LessonElement): void {
         const dialogRef = this.dialog.open(ProfessorDialogComponent, {

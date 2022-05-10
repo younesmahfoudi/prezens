@@ -51,7 +51,7 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
         this.currentDate = new Date()
     }
 
-    private initLessonData(lessonFilter: LessonFilter): void {
+  private initLessonData(professorUid?: number): void{
 
         if (!lessonFilter) return;
         this.lessonService.getLessonFiltered(lessonFilter).subscribe(
