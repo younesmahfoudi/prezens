@@ -8,7 +8,6 @@ import {
     ProfessorElement
 } from "../../../../../professor/components/professor/professor-element/professor-element.model";
 import {MatDialog} from "@angular/material/dialog";
-import {AdminProfessorScheduleComponent} from "../admin-professor-schedule/admin-professor-schedule.component";
 
 @Component({
     selector: 'prez-admin-professor-screen',
