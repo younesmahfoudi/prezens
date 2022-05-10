@@ -6,5 +6,9 @@
         [classroomSelected]="lessonFilter.classroom"
         style="padding: 5px"></prez-classroom-select>
     <span class="spacer"></span>
-
+    <prez-professor-select
+        (professorEmitter)="setProfessorFilter($event)"
+        *ngIf="professorElements"
+        [professorElements]="professorElements"
+        [professorSelected]="lessonFilter.professor"></prez-professor-select>
 </mat-toolbar>
