@@ -7,7 +7,7 @@ import {IsAdminSignedInGuard} from "./guards/admin/is-admin-signed-in.guard";
 import {IsStudentSignedInGuard} from "./guards/student/is-student-signed-in.guard";
 import {StudentComponent} from "../modules/student/student.component";
 import {AdminComponent} from "../modules/admin/admin.component";
-import { ProfessorComponent } from '../modules/professor/professor.component';
+import {ProfessorComponent} from '../modules/professor/professor.component';
 
 const routes: Routes = [
     {

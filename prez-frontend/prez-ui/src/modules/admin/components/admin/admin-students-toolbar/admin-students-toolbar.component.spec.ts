@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminStudentsToolbarComponent } from './admin-students-toolbar.component';
+import {AdminStudentsToolbarComponent} from './admin-students-toolbar.component';
 
 describe('AdminStudentsToolbarComponent', () => {
   let component: AdminStudentsToolbarComponent;

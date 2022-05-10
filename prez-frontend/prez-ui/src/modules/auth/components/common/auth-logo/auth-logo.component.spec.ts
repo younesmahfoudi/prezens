@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AuthLogoComponent } from './auth-logo.component';
+import {AuthLogoComponent} from './auth-logo.component';
 
 describe('AuthLogoComponent', () => {
   let component: AuthLogoComponent;

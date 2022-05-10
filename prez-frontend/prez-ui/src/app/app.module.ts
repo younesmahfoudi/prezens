@@ -10,7 +10,7 @@ import {JwtInterceptor} from "../modules/core/common/interceptor/jwt.interceptor
 import {StudentModule} from "../modules/student/student.module";
 import {LessonDetailModule} from "../modules/lesson/components/lesson-detail/lesson-detail.module";
 import {AdminModule} from "../modules/admin/admin.module";
-import { ProfessorModule } from 'src/modules/professor/professor.module';
+import {ProfessorModule} from 'src/modules/professor/professor.module';
 
 @NgModule({
     declarations: [
