@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IsSignedInGuard } from './is-signed-in.guard';
+import {IsSignedInGuard} from './is-signed-in.guard';
 
 describe('IsSignedInGuard', () => {
   let guard: IsSignedInGuard;

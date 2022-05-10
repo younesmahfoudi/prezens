@@ -41,7 +41,11 @@ Set up the environement
 ```
 
 ```bash
+Linux
   source .venv/bin/activate
+  
+Windows
+  .venv/Scripts/activate
 ```
 
 ```bash
