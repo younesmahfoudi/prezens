@@ -4,8 +4,6 @@ import {LessonElementService} from "../../../../lesson/components/lesson-element
 import {Lesson} from "../../../../core/domain/lesson/lesson.model";
 import {LessonElement} from "../../../../lesson/components/lesson-element/lesson-element.model";
 import {StudentElement} from "../student-element/student-element.model";
-import {ClassroomService} from "../../../../core/domain/classroom/classroom.service";
-import {ClassroomElementService} from "../../../../classroom/components/classroom-element/classroom-element.service";
 import {Classroom} from "../../../../core/domain/classroom/classroom.model";
 import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
 
@@ -18,7 +16,7 @@ export class StudentLessonScreenComponent implements OnInit {
 
     @Input() studentElement?: StudentElement;
     @Input() classroomElement?: ClassroomElement;
-    public lessonElements?: LessonElement[];
+    public lessonElements?: LessonElement[] = [];
     private lessonData?: Lesson[];
     private classroomData?: Classroom;
 
@@ -36,7 +34,7 @@ export class StudentLessonScreenComponent implements OnInit {
     }
 
     private initLessonData(studentUid?: number): void{
-        if (!studentUid) return;
+        if (!studentUid || !this.studentElement?.class_uid) return;
         this.lessonService.getStudentLessons(studentUid).subscribe(
             lessons => {
                 this.lessonData = lessons;

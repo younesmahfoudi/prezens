@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ClassroomDetailComponent} from "./classroom-detail.component";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ClassroomDetailComponent} from "./classroom-detail.component";
         ClassroomDetailComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        MatIconModule
     ]
 })
 export class ClassroomDetailModule { }

@@ -1,6 +1,13 @@
-<div *ngIf="classroomElement">
-    <span class="classroom-detail">
+<div>
+    <span *ngIf="classroomElement" class="classroom-detail">
         <h1 style="color: #2daae1">{{classroomElement.promotion}}</h1>
         <h2> {{classroomElement.description}}</h2>
     </span>
+    <div *ngIf="!classroomElement">
+        <span class="no-classroom-detail">
+            <mat-icon>warning</mat-icon>
+              You are not part of any classroom
+        </span>
+    </div>
 </div>
+

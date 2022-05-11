@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StudentHistoryScreenComponent} from "./student-history-screen.component";
 import {StudentHistoryListModule} from "../student-history-list/student-history-list.module";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {StudentHistoryListModule} from "../student-history-list/student-history-
     ],
     imports: [
         CommonModule,
-        StudentHistoryListModule
+        StudentHistoryListModule,
+        MatIconModule
     ]
 })
 export class StudentHistoryScreenModule { }
