@@ -31,7 +31,7 @@ export class StudentNotificationScreenComponent implements OnInit {
 
     private initNotificationsData(studentUid: number){
         if (!studentUid) return;
-        this.registerService.getNotifications(studentUid).subscribe(
+        this.registerService.getStudentNotifications(studentUid).subscribe(
             notifications => {
                 this.notificationsData = notifications;
                 this.notificationsElement = this.registerElementService.mapRegisteredStudentElements(this.notificationsData);

@@ -4,6 +4,8 @@ import {Lesson} from "../../../../../core/domain/lesson/lesson.model";
 import {LessonElement} from "../../../../../lesson/components/lesson-element/lesson-element.model";
 import {LessonService} from "../../../../../core/domain/lesson/lesson.service";
 import {LessonElementService} from "../../../../../lesson/components/lesson-element/lesson-element.service";
+import {MatDialog} from "@angular/material/dialog";
+import {AdminLessonDetailComponent} from "../admin-lesson-detail/admin-lesson-detail.component";
 
 @Component({
     selector: 'prez-admin-lesson-screen',
@@ -17,7 +19,8 @@ export class AdminLessonScreenComponent implements OnInit, OnChanges {
     private lessonsData?: Lesson[];
 
     constructor(private lessonService: LessonService,
-                private lessonElementService: LessonElementService) { }
+                private lessonElementService: LessonElementService,
+                public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.initLessonsData(this.lessonFilter);
@@ -27,6 +30,24 @@ export class AdminLessonScreenComponent implements OnInit, OnChanges {
         if (changes["lessonFilter"] && !changes["lessonFilter"].isFirstChange()){
             this.initLessonsData(this.lessonFilter);
         }
+    }
+
+    public applyFilter(lessonFilter: LessonFilter):void{
+        this.initLessonsData(lessonFilter);
+    }
+
+    public openLessonDetailDialog(lessonScheduleData: any) {
+        const lessonUid: number = lessonScheduleData.data.uid;
+        const dialogRef = this.dialog.open(
+            AdminLessonDetailComponent,{
+                data:{
+                    lessonUid: lessonUid
+                }
+            });
+        dialogRef.afterClosed().subscribe(result => {
+            this.initLessonsData(this.lessonFilter);
+            console.log(`Dialog result: ${result}`);
+        });
     }
 
     private initLessonsData(lessonFilter: LessonFilter): void{
@@ -40,9 +61,5 @@ export class AdminLessonScreenComponent implements OnInit, OnChanges {
                 console.warn(error);
             }
         )
-    }
-
-    public applyFilter(lessonFilter: LessonFilter):void{
-        this.initLessonsData(lessonFilter);
     }
 }

@@ -1,3 +1,5 @@
+import {Register} from "../../../core/domain/register/register.model";
+
 export interface LessonElement{
     description: string;
     start_at: Date;
@@ -5,4 +7,5 @@ export interface LessonElement{
     class_uid: number;
     professor_name: string;
     uid: number;
+    register: Register;
 }

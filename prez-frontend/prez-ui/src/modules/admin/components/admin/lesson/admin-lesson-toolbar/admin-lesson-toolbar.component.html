@@ -5,10 +5,16 @@
         [classroomElements]="classroomElements"
         [classroomSelected]="lessonFilter.classroom"
         style="padding: 5px"></prez-classroom-select>
-    <span class="spacer"></span>
     <prez-professor-select
         (professorEmitter)="setProfessorFilter($event)"
         *ngIf="professorElements"
         [professorElements]="professorElements"
         [professorSelected]="lessonFilter.professor"></prez-professor-select>
+    <span class="spacer"></span>
+    <span>
+        <button (click)="openLessonAddDialog()" mat-button>
+            add lesson
+            <mat-icon>add</mat-icon>
+        </button>
+    </span>
 </mat-toolbar>

@@ -13,4 +13,8 @@ export class UserService {
     public provideUser(user: User): Observable<User>{
         return this.http.post<User>(`/api/users/`, user);
     }
+
+    public getUser(user: User): Observable<User>{
+        return this.http.post<User>(`/api/users/provider`,user);
+    }
 }

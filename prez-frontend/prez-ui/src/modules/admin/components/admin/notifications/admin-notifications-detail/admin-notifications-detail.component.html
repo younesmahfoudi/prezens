@@ -1,0 +1,44 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+    <h2 mat-dialog-title style="color: gray">
+        <span>{{data.registeredStudentElement.student.first_name}} {{this.data.registeredStudentElement.student.last_name}}</span>
+    </h2>
+    <mat-dialog-content class="mat-typography"  style="flex: 1">
+        <div>
+            <div>
+                Email: {{data.registeredStudentElement.student.email}}
+            </div>
+            <div>
+                Student id: {{data.registeredStudentElement.student_uid}}
+            </div>
+            <div *ngIf="classroomElement" style="flex: 1">
+                <span>Classroom: </span>
+                <span style="color: #2daae1">{{classroomElement.promotion}}</span>
+                <span>{{classroomElement.description}}</span>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div>
+            <prez-lesson-detail [lessonElement]="lessonElement"></prez-lesson-detail>
+        </div>
+        <span>
+            <span style="font-style: italic">This student wishes to justify his absence</span>
+            <button (click)="downloadPDF(data.registeredStudentElement.proof)" *ngIf="data.registeredStudentElement.proof" mat-button>
+                Download proof
+                <mat-icon>file_download</mat-icon>
+            </button>
+        </span>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <span *ngIf="acceptMessage" style="color: green">{{acceptMessage | uppercase}}</span>
+        <span *ngIf="refuseMessage" style="color: red">{{refuseMessage | uppercase}}</span>
+        <span *ngIf="errorMessage" style="color: orange">{{errorMessage | uppercase}}</span>
+        <button (click)="refuseProof()" *ngIf="!refuseMessage" [color]="'warn'" mat-button>
+            Refuse
+        </button>
+        <button (click)="acceptProof()" *ngIf="!acceptMessage" mat-button style="color: green">
+            Accept
+        </button>
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>

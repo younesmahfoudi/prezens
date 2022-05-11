@@ -8,6 +8,9 @@ import {AdminLogoComponent} from "../admin-logo/admin-logo.component";
 import {AdminClassroomsScreenModule} from "../admin-classrooms-screen/admin-classrooms-screen.module";
 import {AdminProfessorScreenModule} from "../professor/admin-professor-screen/admin-professor-screen.module";
 import {AdminLessonScreenModule} from "../lesson/admin-lesson-screen/admin-lesson-screen.module";
+import {
+    AdminNotificationsScreenModule
+} from "../notifications/admin-notifications-screen/admin-notifications-screen.module";
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import {AdminLessonScreenModule} from "../lesson/admin-lesson-screen/admin-lesso
         MatButtonModule,
         AdminClassroomsScreenModule,
         AdminProfessorScreenModule,
-        AdminLessonScreenModule
+        AdminLessonScreenModule,
+        AdminNotificationsScreenModule
     ]
 })
 export class AdminScreenModule { }

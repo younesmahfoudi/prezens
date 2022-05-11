@@ -35,10 +35,11 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
     @Input() readOnly: boolean = true;
     @Input() size: string = '75vh';
     @Output() deleteLessonEmitter = new EventEmitter<LessonElement>();
-    @Output() addLessonEmitter = new EventEmitter<LessonElement>();
-    @Output() openLessonRegisterEmitter = new EventEmitter<LessonElement>();
+    @Output() addLessonEmitter = new EventEmitter<SelectEventArgs>();
+    @Output() openLessonEmitter = new EventEmitter<SelectEventArgs>();
 
     public timelineSettings?: EventSettingsModel;
+
 
     constructor() { }
 
@@ -52,10 +53,6 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
         this.initTimeline(this.lessonElements);
     }
 
-    public test(test: any){
-        console.log(test)
-    }
-
     public addLesson(args: SelectEventArgs): void {
         if (!this.readOnly && args.name == 'cellDoubleClick'){
             console.log("in add event: ", args)
@@ -67,9 +64,11 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
             console.log("in delete event :", args)
         }
     }
+
     public selectLesson(args: SelectEventArgs): void {
         if (!this.readOnly && args.requestType == 'eventSelect'){
-            console.log("in select event: ",args)
+            console.log("in select event: ",args);
+            this.openLessonEmitter.emit(args)
         }
     }
 

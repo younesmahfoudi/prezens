@@ -6,6 +6,7 @@
         (filterEmitter)="applyFilter($event)"
         [lessonFilter]="lessonFilter"></prez-admin-lesson-toolbar>
     <prez-lesson-timeline
+        (openLessonEmitter)="openLessonDetailDialog($event)"
         *ngIf="lessonElements"
         [lessonElements]="lessonElements"
         [readOnly]="false"

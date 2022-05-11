@@ -100,6 +100,11 @@ async def create_user(admin: schemas.AdminCreate, db: Session = Depends(get_db))
     db_admin = crud.create_admin(db=db, admin=admin)
     return auth_handler.signJWT(user_uid=db_admin.uid, role="admin")
 
+@app.get("/admins/notifications/", response_model=list[schemas.RegisteredStudent], tags=["admins"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_notifications(db: Session = Depends(get_db)):
+    registered_students = crud.get_admin_notifications(db)
+    return registered_students
+
 '''
     Professors routes
 '''
@@ -410,6 +415,18 @@ def read_lesson(lesson_uid: int, db: Session = Depends(get_db)):
     if not db_lesson:
         raise HTTPException(status_code=404, detail="lesson not found")
     return db_lesson
+
+@app.delete("/lessons/{lesson_uid}", tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_lesson(lesson_uid: int, db: Session = Depends(get_db)):
+    db_lesson = crud.get_lesson(db, lesson_uid=lesson_uid)
+    if not db_lesson:
+        raise HTTPException(status_code=404, detail="lesson not found")
+    db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson_uid)
+    if db_lesson_register:
+        crud.delete_registeredStudents(db, register_uid=db_lesson_register.uid)
+        crud.delete_lesson_register(db, register_uid=db_lesson_register.uid)
+    crud.delete_lesson(db,lesson_uid=db_lesson.uid)
+    raise HTTPException(status_code=200, detail="Lesson deleted successfully")
 
 '''
     Registered student routes

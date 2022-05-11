@@ -1,0 +1,13 @@
+<prez-admin-notifications-list
+    (refreshEmitter)="initData()"
+    *ngIf="registeredStudentElements"
+    [registeredStudentElements]="registeredStudentElements"></prez-admin-notifications-list>
+<div style="color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh">
+    <mat-icon>notifications_off</mat-icon>
+    <h1>Nothing to display</h1>
+</div>

@@ -1,1 +1,12 @@
-<prez-signin-screen class="auth-content"></prez-signin-screen>
+<div class="auth-content">
+    <prez-signin-screen *ngIf="signin"></prez-signin-screen>
+    <prez-signup-screen *ngIf="!signin"></prez-signup-screen>
+    <div *ngIf="signin">
+        <span>don't have an account yet?</span>
+        <button (click)="switch()" mat-button style="color: #2daae1">sign up</button>
+    </div>
+    <div *ngIf="!signin">
+        <span>already have an account?</span>
+        <button (click)="switch()" mat-button style="color: #2daae1">sign in</button>
+    </div>
+</div>

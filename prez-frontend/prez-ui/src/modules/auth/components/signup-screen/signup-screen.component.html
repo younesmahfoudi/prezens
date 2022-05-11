@@ -1,0 +1,95 @@
+<div class="auth-content">
+    <div class="auth-content">
+        <prez-auth-logo class="p-2"></prez-auth-logo>
+        <h1>prezens</h1>
+        <mat-stepper #stepper [linear]="true" orientation="horizontal" style="background-color: ghostwhite">
+            <mat-step [stepControl]="emailFormGroup">
+                <form [formGroup]="emailFormGroup">
+                    <ng-template matStepLabel>Fill out your email</ng-template>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input (ngModelChange)="user = undefined; errorMessage = undefined" formControlName="email" matInput placeholder="pat@cy-tech.fr" required>
+                    </mat-form-field>
+                    <div>
+                        <mat-icon *ngIf="user" style="color: green">check</mat-icon>
+                        <button (click)="checkUser()" *ngIf="!user" mat-button>Check</button>
+                        <button *ngIf="user" mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step *ngIf="user?.role == 'student'" [stepControl]="studentDataFormGroup">
+                <form [formGroup]="studentDataFormGroup">
+                    <ng-template matStepLabel>Fill out your data</ng-template>
+                    <mat-form-field appearance="outline">
+                        <mat-label>First name</mat-label>
+                        <input formControlName="first_name" matInput placeholder="Tom"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Last name</mat-label>
+                        <input formControlName="last_name" matInput placeholder="Soulage"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Student Id</mat-label>
+                        <input formControlName="student_id" matInput placeholder="1000"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput required>
+                        <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button
+                                matSuffix>
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step *ngIf="user?.role == 'professor'" [stepControl]="professorDataFormGroup">
+                <form [formGroup]="professorDataFormGroup">
+                    <ng-template matStepLabel>Fill out your data</ng-template>
+                    <mat-form-field appearance="outline">
+                        <mat-label>First name</mat-label>
+                        <input formControlName="first_name" matInput placeholder="Tom"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Last name</mat-label>
+                        <input formControlName="last_name" matInput placeholder="Soulage"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput required>
+                        <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button
+                                matSuffix>
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Validate</ng-template>
+                <p>Check your data before submit.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button (click)="errorMessage = undefined; signupDone = undefined;stepper.reset()" mat-button>Reset</button>
+                    <button (click)="submit()" *ngIf="!signupDone" mat-button style="color: green">
+                        Signup
+                        <mat-icon>check</mat-icon>
+                    </button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+    </div>
+    <span *ngIf="signupDone" style="color: green">{{signupDone}}</span>
+    <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+</div>
