@@ -18,4 +18,5 @@ import { ProfessorRegisterScreenComponent } from './components/professor/profess
         ProfessorScreenModule
     ]
 })
-export class ProfessorModule { }
+export class ProfessorModule {
+}
