@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Lesson} from "./lesson.model";
 import {HttpClient} from "@angular/common/http";
 import {LessonFilter} from "../../../admin/components/admin/lesson/admin-lesson-toolbar/lesson-filter.model";
+import {RegisterComponent} from "../../../register/register.component";
 
 @Injectable({
     providedIn: 'root'
@@ -40,5 +41,10 @@ export class LessonService {
         if (lessonFilter.classroom) return this.getClassroomLessons(lessonFilter.classroom.uid);
         if (lessonFilter.professor) return this.getLessonsByProfessor(lessonFilter.professor.uid);
         return this.getLessons();
+    }
+
+    public getRegisterByLessonUid(lessonUid?: number):Observable<RegisterComponent>{
+        if(!lessonUid) console.warn();
+        return this.http.get<RegisterComponent>(`/api/lesson/${lessonUid}/register`);
     }
 }

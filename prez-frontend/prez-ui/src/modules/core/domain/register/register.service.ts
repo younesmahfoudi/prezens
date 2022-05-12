@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {RegisteredStudent, RegisteredStudentUpdate} from "./register.model";
 import {HttpClient} from "@angular/common/http";
+import {RegisterComponent} from "../../../register/register.component";
 
 @Injectable({
     providedIn: 'root'
@@ -21,4 +22,6 @@ export class RegisterService {
     public getNotifications(studentUid: number): Observable<RegisteredStudent[]>{
         return this.http.get<RegisteredStudent[]>(`/api/students/${studentUid}/notifications`);
     }
+
+
 }
