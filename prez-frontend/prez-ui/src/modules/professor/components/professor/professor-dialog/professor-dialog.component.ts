@@ -24,6 +24,10 @@ export class ProfessorDialogComponent implements OnInit {
     }
 
     private registeredStudentUpdate: RegisteredStudentUpdate = {};
+    public submitLoading: boolean = false;
+    public submitDone: boolean = false;
+    public hideSubmit: boolean = true;
+
 
     ngOnInit(): void {
         console.log(this.data)

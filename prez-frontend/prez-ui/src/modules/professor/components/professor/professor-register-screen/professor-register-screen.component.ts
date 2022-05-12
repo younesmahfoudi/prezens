@@ -58,7 +58,7 @@ export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
         console.log(this.currentDate)
     }
 
-    public compareDate(lessonDate: Date): boolean{
+    public compareDate(lessonDate: Date): boolean {
         return (this.currentDate > new Date(lessonDate))
     }
 
@@ -97,33 +97,4 @@ export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
             this.initData()
         });
     }
-
-    /**public updateRegisteredStudent(registeredStudentElement: RegisteredStudentElement) {
-        if (!registeredStudentElement) return;
-        if (registeredStudentElement.status == Status.Present) {
-            this.registeredStudentUpdate.status = Status.Absent;
-            this.registerService.updateRegisteredStudent(registeredStudentElement.uid, this.registeredStudentUpdate).subscribe(
-                () => {
-                    this.submitLoading = false;
-                    this.submitDone = true
-                },
-                error => {
-                    console.warn(error);
-                    this.submitLoading = false;
-                }
-            )
-        } else if (registeredStudentElement.status == Status.Absent) {
-            this.registeredStudentUpdate.status = Status.Present;
-            this.registerService.updateRegisteredStudent(registeredStudentElement.uid, this.registeredStudentUpdate).subscribe(
-                () => {
-                    this.submitLoading = false;
-                    this.submitDone = true
-                },
-                error => {
-                    console.warn(error);
-                    this.submitLoading = false;
-                }
-            )
-        }
-    }**/
 }

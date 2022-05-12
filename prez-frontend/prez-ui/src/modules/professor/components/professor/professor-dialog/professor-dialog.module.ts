@@ -20,7 +20,7 @@ import {ProfessorRegisterSignModule} from "../professor-register-sign/professor-
         CommonModule,
         MatDialogModule,
         MatCardModule,
-        MatButtonModule,
+        MatButtonModule
         RegisterDetailModule,
         LessonDetailModule,
         ProfessorRegisterSignModule

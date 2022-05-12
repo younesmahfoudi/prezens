@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ClassroomService} from 'src/modules/core/domain/classroom/classroom.service';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
 import {LessonService} from 'src/modules/core/domain/lesson/lesson.service';

@@ -9,19 +9,14 @@ import {ProfessorElement} from '../professor-element/professor-element.model';
 import {LessonFilter} from "../../../../admin/components/admin/lesson/admin-lesson-toolbar/lesson-filter.model";
 import {ClassroomService} from "../../../../core/domain/classroom/classroom.service";
 import {ClassroomElementService} from "../../../../classroom/components/classroom-element/classroom-element.service";
-import {
-    AdminLessonDetailComponent
-} from "../../../../admin/components/admin/lesson/admin-lesson-detail/admin-lesson-detail.component";
 import {MatDialog} from "@angular/material/dialog";
-import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
-import {ProfessorRegisterDialogComponent} from "../professor-register-dialog/professor-register-dialog.component";
 
 @Component({
   selector: 'prez-professor-lesson-screen',
   templateUrl: './professor-lesson-screen.component.html',
   styleUrls: ['./professor-lesson-screen.component.scss']
 })
-export class ProfessorLessonScreenComponent implements OnInit {
+export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
     constructor(
         private lessonService: LessonService,
@@ -32,12 +27,13 @@ export class ProfessorLessonScreenComponent implements OnInit {
     ) {
     }
 
-  private currentDate: Date;
-  @Input() professorElement?: ProfessorElement;
-  @Input() classroomElement?: ClassroomElement;
-  public lessonElements?: LessonElement[];
-  private lessonData?: Lesson[];
-  private classroomData?: Classroom;
+
+    @Input() professorElement?: ProfessorElement;
+    @Input() classroomElement?: ClassroomElement;
+    @Input() lessonFilter: LessonFilter;
+    public lessonElements?: LessonElement[];
+    private lessonData?: Lesson[];
+    private classroomData?: Classroom;
 
     ngOnInit(): void {
         this.initData();
@@ -56,6 +52,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
     }
 
     private initLessonData(lessonFilter: LessonFilter): void {
+
         if (!lessonFilter) return;
         this.lessonService.getLessonFiltered(lessonFilter).subscribe(
             lessons => {
