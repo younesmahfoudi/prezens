@@ -46,6 +46,7 @@ export class ProfessorScreenComponent implements OnInit {
     private initData(): void {
         const professor_uid = Number(this.route.snapshot.paramMap.get('id'));
         this.initProfessorData(professor_uid);
+
     }
 
     private initProfessorData(professor_uid: number): void {
@@ -54,7 +55,7 @@ export class ProfessorScreenComponent implements OnInit {
             professor => {
                 this.professorData = professor;
                 this.professorElement = this.professorElementService.mapProfessorElement(this.professorData);
-
+                this.lessonFilter.professor = this.professorElement
             },
             err => {
                 console.warn(err);
