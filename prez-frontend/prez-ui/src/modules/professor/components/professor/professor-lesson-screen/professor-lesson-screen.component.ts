@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ClassroomElement} from 'src/modules/classroom/components/classroom-element/classroom-element.model';
 import {Classroom} from 'src/modules/core/domain/classroom/classroom.model';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
@@ -51,8 +51,7 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
         this.currentDate = new Date()
     }
 
-  private initLessonData(professorUid?: number): void{
-
+    private initLessonData(lessonFilter: LessonFilter): void {
         if (!lessonFilter) return;
         this.lessonService.getLessonFiltered(lessonFilter).subscribe(
             lessons => {

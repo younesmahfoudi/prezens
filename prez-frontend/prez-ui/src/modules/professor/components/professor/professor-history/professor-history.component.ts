@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { throwError } from 'rxjs';
-import { ClassroomElement } from 'src/modules/classroom/components/classroom-element/classroom-element.model';
-import { Classroom } from 'src/modules/core/domain/classroom/classroom.model';
-import { ClassroomService } from 'src/modules/core/domain/classroom/classroom.service';
-import { Lesson } from 'src/modules/core/domain/lesson/lesson.model';
-import { LessonService } from 'src/modules/core/domain/lesson/lesson.service';
-import { LessonElement } from 'src/modules/lesson/components/lesson-element/lesson-element.model';
-import { LessonElementService } from 'src/modules/lesson/components/lesson-element/lesson-element.service';
-import { ProfessorElement } from '../professor-element/professor-element.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ClassroomService} from 'src/modules/core/domain/classroom/classroom.service';
+import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
+import {LessonService} from 'src/modules/core/domain/lesson/lesson.service';
+import {LessonElement} from 'src/modules/lesson/components/lesson-element/lesson-element.model';
+import {LessonElementService} from 'src/modules/lesson/components/lesson-element/lesson-element.service';
+import {ProfessorElement} from '../professor-element/professor-element.model';
+import {MatDialog} from '@angular/material/dialog';
+import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
+import {RegisterService} from "../../../../core/domain/register/register.service";
+import {RegisterElement} from "../../../../register/components/register-element/register-element.model";
 
 @Component({
     selector: 'prez-professor-history',
@@ -22,7 +23,9 @@ export class ProfessorHistoryComponent implements OnInit {
         private classroomService: ClassroomService,
         private registerService: RegisterService,
         private dialog: MatDialog
-    ) { }
+    ) {
+    }
+
 
     @Input() professorElement?: ProfessorElement;
     // @Input() classroomElement?: ClassroomElement;
