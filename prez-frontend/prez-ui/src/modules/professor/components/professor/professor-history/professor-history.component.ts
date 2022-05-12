@@ -1,10 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ClassroomService} from 'src/modules/core/domain/classroom/classroom.service';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
 import {LessonService} from 'src/modules/core/domain/lesson/lesson.service';
 import {LessonElement} from 'src/modules/lesson/components/lesson-element/lesson-element.model';
 import {LessonElementService} from 'src/modules/lesson/components/lesson-element/lesson-element.service';
 import {ProfessorElement} from '../professor-element/professor-element.model';
+import {MatDialog} from '@angular/material/dialog';
+import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
+import {RegisterService} from "../../../../core/domain/register/register.service";
+import {RegisterElement} from "../../../../register/components/register-element/register-element.model";
 
 @Component({
     selector: 'prez-professor-history',
@@ -25,7 +29,8 @@ export class ProfessorHistoryComponent implements OnInit {
     // @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
     private lessonData?: Lesson[];
-
+    @Output() registerEmitter = new EventEmitter<RegisterElement>();
+    private registerElement?: RegisterElement;
 
     ngOnInit(): void {
         this.initData();
@@ -49,12 +54,36 @@ export class ProfessorHistoryComponent implements OnInit {
         )
     }
 
-  private getClassroomByUid(classroomUid: number): void{
-    this.classroomService.getClassroom(classroomUid).subscribe(
-      classroom => {
-        return classroom.promotion
-      }
-    )
+    openDialog(lesson: LessonElement): void {
+        const dialogRef = this.dialog.open(ProfessorDialogComponent, {
+            width: '500px',
+            height: '800px',
+            data: {
+                lessonElement: lesson
+            }
+        });
 
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Redirect vers register screen');
+        });
+    }
+
+    public getRegisterData(lessonUid: number): void {
+
+    }
+
+    public emitRegister(registerElement: RegisterElement): void {
+        this.registerEmitter.emit(registerElement);
+    }
+
+
+    /*private getClassroomByUid(classroomUid: number): void {
+        this.classroomService.getClassroom(classroomUid).subscribe(
+            classroom => {
+                this.lessonData = classroom;
+            }
+        )
+
+    }
+    */
 }
