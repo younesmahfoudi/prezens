@@ -30,9 +30,9 @@ export class ProfessorHistoryComponent implements OnInit {
     private lessonData?: Lesson[];
     private registerElement?: RegisterElement;
 
-  ngOnInit(): void {
-    this.initData();
-  }
+    ngOnInit(): void {
+        this.initData();
+    }
 
 
     private initData(): void {

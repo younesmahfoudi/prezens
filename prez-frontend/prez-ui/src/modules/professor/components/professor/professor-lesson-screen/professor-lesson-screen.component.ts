@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClassroomElement} from 'src/modules/classroom/components/classroom-element/classroom-element.model';
 import {Classroom} from 'src/modules/core/domain/classroom/classroom.model';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
@@ -12,9 +12,9 @@ import {ClassroomElementService} from "../../../../classroom/components/classroo
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'prez-professor-lesson-screen',
-  templateUrl: './professor-lesson-screen.component.html',
-  styleUrls: ['./professor-lesson-screen.component.scss']
+    selector: 'prez-professor-lesson-screen',
+    templateUrl: './professor-lesson-screen.component.html',
+    styleUrls: ['./professor-lesson-screen.component.scss']
 })
 export class ProfessorLessonScreenComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes["lessonFilter"] && !changes["lessonFilter"].isFirstChange()) {
+        if (changes["lessonFilter"] && !changes["lessonFilter"].isFirstChange()){
             this.initData();
         }
     }
@@ -52,6 +52,7 @@ export class ProfessorLessonScreenComponent implements OnInit {
     }
 
     private initLessonData(lessonFilter: LessonFilter): void {
+
         if (!lessonFilter) return;
         this.lessonService.getLessonFiltered(lessonFilter).subscribe(
             lessons => {
