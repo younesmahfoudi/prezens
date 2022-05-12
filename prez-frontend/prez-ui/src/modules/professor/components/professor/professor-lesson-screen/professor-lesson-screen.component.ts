@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ClassroomElement} from 'src/modules/classroom/components/classroom-element/classroom-element.model';
 import {Classroom} from 'src/modules/core/domain/classroom/classroom.model';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
@@ -13,7 +13,7 @@ import {LessonFilter} from "../../../../admin/components/admin/lesson/admin-less
     templateUrl: './professor-lesson-screen.component.html',
     styleUrls: ['./professor-lesson-screen.component.scss']
 })
-export class ProfessorLessonScreenComponent implements OnInit {
+export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
     constructor(
         private lessonService: LessonService,
@@ -41,14 +41,13 @@ export class ProfessorLessonScreenComponent implements OnInit {
 
 
     private initData(): void {
-        this.initLessonData(this.professorElement?.uid);
+        this.initLessonData(this.lessonFilter);
 
     }
 
     private initLessonData(lessonFilter: LessonFilter): void {
-
         if (!lessonFilter) return;
-        this.lessonService.getLessonsByProfessor(lessonFilter.professor.uid).subscribe(
+        this.lessonService.getLessonFiltered(lessonFilter).subscribe(
             lessons => {
                 this.lessonData = lessons;
                 this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
