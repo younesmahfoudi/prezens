@@ -1,34 +1,19 @@
-<!--<div *ngIf="data.lessonElement">
-
-    <mat-card *ngFor="let student of data.lessonElement.register.registered_students" style="padding: 5px">
+<div *ngIf="data.lessonElement">
+    <mat-card *ngFor="let student of data.lessonElement." style="padding: 5px">
         <div>
             {{student.student.first_name}}  {{student.student.last_name}}
         </div>
         <div>
             <div>
                 {{student.status}}
+                <!-- {{getClassroomByUid(lesson.class_uid)}} -->
             </div>
         </div>
     </mat-card>
-</div>-->
+</div>
 
-<h2 mat-dialog-title></h2>
-<mat-dialog-content>
-    <prez-lesson-detail
-        [lessonElement]="data.lessonElement"
-    ></prez-lesson-detail>
-
-    <prez-register-detail
-        [registerElement]="data.lessonElement.register"
-    ></prez-register-detail>
-
-    <prez-professor-register-sign
-        *ngIf="!data.lessonElement.register.signature"
-        [lesson]="data.lessonElement"
-    ></prez-professor-register-sign>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Sign</button>
-</mat-dialog-actions>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Faire l'appel</button>
+</div>
 

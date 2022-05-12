@@ -1,85 +1,39 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProfessorElement} from "../professor-element/professor-element.model";
 import {LessonElement} from "../../../../lesson/components/lesson-element/lesson-element.model";
 import {Lesson} from "../../../../core/domain/lesson/lesson.model";
-import {RegisterElement} from "../../../../register/components/register-element/register-element.model";
+import {
+    RegisteredStudentElement,
+    RegisterElement
+} from "../../../../register/components/register-element/register-element.model";
+import {Status} from "../../../../core/domain/register/status.enum";
+import {RegisteredStudentUpdate} from "../../../../core/domain/register/register.model";
 import {RegisterService} from "../../../../core/domain/register/register.service";
-import {LessonService} from "../../../../core/domain/lesson/lesson.service";
-import {LessonElementService} from "../../../../lesson/components/lesson-element/lesson-element.service";
-import {ClassroomService} from "../../../../core/domain/classroom/classroom.service";
-import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector: 'prez-professor-register-screen',
     templateUrl: './professor-register-screen.component.html',
     styleUrls: ['./professor-register-screen.component.scss']
 })
-export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
+export class ProfessorRegisterScreenComponent implements OnInit {
 
     constructor(
-        private lessonService: LessonService,
-        private lessonElementService: LessonElementService,
-        private classroomService: ClassroomService,
-        private registerService: RegisterService,
-        private dialog: MatDialog
+        private registerService: RegisterService
     ) {
     }
-
 
     @Input() professorElement?: ProfessorElement;
     // @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
     private lessonData?: Lesson[];
+    @Output() registerEmitter = new EventEmitter<RegisterElement>();
     private registerElement?: RegisterElement;
-
+    private registeredStudentUpdate: RegisteredStudentUpdate = {};
+    public submitLoading: boolean = false;
+    public submitDone: boolean = false;
+    public hideSubmit: boolean = true;
 
     ngOnInit(): void {
-        this.initData();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['registerElement']) this.initData()
-    }
-
-
-    private initData(): void {
-        this.initLessonData(this.professorElement?.uid);
-    }
-
-    private initLessonData(professorUid?: number): void {
-        if (!professorUid) return;
-        this.lessonService.getLessonsByDate(professorUid, "after").subscribe(
-            lessons => {
-                this.lessonData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
-    }
-
-    generateRegister(lesson: LessonElement): void {
-        debugger
-        console.log(lesson)
-        this.registerService.initClassroomRegister(lesson.class_uid, lesson.register.uid)
-        console.log(lesson)
-        this.registerElement = lesson.register
-        console.log(this.registerElement)
-    }
-
-    openDialog(lesson: LessonElement): void {
-        const dialogRef = this.dialog.open(ProfessorDialogComponent, {
-            data: {
-                lessonElement: lesson
-            }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('Redirect vers register screen');
-            this.initData()
-        });
     }
 
     /**public updateRegisteredStudent(registeredStudentElement: RegisteredStudentElement) {
