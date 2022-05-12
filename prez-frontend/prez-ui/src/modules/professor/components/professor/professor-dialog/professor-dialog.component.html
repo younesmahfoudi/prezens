@@ -1,6 +1,5 @@
 <div *ngIf="data.lessonElement">
-
-    <mat-card *ngFor="let student of data.lessonElement.register.registered_students" style="padding: 5px">
+    <mat-card *ngFor="let student of data.lessonElement." style="padding: 5px">
         <div>
             {{student.student.first_name}}  {{student.student.last_name}}
         </div>
@@ -14,7 +13,7 @@
 </div>
 
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Sign</button>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Faire l'appel</button>
 </div>
 
