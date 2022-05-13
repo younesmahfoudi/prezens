@@ -23,9 +23,7 @@ export class ProfessorHistoryComponent implements OnInit {
         private classroomService: ClassroomService,
         private registerService: RegisterService,
         private dialog: MatDialog
-    ) {
-    }
-
+    ) { }
 
     @Input() professorElement?: ProfessorElement;
     // @Input() classroomElement?: ClassroomElement;
@@ -33,19 +31,18 @@ export class ProfessorHistoryComponent implements OnInit {
     private lessonData?: Lesson[];
     private registerElement?: RegisterElement;
 
-
-  ngOnInit(): void {
-    this.initData();
-  }
-
-
-    private initData(): void {
-        this.initLessonData(this.professorElement?.uid);
+    ngOnInit(): void {
+        this.initData();
     }
+
+
+  private initData(): void{
+    this.initLessonData(this.professorElement?.uid);
+  }
 
     private initLessonData(professorUid?: number): void {
         if (!professorUid) return;
-        this.lessonService.getLessonsByDate(professorUid,"before").subscribe(
+        this.lessonService.getLessonsByProfessor(professorUid).subscribe(
             lessons => {
                 this.lessonData = lessons;
                 this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
@@ -70,4 +67,5 @@ export class ProfessorHistoryComponent implements OnInit {
     }
 
 
+  }
 }

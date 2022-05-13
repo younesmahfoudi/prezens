@@ -16,7 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './professor-lesson-screen.component.html',
   styleUrls: ['./professor-lesson-screen.component.scss']
 })
-export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
+export class ProfessorLessonScreenComponent implements OnInit {
 
     constructor(
         private lessonService: LessonService,
@@ -52,7 +52,6 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
     }
 
     private initLessonData(lessonFilter: LessonFilter): void {
-
         if (!lessonFilter) return;
         this.lessonService.getLessonFiltered(lessonFilter).subscribe(
             lessons => {
