@@ -11,6 +11,9 @@ import {StudentModule} from "../modules/student/student.module";
 import {LessonDetailModule} from "../modules/lesson/components/lesson-detail/lesson-detail.module";
 import {AdminModule} from "../modules/admin/admin.module";
 import {ProfessorModule} from 'src/modules/professor/professor.module';
+import {
+    ProfessorDialogModule
+} from "../modules/professor/components/professor/professor-dialog/professor-dialog.module";
 
 @NgModule({
     declarations: [
@@ -30,8 +33,9 @@ import {ProfessorModule} from 'src/modules/professor/professor.module';
         ProfessorModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
