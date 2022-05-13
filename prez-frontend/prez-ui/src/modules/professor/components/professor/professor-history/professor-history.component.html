@@ -3,14 +3,21 @@
         <mat-card-title>{{lesson.description}}</mat-card-title>
         <mat-card-subtitle>
             <div>
-                Start :{{lesson.start_at}} | End:{{lesson.end_at}}
+                Start :{{lesson.start_at | date:"short"}} | End:{{lesson.end_at | date:"short"}}
             </div>
-            <li>
-                <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
-                    <mat-icon style="margin-right: 2px">schedule</mat-icon>
-                    Register
-                </button>
-            </li>
+            <div>
+                Status :
+                <span *ngIf="lesson.register.signature ; else elseBlock" style="color: #00c853">
+                    Done
+                </span>
+                <ng-template #elseBlock>
+                    <span style="color: #b71c1c">Unsigned</span>
+                </ng-template>
+            </div>
+            <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
+                <mat-icon style="margin-right: 2px">schedule</mat-icon>
+                Details
+            </button>
             <div>
                 <!-- {{getClassroomByUid(lesson.class_uid)}} -->
             </div>
