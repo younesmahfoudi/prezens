@@ -20,7 +20,9 @@ export class ProfessorHistoryComponent implements OnInit {
     constructor(
         private lessonService: LessonService,
         private lessonElementService: LessonElementService,
-        private classroomService: ClassroomService
+        private classroomService: ClassroomService,
+        private registerService: RegisterService,
+        private dialog: MatDialog
     ) {
     }
 
@@ -84,6 +86,5 @@ export class ProfessorHistoryComponent implements OnInit {
             }
         )
 
-    }
-    */
+  }
 }
