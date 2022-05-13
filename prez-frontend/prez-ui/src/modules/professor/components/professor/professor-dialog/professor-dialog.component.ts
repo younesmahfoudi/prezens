@@ -30,16 +30,13 @@ export class ProfessorDialogComponent implements OnInit {
 
 
     ngOnInit(): void {
-        throw new Error('Method not implemented.');
+        console.log(this.data)
     }
 
     onNoClick(): void {
         this.dialogRef.close();
     }
 
-    emitRegister(lessonElement: LessonElement): void {
-        this.registerEmitter.emit(lessonElement);
-    }
 
     getStatusColor(status: Status): string {
         switch (status) {
