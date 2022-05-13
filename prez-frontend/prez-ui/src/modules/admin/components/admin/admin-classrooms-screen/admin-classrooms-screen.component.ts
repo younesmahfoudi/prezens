@@ -18,7 +18,7 @@ import {ClassroomElement} from "../../../../classroom/components/classroom-eleme
 })
 export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatPaginator) paginator?: MatPaginator;
     @Output() classroomEmitter = new EventEmitter<ClassroomElement>()
 
     public studentElements: StudentElement[];
