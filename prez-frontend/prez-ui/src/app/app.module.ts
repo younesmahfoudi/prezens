@@ -32,7 +32,7 @@ import {StudentRegisterModule} from "../modules/student/components/student/stude
         StudentRegisterModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
     ],
     bootstrap: [AppComponent]
 })

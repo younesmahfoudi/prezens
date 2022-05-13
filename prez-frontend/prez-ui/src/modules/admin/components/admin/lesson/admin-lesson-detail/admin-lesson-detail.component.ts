@@ -72,7 +72,7 @@ export class AdminLessonDetailComponent implements OnInit {
         this.initLessonData(this.data.lessonUid);
     }
 
-    private initLessonData(lessonUid: number){
+    private initLessonData(lessonUid: number) {
         if (!lessonUid) return;
         this.lessonService.getLesson(lessonUid).subscribe(
             lesson => {
@@ -86,7 +86,7 @@ export class AdminLessonDetailComponent implements OnInit {
         )
     }
 
-    private iniClassroomData(classroomUid: number): void{
+    private iniClassroomData(classroomUid: number): void {
         if (!classroomUid) return;
         this.classroomService.getClassroom(classroomUid).subscribe(
             classroom => {
