@@ -26,7 +26,7 @@
                 History
             </ng-template>
             <prez-student-history-screen
-                *ngIf="studentElement && classroomElement"
+                *ngIf="studentElement"
                 [classroomElement]="classroomElement"
                 [studentElement]="studentElement"></prez-student-history-screen>
         </mat-tab>
@@ -36,7 +36,7 @@
                 Notifications
             </ng-template>
             <prez-student-notification-screen
-                *ngIf="studentElement && classroomElement"
+                *ngIf="studentElement"
                 [classroomElement]="classroomElement"
                 [studentElement]="studentElement"></prez-student-notification-screen>
         </mat-tab>

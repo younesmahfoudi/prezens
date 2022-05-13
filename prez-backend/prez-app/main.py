@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
@@ -185,6 +187,34 @@ def read_student_history(
         raise HTTPException(status_code=404, detail="Student not found")
     db_history = crud.get_registered_student_history(db, student_uid=db_student.uid)
     return db_history
+
+@app.post("/students/{student_uid}/register/{register_uid}", tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_student_history(
+        student_uid: int,
+        register_uid: int,
+        student_updated: schemas.RegisteredStudentUpdate,
+        db: Session = Depends(get_db)
+):
+    current_date = datetime.now()
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if db_student is None:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db_register = crud.get_lesson_register(db, lesson_register_uid=register_uid)
+    if not db_register:
+        raise HTTPException(status_code=404, detail="Register not found")
+    db_lesson = crud.get_lesson(db, lesson_uid=db_register.lesson_uid)
+    if db_lesson.end_at < current_date:
+        raise HTTPException(status_code=400, detail="Registration over due")
+    db_registered_student_uid = crud.get_student_in_register(db, student_uid=db_student.uid, lesson_register_uid=register_uid)
+    if not db_registered_student_uid:
+        raise HTTPException(status_code=400, detail="Student not registered")
+    db_registered_student = crud.get_registered_student(db, registered_student_uid=db_registered_student_uid.uid)
+    registered_student_update = schemas.RegisteredStudentUpdate(
+        proof = student_updated.proof,
+        status = "PRESENT"
+    )
+    return crud.update_registered_student(db, db_registered_student=db_registered_student, registered_student=registered_student_update)
+
 
 @app.get("/students/{student_uid}/notifications", response_model=list[schemas.RegisteredStudent], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_student_notifications(
@@ -464,7 +494,7 @@ def update_registered_student(registered_student_uid: int ,status: str, db: Sess
     db_registered_student = crud.get_registered_student(db, registered_student_uid=registered_student_uid)
     if not db_registered_student:
         raise HTTPException(status_code=404, detail="registered student not found")
-    crud.update_registered_student_status(db, registered_student=db_registered_student, status=status)
+    crud.update_registered_student_status(db, registered_student_uid=db_registered_student.uid, status=status)
     db_registered_student = crud.get_registered_student(db=db, registered_student_uid=registered_student_uid)
     return db_registered_student
 

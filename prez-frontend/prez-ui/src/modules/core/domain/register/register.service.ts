@@ -29,4 +29,8 @@ export class RegisterService {
     public getRegister(registerUid: number): Observable<Register>{
         return this.http.get<Register>(`/api/register/${registerUid}`);
     }
+
+    public updateRegisteredStudentStatus(registerUid: number, studentUid: number, signature: any): Observable<any>{
+        return this.http.post<any>(`/api/students/${studentUid}/register/${registerUid}`, signature);
+    }
 }

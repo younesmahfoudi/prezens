@@ -8,6 +8,10 @@ import {IsStudentSignedInGuard} from "./guards/student/is-student-signed-in.guar
 import {StudentComponent} from "../modules/student/student.component";
 import {AdminComponent} from "../modules/admin/admin.component";
 import { ProfessorComponent } from '../modules/professor/professor.component';
+import {
+    StudentRegisterComponent
+} from "../modules/student/components/student/student-register/student-register.component";
+import {StudentRegisterGuard} from "./guards/student/student-register.guard";
 
 const routes: Routes = [
     {
@@ -36,6 +40,13 @@ const routes: Routes = [
         component:StudentComponent,
         canActivate: [
             IsStudentSignedInGuard
+        ]
+    },
+    {
+        path:'register/:idR',
+        component:StudentRegisterComponent,
+        canActivate: [
+            StudentRegisterGuard
         ]
     },
     {

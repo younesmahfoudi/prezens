@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RegisterStudentListComponent} from "./register-student-list.component";
 import {MatListModule} from "@angular/material/list";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {MatListModule} from "@angular/material/list";
     ],
     imports: [
         CommonModule,
-        MatListModule
+        MatListModule,
+        MatCardModule
     ]
 })
 export class RegisterStudentListModule { }

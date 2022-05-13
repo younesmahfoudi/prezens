@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RegisteredStudentElement} from "../../../../register/components/register-element/register-element.model";
 import {Status} from "../../../../core/domain/register/status.enum";
 import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
@@ -12,6 +12,7 @@ import {StudentHistoryDetailComponent} from "../student-history-detail/student-h
 })
 export class StudentHistoryListComponent implements OnInit {
 
+    @Output() refreshEmitter = new EventEmitter();
     @Input() historyElement?: RegisteredStudentElement[];
     @Input() classroomElement?: ClassroomElement;
     /* private historyDetailData?: RegisteredStudent;
@@ -68,6 +69,7 @@ export class StudentHistoryListComponent implements OnInit {
                 }
             });
         dialogRef.afterClosed().subscribe(result => {
+            this.refreshEmitter.emit();
             console.log(`Dialog result: ${result}`);
         });
     }

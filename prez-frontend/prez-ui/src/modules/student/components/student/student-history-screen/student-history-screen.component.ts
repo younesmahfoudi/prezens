@@ -22,7 +22,11 @@ export class StudentHistoryScreenComponent implements OnInit {
                 private registerElementsService: RegisterElementService) { }
 
     ngOnInit(): void {
-        this.initHistoryData(this.studentElement.uid)
+        this.initData();
+    }
+
+    public initData(){
+        this.initHistoryData(this.studentElement.uid);
     }
 
     private initHistoryData(studentUid: number): void{

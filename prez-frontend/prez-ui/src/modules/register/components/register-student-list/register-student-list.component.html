@@ -1,8 +1,28 @@
 <div *ngIf="registeredStudents">
-    <mat-list role="list">
-        <mat-list-item *ngFor="let registeredStudent of registeredStudents" role="listitem">
-            <span>{{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}: </span>
-            <span [style.color]="getPriority(registeredStudent.status)" style="font-style: italic">{{registeredStudent.status}}</span>
+    <!--<mat-list role="list">
+        <mat-list-item *ngFor="let registeredStudent of registeredStudents" role="listitem" style="display:flex;">
+            <div *ngIf="registeredStudent.status != 'PRESENT'">
+                <span>{{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}: </span>
+                <span [style.color]="getPriority(registeredStudent.status)" style="font-style: italic">
+                    {{registeredStudent.status}}
+                </span>
+            </div>
+            <div *ngIf="registeredStudent.status == 'PRESENT'">
+                <span>{{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}: </span>
+                <span [style.color]="getPriority(registeredStudent.status)" style="font-style: italic">
+                    {{registeredStudent.status}}
+                </span>
+                <img *ngIf="registeredStudent.proof" [src]="registeredStudent.proof">
+            </div>
         </mat-list-item>
-    </mat-list>
+    </mat-list>-->
+    <div *ngFor="let registeredStudent of registeredStudents">
+        <mat-card >
+            <mat-card-title-group>
+                <mat-card-title>{{registeredStudent.student.last_name}} {{registeredStudent.student.first_name}}</mat-card-title>
+                <mat-card-subtitle [style.color]="getPriority(registeredStudent.status)">{{registeredStudent.status}}</mat-card-subtitle>
+                <img *ngIf="registeredStudent.status == 'PRESENT' && registeredStudent.proof" [src]="registeredStudent.proof" mat-card-sm-image >
+            </mat-card-title-group>
+        </mat-card>
+    </div>
 </div>
