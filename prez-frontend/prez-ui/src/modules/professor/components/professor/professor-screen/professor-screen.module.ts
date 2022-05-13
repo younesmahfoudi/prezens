@@ -12,6 +12,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {ProfessorLogoModule} from '../professor-logo/professor-logo.module';
 import {ProfessorLessonScreenModule} from '../professor-lesson-screen/professor-lesson-screen.module';
 import {ProfessorHistoryModule} from '../professor-history/professor-history.module';
+import {ProfessorRegisterScreenModule} from "../professor-register-screen/professor-register-screen.module";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {ProfessorHistoryModule} from '../professor-history/professor-history.mod
         MatIconModule,
         MatButtonModule,
         ProfessorLessonScreenModule,
-        ProfessorHistoryModule
+        ProfessorHistoryModule,
+        ProfessorRegisterScreenModule
     ]
 })
 export class ProfessorScreenModule {
