@@ -4,6 +4,7 @@ import {RegisterDetailComponent} from "./register-detail.component";
 import {RegisterStudentListModule} from "../register-student-list/register-student-list.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {MatButtonModule} from "@angular/material/button";
         CommonModule,
         RegisterStudentListModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatCardModule
     ]
 })
 export class RegisterDetailModule { }

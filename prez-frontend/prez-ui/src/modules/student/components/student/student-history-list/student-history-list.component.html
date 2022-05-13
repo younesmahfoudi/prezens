@@ -1,22 +1,27 @@
-<div *ngFor="let registered of historyElement" style="padding: 5px">
-    <mat-card [style.background-color]="getPriority(registered.status)">
-        <mat-card-title>{{registered.status}}</mat-card-title>
-        <mat-card-subtitle>
-            <div>
-                {{registered.student.last_name}} {{registered.student.first_name}}
-            </div>
-            <div>
-                {{classroomElement.promotion}} {{classroomElement.description}}
-            </div>
-        </mat-card-subtitle>
-        <mat-card-actions>
-            <button mat-button (click)="openDialog(registered)">show details</button>
-        </mat-card-actions>
-    </mat-card>
-    <!--
-        <mat-divider style="padding: 5px"></mat-divider>
-    -->
+
+<div style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;">
+    <div *ngFor="let registered of historyElement" style="padding: 5px; width: 50vh;">
+        <mat-card>
+            <mat-card-title [style.color]="getPriority(registered.status)" style="font-style: italic">{{registered.status}}</mat-card-title>
+            <mat-card-subtitle>
+                <div>
+                    {{classroomElement.promotion}} {{classroomElement.description}}
+                </div>
+                <div>
+                    {{registered.student.last_name}} {{registered.student.first_name}}
+                </div>
+            </mat-card-subtitle>
+            <mat-card-actions>
+                <button (click)="openDialog(registered)" mat-button>show details</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>
+
 
 <!--<mat-accordion class="example-headers-align">
     <mat-expansion-panel
