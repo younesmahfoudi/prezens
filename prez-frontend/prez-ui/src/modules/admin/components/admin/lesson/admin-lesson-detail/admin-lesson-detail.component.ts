@@ -57,13 +57,16 @@ export class AdminLessonDetailComponent implements OnInit {
     public openPDF(): void {
         let DATA: any = document.getElementById('htmlData');
         html2canvas(DATA).then((canvas) => {
-            let fileWidth = 208;
-            let fileHeight = (canvas.height * fileWidth) / canvas.width;
+            /*let fileWidth = 208;
+            let fileHeight = (canvas.height * fileWidth) / canvas.width;*/
             const FILEURI = canvas.toDataURL('image/png');
             let PDF = new jsPDF('p', 'mm', 'a4');
+            var width = PDF.internal.pageSize.getWidth();
+            var height = PDF.internal.pageSize.getHeight();
             let position = 0;
-            PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-            PDF.save(this.classroomElement.promotion + '-register.pdf');
+
+            PDF.addImage(FILEURI, 'PNG', 0, position, width, height);
+            PDF.save(this.classroomElement.promotion+'-register.pdf');
         });
     }
 

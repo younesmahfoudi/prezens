@@ -25,7 +25,7 @@ export class StudentNotificationScreenComponent implements OnInit {
         this.initData();
     }
 
-    private initData(){
+    initData(){
         this.initNotificationsData(this.studentElement.uid);
     }
 

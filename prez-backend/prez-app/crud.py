@@ -195,17 +195,16 @@ def create_registered_student(db: Session,registered_student: schemas.Registered
     return db_registered_student
 
 def get_student_in_register(db: Session, student_uid: int, lesson_register_uid: int):
-    stmt = select([
-        models.RegisteredStudent.student_uid,
-        models.RegisteredStudent.lesson_register_uid]
+    stmt = select(
+        models.RegisteredStudent.uid
     ).where(and_(
         models.RegisteredStudent.lesson_register_uid == lesson_register_uid,
         models.RegisteredStudent.student_uid == student_uid))
-    return db.execute(stmt).fetchall()
+    return db.execute(stmt).first()
 
-def update_registered_student_status(db: Session,registered_student: schemas.RegisteredStudent, status: str):
+def update_registered_student_status(db: Session,registered_student_uid: int, status: str):
     db.query(models.RegisteredStudent) \
-        .filter(models.RegisteredStudent.uid == registered_student.uid) \
+        .filter(models.RegisteredStudent.uid == registered_student_uid) \
         .update({'status': status})
     db.commit()
 

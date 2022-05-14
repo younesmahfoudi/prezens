@@ -5,14 +5,12 @@
             <span>{{classroomElement.description}}</span>
         </div>
     </h2>
-    <mat-dialog-content class="mat-typography"  style="flex: 1">
-        <div>
-            <div id="htmlData" style="display:flex; flex-direction: column; flex: 1">
-                <prez-lesson-detail *ngIf="lessonElement" [lessonElement]="lessonElement" style="flex: 1"></prez-lesson-detail>
-                <div *ngIf="lessonElement?.register?.registered_students.length > 0" >
-                    <mat-divider></mat-divider>
-                    <prez-register-detail [registerElement]="lessonElement.register"></prez-register-detail>
-                </div>
+    <mat-dialog-content class="mat-typography"  style="flex: 1; width: 60vh">
+        <div id="htmlData">
+            <prez-lesson-detail *ngIf="lessonElement" [lessonElement]="lessonElement" style="flex: 1"></prez-lesson-detail>
+            <div *ngIf="lessonElement?.register?.registered_students.length > 0" >
+                <mat-divider></mat-divider>
+                <prez-register-detail [registerElement]="lessonElement.register"></prez-register-detail>
             </div>
         </div>
     </mat-dialog-content>
