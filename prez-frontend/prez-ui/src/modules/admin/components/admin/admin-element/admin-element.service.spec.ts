@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { AdminElementService } from './admin-element.service';
+import {AdminElementService} from './admin-element.service';
 
 describe('AdminElementService', () => {
   let service: AdminElementService;

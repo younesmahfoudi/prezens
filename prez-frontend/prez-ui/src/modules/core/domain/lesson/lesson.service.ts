@@ -4,6 +4,7 @@ import {Lesson, LessonPost} from "./lesson.model";
 import {HttpClient} from "@angular/common/http";
 import {LessonFilter} from "../../../admin/components/admin/lesson/admin-lesson-toolbar/lesson-filter.model";
 import {AdminLessonAdd} from "../../../admin/components/admin/lesson/admin-lesson-add/admin-lesson-add.model";
+import {RegisterComponent} from "../../../register/register.component";
 
 @Injectable({
     providedIn: 'root'
@@ -53,5 +54,10 @@ export class LessonService {
 
     public addLesson(lesson: LessonPost): Observable<Lesson>{
         return this.http.post<Lesson>(`/api/lessons/`,lesson);
+    }
+
+    public getRegisterByLessonUid(lessonUid?: number):Observable<RegisterComponent>{
+        if(!lessonUid) console.warn();
+        return this.http.get<RegisterComponent>(`/api/lesson/${lessonUid}/register`);
     }
 }

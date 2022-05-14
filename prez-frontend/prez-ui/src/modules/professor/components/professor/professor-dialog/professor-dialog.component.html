@@ -1,0 +1,20 @@
+<div *ngIf="data.lessonElement">
+
+    <mat-card *ngFor="let student of data.lessonElement.register.registered_students" style="padding: 5px">
+        <div>
+            {{student.student.first_name}}  {{student.student.last_name}}
+        </div>
+        <div>
+            <div>
+                {{student.status}}
+                <!-- {{getClassroomByUid(lesson.class_uid)}} -->
+            </div>
+        </div>
+    </mat-card>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Sign</button>
+</div>
+

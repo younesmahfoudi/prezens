@@ -5,7 +5,6 @@ import {Classroom} from "../../../../../core/domain/classroom/classroom.model";
 import {ClassroomService} from "../../../../../core/domain/classroom/classroom.service";
 import {ClassroomElementService} from "../../../../../classroom/components/classroom-element/classroom-element.service";
 import {MatDialog} from "@angular/material/dialog";
-import {AdminClassroomScheduleComponent} from "../../admin-classroom-schedule/admin-classroom-schedule.component";
 import {AdminProfessorFilter} from "./AdminProfessorFilter.model";
 import {AdminAddProfessorComponent} from "../admin-add-professor/admin-add-professor.component";
 

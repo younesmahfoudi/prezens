@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminLogoComponent } from './admin-logo.component';
+import {AdminLogoComponent} from './admin-logo.component';
 
 describe('AdminLogoComponent', () => {
   let component: AdminLogoComponent;

@@ -3,7 +3,7 @@ logs
 *.log
 
 # Ignore the venv directory
-/.venv
+/prez-app/.venv
 
 # Ignore the build directory
 /dist

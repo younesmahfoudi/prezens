@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { StudentGridComponent } from './student-grid.component';
+import {StudentGridComponent} from './student-grid.component';
 
 describe('StudentGridComponent', () => {
   let component: StudentGridComponent;

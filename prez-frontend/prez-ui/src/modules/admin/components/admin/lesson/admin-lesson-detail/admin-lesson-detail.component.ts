@@ -32,7 +32,8 @@ export class AdminLessonDetailComponent implements OnInit {
                 private classroomElementService: ClassroomElementService,
                 @Inject(MAT_DIALOG_DATA) public data: {
                     lessonUid: number
-                }) { }
+                }) {
+    }
 
     ngOnInit(): void {
         this.initData();
@@ -63,6 +64,7 @@ export class AdminLessonDetailComponent implements OnInit {
             var width = PDF.internal.pageSize.getWidth();
             var height = PDF.internal.pageSize.getHeight();
             let position = 0;
+
             PDF.addImage(FILEURI, 'PNG', 0, position, width, height);
             PDF.save(this.classroomElement.promotion+'-register.pdf');
         });
@@ -72,7 +74,7 @@ export class AdminLessonDetailComponent implements OnInit {
         this.initLessonData(this.data.lessonUid);
     }
 
-    private initLessonData(lessonUid: number){
+    private initLessonData(lessonUid: number) {
         if (!lessonUid) return;
         this.lessonService.getLesson(lessonUid).subscribe(
             lesson => {
@@ -86,7 +88,7 @@ export class AdminLessonDetailComponent implements OnInit {
         )
     }
 
-    private iniClassroomData(classroomUid: number): void{
+    private iniClassroomData(classroomUid: number): void {
         if (!classroomUid) return;
         this.classroomService.getClassroom(classroomUid).subscribe(
             classroom => {
