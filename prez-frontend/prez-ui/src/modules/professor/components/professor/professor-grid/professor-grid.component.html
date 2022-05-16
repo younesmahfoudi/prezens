@@ -20,11 +20,11 @@
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button (click)="emitProfessorElement(row)" mat-button>
+                <button (click)="emitProfessorElement(row)" style="color: #2daae1" mat-button>
                     <mat-icon>calendar_month</mat-icon>
                 </button>
-                <button (click)="openDialog(row)" mat-button>
-                    <mat-icon>delete</mat-icon>
+                <button (click)="openDialog(row)" style="color: red" mat-button>
+                    <mat-icon>person_remove</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>

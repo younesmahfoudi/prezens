@@ -1,8 +1,9 @@
 <div style="height: 100%; display: flex; flex-direction: column">
     <h2 mat-dialog-title style="flex: 1">
         <div *ngIf="classroomElement" style="flex: 1">
-            <span style="color: #2daae1">{{classroomElement.promotion}}</span>
-            <span>{{classroomElement.description}}</span>
+            <mat-icon>school</mat-icon>
+            <span style="color: #2daae1"> {{classroomElement.promotion}}</span>
+            <span>{{classroomElement.description}} lesson</span>
         </div>
     </h2>
     <mat-dialog-content class="mat-typography"  style="flex: 1; width: 60vh">
@@ -18,13 +19,13 @@
         <mat-spinner *ngIf="deleteLoading" diameter="20"></mat-spinner>
         <span *ngIf="deleteMessage" style="color: green">{{deleteMessage}}</span>
         <span *ngIf="errorMessage" style="color: red">{{errorMessage}}</span>
-        <button (click)="deleteLesson()" *ngIf="!errorMessage && !deleteMessage" mat-button>
-            delete lesson
+        <button (click)="deleteLesson()" *ngIf="!errorMessage && !deleteMessage" style="color: red" mat-button>
             <mat-icon>delete</mat-icon>
+            Delete lesson
         </button>
         <button (click)="openPDF()" *ngIf="lessonElement?.register?.registered_students.length > 0" mat-button>
-            download
             <mat-icon>file_download</mat-icon>
+            Download register
         </button>
         <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>

@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {
+    ActivatedRoute,
+    ActivatedRouteSnapshot,
+    CanActivate,
+    Router,
+    RouterStateSnapshot,
+    UrlTree
+} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from "../../../modules/core/domain/auth/auth.service";
 
@@ -8,7 +15,7 @@ import {AuthService} from "../../../modules/core/domain/auth/auth.service";
 })
 export class IsStudentSignedInGuard implements CanActivate {
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService,private _router: Router, private route: ActivatedRoute) {
     }
 
     canActivate(
@@ -16,7 +23,7 @@ export class IsStudentSignedInGuard implements CanActivate {
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const tokenData = this.authService.getTokenData()
         if (!tokenData) {
-            this.router.navigate(["/","auth"])
+            this._router.navigate(["/","auth"])
         }
         return (tokenData?.role == 'student');
     }

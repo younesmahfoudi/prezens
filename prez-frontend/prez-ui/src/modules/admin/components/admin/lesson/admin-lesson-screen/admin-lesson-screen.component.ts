@@ -6,6 +6,7 @@ import {LessonService} from "../../../../../core/domain/lesson/lesson.service";
 import {LessonElementService} from "../../../../../lesson/components/lesson-element/lesson-element.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AdminLessonDetailComponent} from "../admin-lesson-detail/admin-lesson-detail.component";
+import {AdminLessonAddComponent} from "../admin-lesson-add/admin-lesson-add.component";
 
 @Component({
     selector: 'prez-admin-lesson-screen',
@@ -62,4 +63,20 @@ export class AdminLessonScreenComponent implements OnInit, OnChanges {
             }
         )
     }
+
+    public openAddLessonDialog(args: any): void {
+        console.log("in", args.startTime, args.endTime)
+        const dialogRef = this.dialog.open(
+            AdminLessonAddComponent,{
+                data:{
+                    start_at: args.startTime,
+                    end_at: args.endTime
+                }
+            });
+        dialogRef.afterClosed().subscribe(result => {
+            this.initLessonsData(this.lessonFilter)
+            console.log(`Dialog result: ${result}`);
+        });
+    }
+
 }

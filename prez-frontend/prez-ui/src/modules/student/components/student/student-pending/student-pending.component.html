@@ -14,7 +14,7 @@
         <div style="display:flex; flex-direction: column; flex: 1">
             <div *ngIf="classroomElement" style="flex: 1">
                 <span style="color: #2daae1">{{classroomElement.promotion}}</span>
-                <span style="font-style: oblique">{{classroomElement.description}}</span>
+                <span>{{classroomElement.description}}</span>
             </div>
             <mat-divider></mat-divider>
             <prez-lesson-detail *ngIf="lessonElement" [lessonElement]="lessonElement" style="flex: 1"></prez-lesson-detail>
