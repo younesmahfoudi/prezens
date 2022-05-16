@@ -6,4 +6,5 @@ import {
 export interface LessonFilter{
     classroom?: ClassroomElement;
     professor?: ProfessorElement;
+    when?: string;
 }

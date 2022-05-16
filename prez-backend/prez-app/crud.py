@@ -78,6 +78,18 @@ def delete_professor(db: Session, professor_uid: int):
     db.query(models.Professor).filter(models.Professor.uid == professor_uid).delete()
     db.commit()
 
+def get_professor_lesson_before(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at < date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
+
+def get_professor_lesson_after(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at > date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
+
 '''
     Student crud
 '''
