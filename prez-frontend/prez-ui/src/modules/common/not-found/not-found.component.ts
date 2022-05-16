@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'prez-not-found',
@@ -9,9 +10,13 @@ export class NotFoundComponent implements OnInit {
 
     public logo: string = './assets/img/minilogo.svg';
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit(): void {
+    }
+
+    public navigate(): void{
+        this.router.navigate(["/auth"]);
     }
 
 }
