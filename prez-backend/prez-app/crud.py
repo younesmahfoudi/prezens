@@ -315,7 +315,7 @@ def get_lessons_by_classroom(db: Session, classroom_uid: int):
     return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid).all()
 
 def get_lessons_by_classroom_professor(db: Session, classroom_uid: int, professor_uid: int):
-    return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid and models.Lesson.professor_uid == professor_uid).all()
+    return db.query(models.Lesson).filter(and_(models.Lesson.class_uid == classroom_uid, models.Lesson.professor_uid == professor_uid)).all()
 
 '''
     Common crud
