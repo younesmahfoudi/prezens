@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NotFoundComponent} from "./not-found.component";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import {NotFoundComponent} from "./not-found.component";
         NotFoundComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        MatButtonModule
     ]
 })
 export class NotFoundModule { }
