@@ -25,6 +25,7 @@ export class AdminLessonAddComponent implements OnInit {
     )
     public addLoading: boolean = false;
     public addMessage?: string;
+    public errorMessage?: string;
 
     constructor(private lessonService: LessonService,
                 @Inject(MAT_DIALOG_DATA) public data: {
@@ -42,10 +43,12 @@ export class AdminLessonAddComponent implements OnInit {
             () => {
                 this.addMessage = 'Lesson successfully added'
                 this.addLoading = false;
+                this.errorMessage = undefined;
             },
             error => {
                 this.addLoading = false;
-                this.addMessage = error.error.detail;
+                this.errorMessage = error.error.detail;
+                this.addMessage = undefined;
             }
         )
     }

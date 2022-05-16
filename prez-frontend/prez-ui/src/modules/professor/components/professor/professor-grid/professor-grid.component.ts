@@ -11,6 +11,8 @@ import {
 import {ProfessorElement} from "../professor-element/professor-element.model";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatDialog} from "@angular/material/dialog";
+import {ProfessorDeleteComponent} from "../professor-delete/professor-delete.component";
 
 @Component({
     selector: 'prez-professor-grid',
@@ -21,12 +23,13 @@ export class ProfessorGridComponent implements AfterViewInit, OnChanges {
 
     @Input() professorElements: ProfessorElement[];
     @Output() professorEmitter = new EventEmitter<ProfessorElement>();
+    @Output() refreshEmitter = new EventEmitter();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public dataSource: MatTableDataSource<ProfessorElement>
     public displayedColumns: string[] = ['first_name', 'last_name', 'email', 'actions'];
 
-    constructor() {}
+    constructor(private dialog: MatDialog) {}
 
     ngAfterViewInit() {
         this.initDataSource();
@@ -41,6 +44,19 @@ export class ProfessorGridComponent implements AfterViewInit, OnChanges {
     public emitProfessorElement(professorElement: ProfessorElement){
         if (!professorElement) return;
         this.professorEmitter.emit(professorElement);
+    }
+
+    public openDialog(professorElement: ProfessorElement): void {
+        const dialogRef = this.dialog.open(ProfessorDeleteComponent, {
+            data: {
+                professorElement: professorElement
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Redirect vers register screen');
+            this.refreshEmitter.emit();
+        });
     }
 
     private initDataSource(): void{

@@ -74,6 +74,10 @@ def create_professor(db: Session, professor: schemas.ProfessorCreate):
     db.refresh(db_professor)
     return db_professor
 
+def delete_professor(db: Session, professor_uid: int):
+    db.query(models.Professor).filter(models.Professor.uid == professor_uid).delete()
+    db.commit()
+
 '''
     Student crud
 '''
@@ -84,7 +88,6 @@ def get_student(db: Session, student_uid: int):
 
 def get_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Student).offset(skip).limit(limit).all()
-
 
 def get_student_by_email(db: Session, email: str):
     return db.query(models.Student).filter(models.Student.email == email).first()
@@ -128,6 +131,10 @@ def update_student(db: Session, db_student: schemas.Student, student: schemas.St
     db.refresh(db_student)
     return db_student
 
+def delete_student(db: Session, student_uid: int):
+    db.query(models.Student).filter(models.Student.uid == student_uid).delete()
+    db.commit()
+
 
 '''    Classroom crud
 '''
@@ -154,6 +161,10 @@ def get_registered_student(db: Session, registered_student_uid: int):
 
 def delete_registeredStudents(db: Session, register_uid: int):
     db.query(models.RegisteredStudent).filter(models.RegisteredStudent.lesson_register_uid == register_uid).delete()
+    db.commit()
+
+def delete_registered_students_by_student(db: Session, student_uid: int):
+    db.query(models.RegisteredStudent).filter(models.RegisteredStudent.student_uid == student_uid).delete()
     db.commit()
 
 def get_registered_students(db: Session, skip: int = 0, limit: int = 100):

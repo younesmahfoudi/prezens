@@ -118,6 +118,22 @@ def create_professor(professor: schemas.ProfessorCreate, db: Session = Depends(g
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_professor(db=db, professor=professor)
 
+@app.delete("/professors/{professor_uid}", tags=["professors"])
+def create_professor(professor_uid: int, db: Session = Depends(get_db)):
+    db_professor = crud.get_professor(db, professor_id=professor_uid)
+    if not db_professor:
+        raise HTTPException(404, "Professor not found")
+    db_lessons = crud.get_lessons_by_professor(db, professor_uid=professor_uid)
+    for lesson in db_lessons:
+        db_lesson_register = crud.get_register_by_lesson(db, lesson_uid=lesson.uid)
+        if db_lesson_register:
+            crud.delete_registeredStudents(db, register_uid=db_lesson_register.uid)
+            crud.delete_lesson_register(db, register_uid=db_lesson_register.uid)
+        crud.delete_lesson(db,lesson_uid=lesson.uid)
+    crud.delete_professor(db, professor_uid=professor_uid)
+    raise HTTPException(status_code=200, detail="Professor deleted successfully")
+
+
 @app.get("/professors/", response_model=list[schemas.Professor], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_professors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     professors = crud.get_professors(db, skip=skip, limit=limit)
@@ -161,6 +177,16 @@ def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)
     if db_student:
         raise HTTPException(status_code=400, detail="Student id already registered")
     return crud.create_student(db=db, student=student)
+
+@app.delete("/students/{student_uid}", tags=["students"])
+def delete_student(student_uid: int, db: Session = Depends(get_db)):
+    db_student = crud.get_student(db, student_uid=student_uid)
+    if not db_student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    crud.delete_registered_students_by_student(db, student_uid=student_uid)
+    crud.delete_student(db, student_uid=student_uid)
+    raise HTTPException(200, "Student deleted successfully")
+
 
 @app.get("/students/", response_model=list[schemas.Student], tags=["students"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_students(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -392,6 +418,8 @@ def read_classroom_lessons(register_uid: int, students: list[schemas.RegisteredS
 
 @app.post("/lessons/", response_model=schemas.Lesson, tags=["lessons"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def create_lesson(lesson: schemas.LessonCreate, db: Session = Depends(get_db)):
+    if (lesson.start_at >= lesson.end_at):
+        raise HTTPException(status_code=400, detail="Dates invalids")
     db_professor = crud.get_professor(db, lesson.professor_uid)
     db_classroom = crud.get_classroom(db, lesson.class_uid)
     if (not db_classroom or not db_professor):

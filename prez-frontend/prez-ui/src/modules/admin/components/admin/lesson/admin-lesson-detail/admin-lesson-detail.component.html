@@ -15,6 +15,7 @@
         </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
+        <mat-spinner *ngIf="deleteLoading" diameter="20"></mat-spinner>
         <span *ngIf="deleteMessage" style="color: green">{{deleteMessage}}</span>
         <span *ngIf="errorMessage" style="color: red">{{errorMessage}}</span>
         <button (click)="deleteLesson()" *ngIf="!errorMessage && !deleteMessage" mat-button>

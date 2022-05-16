@@ -32,7 +32,7 @@ export class AdminProfessorScreenComponent implements OnInit {
         this.professorEmitter.emit(professorElement);
     }
 
-    private initData(): void {
+    public initData(): void {
         this.initProfessorsData();
     }
 

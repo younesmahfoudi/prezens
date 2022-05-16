@@ -22,6 +22,7 @@
         <mat-spinner></mat-spinner>
     </div>
     <prez-student-grid
+        (deleteEmitter)="openDeleteDialog($event)"
         (studentEmitter)="openStudentConfigDialog($event)"
         *ngIf="studentElements"
         [studentElements]="studentElements"
