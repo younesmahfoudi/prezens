@@ -38,7 +38,18 @@
         </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <span *ngIf="addMessage" style="color: green; padding: 2px; text-align: center;">{{addMessage}}</span>
+        <span *ngIf="addMessage" style="color: green; padding: 2px; text-align: center;">
+            <mat-icon>
+                done
+            </mat-icon>
+            {{addMessage}}
+        </span>
+        <span *ngIf="errorMessage" style="color: red; padding: 2px; text-align: center;">
+            <mat-icon>
+                warning
+            </mat-icon>
+            {{errorMessage}}
+        </span>
         <button
             (click)="addLesson(lessonForm.value)"
             *ngIf="!addLoading"

@@ -21,6 +21,7 @@ export class StudentGridComponent implements AfterViewInit, OnChanges {
 
     @Input() studentElements: StudentElement[];
     @Output() studentEmitter = new EventEmitter<StudentElement>();
+    @Output() deleteEmitter = new EventEmitter<StudentElement>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public dataSource: MatTableDataSource<StudentElement>
@@ -47,6 +48,10 @@ export class StudentGridComponent implements AfterViewInit, OnChanges {
     private initDataSource(): void{
         this.dataSource = new MatTableDataSource(this.studentElements);
         this.dataSource.paginator = this.paginator;
+    }
+
+    public emitDelete(studentElement: StudentElement){
+        this.deleteEmitter.emit(studentElement);
     }
 
 }

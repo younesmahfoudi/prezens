@@ -1,0 +1,16 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+    <h2 mat-dialog-title>
+        {{data.studentElement.last_name | uppercase}} {{data.studentElement.first_name}} will be deleted.
+    </h2>
+    <mat-dialog-actions align="end">
+        <mat-spinner *ngIf="deleteLoading" diameter="20"></mat-spinner>
+        <span *ngIf="errorMessage" style="color: red">{{errorMessage}}</span>
+        <span *ngIf="deleteMessage" style="color: green">{{deleteMessage}}</span>
+        <button (click)="deleteStudent(data.studentElement.uid)"
+                *ngIf="!deleteMessage && !errorMessage && !deleteLoading" mat-button
+                style="color: red">
+            Confirm
+        </button>
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>

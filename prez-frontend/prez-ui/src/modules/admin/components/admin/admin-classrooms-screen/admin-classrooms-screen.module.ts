@@ -8,6 +8,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AdminStudentsToolbarModule} from "../admin-students-toolbar/admin-students-toolbar.module";
 import {AdminManageStudentModule} from "../admin-manage-student/admin-manage-student.module";
+import {AdminDeleteStudentModule} from "../admin-delete-student/admin-delete-student.module";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {AdminManageStudentModule} from "../admin-manage-student/admin-manage-stu
         MatPaginatorModule,
         MatProgressSpinnerModule,
         AdminStudentsToolbarModule,
-        AdminManageStudentModule
+        AdminManageStudentModule,
+        AdminDeleteStudentModule
     ]
 })
 export class AdminClassroomsScreenModule { }

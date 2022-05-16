@@ -10,6 +10,11 @@ import {AdminStudentsFilter} from "./admin-students-filter.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AdminManageStudentComponent} from "../admin-manage-student/admin-manage-student.component";
 import {ClassroomElement} from "../../../../classroom/components/classroom-element/classroom-element.model";
+import {ProfessorElement} from "../../../../professor/components/professor/professor-element/professor-element.model";
+import {
+    ProfessorDeleteComponent
+} from "../../../../professor/components/professor/professor-delete/professor-delete.component";
+import {AdminDeleteStudentComponent} from "../admin-delete-student/admin-delete-student.component";
 
 @Component({
     selector: 'prez-admin-classrooms-screen',
@@ -59,6 +64,19 @@ export class AdminClassroomsScreenComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
             this.initStudentsData({})
             console.log(`Dialog result: ${result}`);
+        });
+    }
+
+    public openDeleteDialog(studentElement: StudentElement): void {
+        const dialogRef = this.dialog.open(AdminDeleteStudentComponent, {
+            data: {
+                studentElement: studentElement
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('Redirect vers register screen');
+            this.initData();
         });
     }
 

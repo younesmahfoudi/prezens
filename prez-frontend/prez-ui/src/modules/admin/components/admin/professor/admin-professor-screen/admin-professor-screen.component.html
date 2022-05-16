@@ -3,6 +3,7 @@
     <prez-admin-professor-toolbar></prez-admin-professor-toolbar>
     <prez-professor-grid
         (professorEmitter)="emitProfessor($event)"
+        (refreshEmitter)="initData()"
         *ngIf="professorElements"
         [professorElements]="professorElements"></prez-professor-grid>
 </div>

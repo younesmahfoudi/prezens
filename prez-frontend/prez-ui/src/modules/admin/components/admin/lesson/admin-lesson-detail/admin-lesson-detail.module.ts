@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
 import {LessonDetailModule} from "../../../../../lesson/components/lesson-detail/lesson-detail.module";
 import {RegisterDetailModule} from "../../../../../register/components/register-detail/register-detail.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {RegisterDetailModule} from "../../../../../register/components/register-
         MatIconModule,
         MatDividerModule,
         LessonDetailModule,
-        RegisterDetailModule
+        RegisterDetailModule,
+        MatProgressSpinnerModule
     ]
 })
 export class AdminLessonDetailModule { }

@@ -28,4 +28,8 @@ export class StudentService {
     public signupStudent(studentCreate: StudentCreate): Observable<any>{
         return this.http.post<any>(`/api/students/signup`, studentCreate);
     }
+
+    public deleteStudent(studentUid: number): Observable<any>{
+        return this.http.delete<any>(`/api/students/${studentUid}`)
+    }
 }

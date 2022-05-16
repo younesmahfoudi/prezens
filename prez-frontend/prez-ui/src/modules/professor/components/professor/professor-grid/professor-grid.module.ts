@@ -5,6 +5,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {ProfessorDeleteModule} from "../professor-delete/professor-delete.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatTableModule,
         MatButtonModule,
         MatIconModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        ProfessorDeleteModule
     ]
 })
 export class ProfessorGridModule { }
