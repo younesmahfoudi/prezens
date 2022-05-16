@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {Register, RegisteredStudent, RegisteredStudentUpdate} from "./register.model";
 import {HttpClient} from "@angular/common/http";
+import {RegisterComponent} from "../../../register/register.component";
 
 @Injectable({
     providedIn: 'root'
