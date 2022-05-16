@@ -11,6 +11,7 @@ import {
     MagnificationService, NavigationService, PdfViewerModule, PrintService, TextSearchService, TextSelectionService,
     ThumbnailViewService, ToolbarService
 } from "@syncfusion/ej2-angular-pdfviewer";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {
         MatCardModule,
         MatButtonModule,
         AdminNotificationsDetailModule,
-        PdfViewerModule
+        PdfViewerModule,
+        MatIconModule
     ],
     providers: [LinkAnnotationService, BookmarkViewService, MagnificationService,
         ThumbnailViewService, ToolbarService, NavigationService, AnnotationService, TextSearchService, TextSelectionService, PrintService]

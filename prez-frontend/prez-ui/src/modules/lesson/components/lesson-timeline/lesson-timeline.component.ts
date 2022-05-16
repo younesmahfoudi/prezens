@@ -56,6 +56,7 @@ export class LessonTimelineComponent implements OnInit, OnChanges {
     public addLesson(args: SelectEventArgs): void {
         if (!this.readOnly && args.name == 'cellDoubleClick'){
             console.log("in add event: ", args)
+            this.addLessonEmitter.emit(args);
         }
     }
 

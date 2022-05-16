@@ -1,22 +1,54 @@
 
 <div style="
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;">
-    <div *ngFor="let registered of historyElement" style="padding: 5px; width: 50vh;">
+        display: flex;
+        flex-direction: column;">
+    <div *ngFor="let registered of historyElement" style="padding: 5px">
         <mat-card>
-            <mat-card-title [style.color]="getPriority(registered.status)" style="font-style: italic">{{registered.status}}</mat-card-title>
+            <mat-card-title>
+                <div *ngIf="registered.status == 'PRESENT'">
+                    <span>You have been noted: </span>
+                    <span [style.color]="getPriority(registered.status)">
+                        {{registered.status}}
+                    </span>
+                </div>
+                <div *ngIf="registered.status == 'ABSENT'">
+                    <span>You have been </span>
+                    <span [style.color]="getPriority(registered.status)">
+                            {{registered.status}}
+                        </span>
+                </div>
+                <div *ngIf="registered.status == 'PENDING'">
+                    <span>Your request for evidence is </span>
+                    <span [style.color]="getPriority(registered.status)">
+                            {{registered.status}}
+                        </span>
+                </div>
+                <div *ngIf="registered.status == 'DENIED'">
+                    <span>Your request for justification has been  </span>
+                    <span [style.color]="getPriority(registered.status)">
+                        {{registered.status}}
+                        </span>
+                </div>
+                <div *ngIf="registered.status == 'JUSTIFIED'">
+                    <span>Your absence is  </span>
+                    <span [style.color]="getPriority(registered.status)">
+                        {{registered.status}}
+                    </span>
+                </div>
+            </mat-card-title>
             <mat-card-subtitle>
                 <div>
-                    {{classroomElement.promotion}} {{classroomElement.description}}
+                    Classroom: {{classroomElement.promotion}} {{classroomElement.description}}
                 </div>
                 <div>
-                    {{registered.student.last_name}} {{registered.student.first_name}}
+                    Student: {{registered.student.last_name}} {{registered.student.first_name}}
                 </div>
             </mat-card-subtitle>
             <mat-card-actions>
-                <button (click)="openDialog(registered)" mat-button>show details</button>
+                <button (click)="openDialog(registered)" mat-button>
+                    <mat-icon>info</mat-icon>
+                    show details
+                </button>
             </mat-card-actions>
         </mat-card>
     </div>

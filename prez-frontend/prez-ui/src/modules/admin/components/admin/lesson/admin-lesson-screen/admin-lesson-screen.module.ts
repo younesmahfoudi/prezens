@@ -4,6 +4,7 @@ import {AdminLessonScreenComponent} from "./admin-lesson-screen.component";
 import {AdminLessonToolbarModule} from "../admin-lesson-toolbar/admin-lesson-toolbar.module";
 import {LessonTimelineModule} from "../../../../../lesson/components/lesson-timeline/lesson-timeline.module";
 import {AdminLessonDetailModule} from "../admin-lesson-detail/admin-lesson-detail.module";
+import {AdminLessonAddModule} from "../admin-lesson-add/admin-lesson-add.module";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {AdminLessonDetailModule} from "../admin-lesson-detail/admin-lesson-detai
         CommonModule,
         AdminLessonToolbarModule,
         LessonTimelineModule,
-        AdminLessonDetailModule
+        AdminLessonDetailModule,
+        AdminLessonAddModule
     ]
 })
 export class AdminLessonScreenModule { }
