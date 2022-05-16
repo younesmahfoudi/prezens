@@ -136,6 +136,19 @@ def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
     lessons = crud.get_lessons_by_professor(db, professor_uid=professor_uid)
     return lessons
 
+@app.get("/professors/{professor_uid}/lessons/{when}", response_model=list[schemas.Lesson], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
+def read_professor_lessons_by_date(professor_uid: int, when: str, db: Session= Depends(get_db)):
+    professor = crud.get_professor(db, professor_id=professor_uid)
+    current_date = datetime.now()
+    if not professor:
+        raise HTTPException(status_code=404, detail="Professor not found")
+    if not when:
+        return crud.get_lessons_by_professor(db, professor_uid)
+    if when == 'before':
+        return crud.get_professor_lesson_before(db, current_date, professor_uid)
+    if when == 'after':
+        return crud.get_professor_lesson_after(db, current_date, professor_uid)
+
 @app.post("/professors/signup", response_model=auth_handler.Token, tags=["professors"])
 async def create_user(professor: schemas.ProfessorCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=professor.email)

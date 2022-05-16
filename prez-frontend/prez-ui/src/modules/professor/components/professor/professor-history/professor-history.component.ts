@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClassroomService} from 'src/modules/core/domain/classroom/classroom.service';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
 import {LessonService} from 'src/modules/core/domain/lesson/lesson.service';
@@ -31,7 +31,6 @@ export class ProfessorHistoryComponent implements OnInit {
     // @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
     private lessonData?: Lesson[];
-    @Output() lessonEmitter = new EventEmitter<LessonElement>();
     private registerElement?: RegisterElement;
 
 
@@ -46,7 +45,7 @@ export class ProfessorHistoryComponent implements OnInit {
 
     private initLessonData(professorUid?: number): void {
         if (!professorUid) return;
-        this.lessonService.getLessonsByProfessor(professorUid).subscribe(
+        this.lessonService.getLessonsByDate(professorUid,"before").subscribe(
             lessons => {
                 this.lessonData = lessons;
                 this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
@@ -59,8 +58,6 @@ export class ProfessorHistoryComponent implements OnInit {
 
     openDialog(lesson: LessonElement): void {
         const dialogRef = this.dialog.open(ProfessorDialogComponent, {
-            width: '500px',
-            height: '800px',
             data: {
                 lessonElement: lesson
             }
@@ -68,22 +65,9 @@ export class ProfessorHistoryComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('Redirect vers register screen');
-            this.emitLesson(lesson)
+            this.initData()
         });
     }
 
 
-    public emitLesson(lessonEmiter: LessonElement): void {
-        this.lessonEmitter.emit(lessonEmiter);
-    }
-
-
-    /*private getClassroomByUid(classroomUid: number): void {
-        this.classroomService.getClassroom(classroomUid).subscribe(
-            classroom => {
-                this.lessonData = classroom;
-            }
-        )
-
-  }*/
 }

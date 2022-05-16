@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 
 from sqlalchemy import select, and_, or_
@@ -73,6 +74,18 @@ def create_professor(db: Session, professor: schemas.ProfessorCreate):
     db.commit()
     db.refresh(db_professor)
     return db_professor
+
+def get_professor_lesson_before(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at < date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
+
+def get_professor_lesson_after(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at > date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
 
 '''
     Student crud
@@ -245,6 +258,7 @@ def get_register_by_lesson(db: Session, lesson_uid: int):
 def get_lesson_registers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.LessonRegister).offset(skip).limit(limit).all()
 
+
 def create_lesson_register(db: Session, lesson_register: schemas.LessonRegisterCreate):
     db_lesson_register = models.LessonRegister(
         lesson_uid=lesson_register.lesson_uid,
@@ -316,6 +330,7 @@ def get_lessons_by_classroom(db: Session, classroom_uid: int):
 
 def get_lessons_by_classroom_professor(db: Session, classroom_uid: int, professor_uid: int):
     return db.query(models.Lesson).filter(models.Lesson.class_uid == classroom_uid and models.Lesson.professor_uid == professor_uid).all()
+
 
 '''
     Common crud
