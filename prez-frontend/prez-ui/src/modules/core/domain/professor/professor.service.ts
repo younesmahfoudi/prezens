@@ -24,4 +24,8 @@ export class ProfessorService {
     public signupProfessor(professorCreate: ProfessorCreate): Observable<any> {
         return this.http.post<any>(`/api/professors/signup`, professorCreate);
     }
+
+    public deleteProfessor(professorUid: number): Observable<any>{
+        return this.http.delete<any>(`/api/professors/${professorUid}`);
+    }
 }

@@ -1,0 +1,27 @@
+<div class="content">
+    <h1>Please sign the register</h1>
+    <mat-spinner *ngIf="registerLoading"></mat-spinner>
+    <div *ngIf="!registerLoading">
+        <div style="border: solid; border-width: thin">
+            <signature-pad (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" [options]="signaturePadOptions"></signature-pad>
+        </div>
+
+        <div class="buttons">
+            <button (click)="clearSignature()" mat-button>Clear signature</button>
+            <button (click)="submit()" *ngIf="signed" mat-button style="color: green">Sign</button>
+        </div>
+
+        <h1 *ngIf="successMessage" style="color: green">
+            <mat-icon>
+                done
+            </mat-icon>
+            {{successMessage}}
+        </h1>
+        <h1 *ngIf="errorMessage" style="color: red">
+            <mat-icon>
+                error
+            </mat-icon>
+            {{errorMessage}}
+        </h1>
+    </div>
+</div>

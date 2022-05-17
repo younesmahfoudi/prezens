@@ -14,14 +14,18 @@
                     <span style="color: #b71c1c">Unsigned</span>
                 </ng-template>
             </div>
-            <button mat-button *ngIf="lesson.register.registered_students.length == 0" color="primary" (click)="generateRegister(lesson)" class="create">
+
+            <button mat-button *ngIf="(lesson.register.registered_students.length == 0 &&  compareDate(lesson.start_at)); else elseBlock2" color="primary"
+                    (click)="generateRegister(lesson)" class="create">
                 <mat-icon style="margin-right: 2px">schedule</mat-icon>
                 generate register
             </button>
-            <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
-                <mat-icon style="margin-right: 2px">schedule</mat-icon>
-                Details
-            </button>
+            <ng-template #elseBlock2>
+                <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
+                    <mat-icon style="margin-right: 2px">schedule</mat-icon>
+                    Details
+                </button>
+            </ng-template>
         </mat-card-subtitle>
         <!-- <mat-card-actions>
             <button mat-button (click)="openDialog(registered)">show details</button>

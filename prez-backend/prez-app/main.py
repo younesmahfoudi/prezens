@@ -152,7 +152,7 @@ def read_professor_lessons(professor_uid: int, db: Session = Depends(get_db)):
     lessons = crud.get_lessons_by_professor(db, professor_uid=professor_uid)
     return lessons
 
-@app.get("/professors/{professor_uid}/lessons/{when}", response_model=list[schemas.Lesson], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
+@app.get("/professors/{professor_uid}/lessons/", response_model=list[schemas.Lesson], tags=["professors"], dependencies=[Depends(auth_bearer.JWTBearer())])
 def read_professor_lessons_by_date(professor_uid: int, when: str, db: Session= Depends(get_db)):
     professor = crud.get_professor(db, professor_id=professor_uid)
     current_date = datetime.now()
