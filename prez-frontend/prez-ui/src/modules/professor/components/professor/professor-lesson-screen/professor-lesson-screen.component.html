@@ -2,6 +2,11 @@
     (filterEmitter)="applyFilter($event)"
     [lessonFilter]="lessonFilter"></prez-professor-filter-toolbar>
 <div style="display: flex; flex-direction: column">
-    <prez-lesson-timeline *ngIf="lessonElements" [lessonElements]="lessonElements"
-                          style="flex: 1; display: flex; flex-direction: column"></prez-lesson-timeline>
+    <prez-lesson-timeline
+        *ngIf="lessonElements"
+        [lessonElements]="lessonElements"
+        [readOnly]="false"
+        (openLessonEmitter)="openLessonDetailDialog($event)"
+        style="flex: 1; display: flex; flex-direction: column"
+    ></prez-lesson-timeline>
 </div>

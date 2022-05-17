@@ -19,8 +19,8 @@
     ></prez-lesson-detail>
 
     <prez-register-detail
+        *ngIf="data.lessonElement.register"
         [registerElement]="data.lessonElement.register"
-
     ></prez-register-detail>
 
     <prez-professor-register-sign
