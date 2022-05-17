@@ -1,0 +1,41 @@
+<h2 mat-dialog-title *ngIf="compareDate(data.lessonElement.start_at)">Full fill register</h2>
+<h2 mat-dialog-title *ngIf="!compareDate(data.lessonElement.start_at)">Lesson not yet started</h2>
+<mat-dialog-content>
+    <prez-lesson-detail
+        [lessonElement]="data.lessonElement"
+    ></prez-lesson-detail>
+
+    <div *ngIf="!registerElement && compareDate(data.lessonElement.start_at)">
+        <mat-card *ngFor="let registeredStudent of data.lessonElement.register.registered_students">
+            <mat-card-title-group>
+                <mat-card-title>{{registeredStudent.student.last_name}} {{registeredStudent.student.first_name}}</mat-card-title>
+                <button mat-button class="right" (click)="changesStudentStatus(registeredStudent)">
+                    <span [style.color]="getStatusColor(registeredStudent.status)">{{registeredStudent.status}}</span>
+                </button>
+                <!--<mat-card-subtitle [style.color]="getStatusColor(registeredStudent.status)">{{registeredStudent.status}}</mat-card-subtitle>-->
+                <img *ngIf="registeredStudent.status == 'PRESENT' && registeredStudent.proof"
+                     [src]="registeredStudent.proof" mat-card-sm-image>
+            </mat-card-title-group>
+
+        </mat-card>
+    </div>
+    <prez-register-detail
+        *ngIf="registerElement"
+        [registerElement]="registerElement"
+    ></prez-register-detail>
+    <prez-professor-register-sign
+        *ngIf="registerElement && !registerElement.signature"
+        [lesson]="data.lessonElement"
+    ></prez-professor-register-sign>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <span *ngIf="errorMessage && !submitLoading">{{errorMessage}}</span>
+    <span *ngIf="submitMessage && !submitLoading">{{submitMessage}}</span>
+    <button style="color: forestgreen" mat-button *ngIf="!registerElement && !submitLoading && compareDate(data.lessonElement.start_at)"
+            (click)="updateRegisteredStudentList(data.lessonElement.register.registered_students)">
+        <mat-icon>done</mat-icon>
+        Submit
+    </button>
+    <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
+

@@ -1,8 +1,8 @@
+import datetime
 import hashlib
 
-from sqlalchemy import select, and_, or_
+from sqlalchemy import select, and_, or_, desc
 from sqlalchemy.orm import Session
-
 from . import models, schemas
 
 
@@ -78,6 +78,18 @@ def delete_professor(db: Session, professor_uid: int):
     db.query(models.Professor).filter(models.Professor.uid == professor_uid).delete()
     db.commit()
 
+def get_professor_lesson_before(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at < date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
+
+def get_professor_lesson_after(db: Session, date: datetime, professor_uid: int, limit: int = 100):
+    return db.query(models.Lesson).filter(and_(
+        models.Lesson.end_at > date,
+        models.Lesson.professor_uid == professor_uid)
+    ).limit(limit).all()
+
 '''
     Student crud
 '''
@@ -88,6 +100,7 @@ def get_student(db: Session, student_uid: int):
 
 def get_students(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Student).offset(skip).limit(limit).all()
+
 
 def get_student_by_email(db: Session, email: str):
     return db.query(models.Student).filter(models.Student.email == email).first()

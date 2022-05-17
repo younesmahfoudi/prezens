@@ -45,7 +45,12 @@ export class LessonService {
         if (lessonFilter.classroom && lessonFilter.professor) return this.getClassroomProfessorLessons(lessonFilter.classroom.uid, lessonFilter.professor.uid);
         if (lessonFilter.classroom) return this.getClassroomLessons(lessonFilter.classroom.uid);
         if (lessonFilter.professor) return this.getLessonsByProfessor(lessonFilter.professor.uid);
+        //if (lessonFilter.when) return this.getLessonsByDate(lessonFilter.professor.uid ,lessonFilter.when);
         return this.getLessons();
+    }
+
+    public getLessonsByDate(professorUid: number, when: string): Observable<Lesson[]>{
+        return this.http.get<Lesson[]>(`/api/professors/${professorUid}/lessons/?when=${when}`)
     }
 
     public deleteLesson(lessonUid: number): Observable<any>{

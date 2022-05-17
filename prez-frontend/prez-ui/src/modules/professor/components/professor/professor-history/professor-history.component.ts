@@ -31,9 +31,7 @@ export class ProfessorHistoryComponent implements OnInit {
     // @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
     private lessonData?: Lesson[];
-    @Output() lessonEmitter = new EventEmitter<LessonElement>();
     private registerElement?: RegisterElement;
-
 
     ngOnInit(): void {
         this.initData();
@@ -59,8 +57,6 @@ export class ProfessorHistoryComponent implements OnInit {
 
     openDialog(lesson: LessonElement): void {
         const dialogRef = this.dialog.open(ProfessorDialogComponent, {
-            width: '500px',
-            height: '800px',
             data: {
                 lessonElement: lesson
             }
@@ -68,22 +64,10 @@ export class ProfessorHistoryComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('Redirect vers register screen');
-            this.emitLesson(lesson)
+            this.initData()
         });
     }
 
 
-    public emitLesson(lessonEmiter: LessonElement): void {
-        this.lessonEmitter.emit(lessonEmiter);
-    }
-
-
-    /*private getClassroomByUid(classroomUid: number): void {
-        this.classroomService.getClassroom(classroomUid).subscribe(
-            classroom => {
-                this.lessonData = classroom;
-            }
-        )
-
-  }*/
+  }
 }
