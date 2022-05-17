@@ -18,6 +18,14 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
+    @Input() professorElement?: ProfessorElement;
+    @Input() classroomElement?: ClassroomElement;
+    @Input() lessonFilter: LessonFilter;
+    public lessonElements?: LessonElement[];
+    public currentDate?: Date;
+    private lessonData?: Lesson[];
+    private classroomData?: Classroom;
+
     constructor(
         private lessonService: LessonService,
         private lessonElementService: LessonElementService,
@@ -27,14 +35,6 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
     ) {
     }
 
-
-    @Input() professorElement?: ProfessorElement;
-    @Input() classroomElement?: ClassroomElement;
-    @Input() lessonFilter: LessonFilter;
-    public lessonElements?: LessonElement[];
-    private lessonData?: Lesson[];
-    private classroomData?: Classroom;
-
     ngOnInit(): void {
         this.initData();
     }
@@ -43,25 +43,6 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
         if (changes["lessonFilter"] && !changes["lessonFilter"].isFirstChange()){
             this.initData();
         }
-    }
-
-
-    private initData(): void {
-        this.initLessonData(this.lessonFilter);
-        this.currentDate = new Date()
-    }
-
-    private initLessonData(lessonFilter: LessonFilter): void {
-        if (!lessonFilter) return;
-        this.lessonService.getLessonFiltered(lessonFilter).subscribe(
-            lessons => {
-                this.lessonData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
     }
 
     public applyFilter(lessonFilter: LessonFilter): void {
@@ -82,7 +63,6 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
             }
         )
     }
-
 
     openDialog(lessonElement: LessonElement) {
         debugger
@@ -115,5 +95,23 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
     public compareDate(lessonDate: Date): boolean{
         return (this.currentDate > new Date(lessonDate))
+    }
+
+    private initData(): void {
+        this.initLessonData(this.lessonFilter);
+        this.currentDate = new Date()
+    }
+
+    private initLessonData(lessonFilter: LessonFilter): void {
+        if (!lessonFilter) return;
+        this.lessonService.getLessonFiltered(lessonFilter).subscribe(
+            lessons => {
+                this.lessonData = lessons;
+                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+            },
+            error => {
+                console.warn(error);
+            }
+        )
     }
 }
