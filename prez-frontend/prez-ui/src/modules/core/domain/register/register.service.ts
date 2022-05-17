@@ -40,6 +40,10 @@ export class RegisterService {
     }
 
     public initClassroomRegister(classroomUid: number, registerUid: number): Observable<Register>{
-        return this.http.get<Register>(`/api/classroom/${classroomUid}/register/${registerUid}/init`)
+        return this.http.get<Register>(`/api/classrooms/${classroomUid}/register/${registerUid}/init`)
+    }
+
+    public updateRegisteredStudentsList(registeredStudentList: RegisteredStudent[], register_uid: number): Observable<any>{
+        return this.http.put<any>(`/api/register/${register_uid}/update`, registeredStudentList);
     }
 }
