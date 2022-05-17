@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RegisterStudentListComponent} from "./register-student-list.component";
 import {MatListModule} from "@angular/material/list";
 import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MatCardModule} from "@angular/material/card";
     imports: [
         CommonModule,
         MatListModule,
-        MatCardModule
+        MatCardModule,
+        MatButtonModule,
     ]
 })
 export class RegisterStudentListModule { }

@@ -50,7 +50,7 @@ export class LessonService {
     }
 
     public getLessonsByDate(professorUid: number, when: string): Observable<Lesson[]>{
-        return this.http.get<Lesson[]>(`/api/professors/${professorUid}/lessons/${when}`)
+        return this.http.get<Lesson[]>(`/api/professors/${professorUid}/lessons/?when=${when}`)
     }
 
     public deleteLesson(lessonUid: number): Observable<any>{

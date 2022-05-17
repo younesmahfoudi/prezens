@@ -4,6 +4,9 @@ import {ProfessorRegisterScreenComponent} from "./professor-register-screen.comp
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {RegisterDetailModule} from "../../../../register/components/register-detail/register-detail.module";
+import {ProfessorRegisterSignModule} from "../professor-register-sign/professor-register-sign.module";
+import {LessonDetailModule} from "../../../../lesson/components/lesson-detail/lesson-detail.module";
 
 
 @NgModule({

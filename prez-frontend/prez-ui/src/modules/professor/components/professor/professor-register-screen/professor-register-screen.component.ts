@@ -9,6 +9,9 @@ import {LessonElementService} from "../../../../lesson/components/lesson-element
 import {ClassroomService} from "../../../../core/domain/classroom/classroom.service";
 import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ProfessorRegisterDialogModule} from "../professor-register-dialog/professor-register-dialog.module";
+import {ProfessorRegisterDialogComponent} from "../professor-register-dialog/professor-register-dialog.component";
+import {RegisteredStudent} from "../../../../core/domain/register/register.model";
 
 @Component({
     selector: 'prez-professor-register-screen',
@@ -31,11 +34,17 @@ export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
     // @Input() classroomElement?: ClassroomElement;
     public lessonElements?: LessonElement[];
     private lessonData?: Lesson[];
+    private updateRegisteredStudents: RegisteredStudent[]
     private registerElement?: RegisterElement;
+    public submitLoading: boolean = false;
+    public submitDone: boolean = false;
+    public hideSubmit: boolean = true;
+    public currentDate: Date;
 
 
     ngOnInit(): void {
         this.initData();
+        this.currentDate = new Date()
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -45,6 +54,12 @@ export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
 
     private initData(): void {
         this.initLessonData(this.professorElement?.uid);
+        this.currentDate = new Date()
+        console.log(this.currentDate)
+    }
+
+    public compareDate(lessonDate: Date): boolean{
+        return (this.currentDate > new Date(lessonDate))
     }
 
     private initLessonData(professorUid?: number): void {
@@ -60,24 +75,25 @@ export class ProfessorRegisterScreenComponent implements OnInit, OnChanges {
         )
     }
 
-    generateRegister(lesson: LessonElement): void {
-        debugger
-        console.log(lesson)
-        this.registerService.initClassroomRegister(lesson.class_uid, lesson.register.uid)
-        console.log(lesson)
-        this.registerElement = lesson.register
-        console.log(this.registerElement)
+    public generateRegister(lesson: LessonElement): void {
+        this.registerService.initClassroomRegister(lesson.class_uid, lesson.register.uid).subscribe(
+            () => {
+                this.openDialog(lesson)
+            },
+            error => {
+                console.warn(error)
+            }
+        )
     }
 
     openDialog(lesson: LessonElement): void {
-        const dialogRef = this.dialog.open(ProfessorDialogComponent, {
+        const dialogRef = this.dialog.open(ProfessorRegisterDialogComponent, {
             data: {
-                lessonElement: lesson
+                lessonElement: lesson,
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('Redirect vers register screen');
             this.initData()
         });
     }

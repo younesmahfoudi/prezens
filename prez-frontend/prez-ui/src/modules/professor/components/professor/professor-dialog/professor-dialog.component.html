@@ -19,6 +19,7 @@
     ></prez-lesson-detail>
 
     <prez-register-detail
+        *ngIf="data.lessonElement.register"
         [registerElement]="data.lessonElement.register"
     ></prez-register-detail>
 
@@ -29,6 +30,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-button [mat-dialog-close]="data.lessonElement" cdkFocusInitial>Sign</button>
 </mat-dialog-actions>
 

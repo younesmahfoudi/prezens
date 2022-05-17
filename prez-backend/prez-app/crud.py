@@ -1,8 +1,7 @@
 import hashlib
 
-from sqlalchemy import select, and_, or_
+from sqlalchemy import select, and_, or_, desc
 from sqlalchemy.orm import Session
-
 from . import models, schemas
 
 
