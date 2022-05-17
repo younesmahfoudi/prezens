@@ -25,7 +25,7 @@ export class RegisterStudentListComponent implements OnInit {
                 return "red";
             }
             case Status.Pending: {
-                return "orange";
+                return "yellow";
             }
             case Status.Justified: {
                 return "blue";
