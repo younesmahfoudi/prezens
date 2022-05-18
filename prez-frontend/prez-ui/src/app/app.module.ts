@@ -17,6 +17,7 @@ import {NotFoundModule} from "../modules/common/not-found/not-found.module";
 import {
     ProfessorRegisterCodeModule
 } from "../modules/professor/components/professor/professor-register-code/professor-register-code.module";
+import {SignupAdminModule} from "../modules/auth/components/signup-admin/signup-admin.module";
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {
         ProfessorModule,
         StudentRegisterModule,
         NotFoundModule,
-        ProfessorRegisterCodeModule
+        ProfessorRegisterCodeModule,
+        SignupAdminModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

@@ -17,6 +17,7 @@ import {NotFoundComponent} from "../modules/common/not-found/not-found.component
 import {
     ProfessorRegisterCodeComponent
 } from "../modules/professor/components/professor/professor-register-code/professor-register-code.component";
+import {SignupAdminComponent} from "../modules/auth/components/signup-admin/signup-admin.component";
 
 
 const routes: Routes = [
@@ -62,6 +63,10 @@ const routes: Routes = [
     {
         path:'error',
         component:NotFoundComponent
+    },
+    {
+        path:'adminsignup',
+        component:SignupAdminComponent
     },
     {
         path: '',
