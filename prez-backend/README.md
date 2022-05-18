@@ -1,3 +1,5 @@
+![Logo](https://www.zupimages.net/up/22/20/o878.png)
+
 # Prezens backend
 
 
@@ -67,7 +69,7 @@ Start the server
   http://localhost:8081/
 ```
 
-#### FastApi 
+#### FastApi
 
 ```http
   http://localhost:8100/docs/
