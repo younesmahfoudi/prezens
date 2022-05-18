@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClassroomService} from 'src/modules/core/domain/classroom/classroom.service';
 import {Lesson} from 'src/modules/core/domain/lesson/lesson.model';
 import {LessonService} from 'src/modules/core/domain/lesson/lesson.service';
@@ -17,6 +17,12 @@ import {RegisterElement} from "../../../../register/components/register-element/
 })
 export class ProfessorHistoryComponent implements OnInit {
 
+    @Input() professorElement?: ProfessorElement;
+    // @Input() classroomElement?: ClassroomElement;
+    public lessonElements: LessonElement[];
+    private lessonData?: Lesson[];
+    private registerElement?: RegisterElement;
+
     constructor(
         private lessonService: LessonService,
         private lessonElementService: LessonElementService,
@@ -26,33 +32,8 @@ export class ProfessorHistoryComponent implements OnInit {
     ) {
     }
 
-
-    @Input() professorElement?: ProfessorElement;
-    // @Input() classroomElement?: ClassroomElement;
-    public lessonElements?: LessonElement[];
-    private lessonData?: Lesson[];
-    private registerElement?: RegisterElement;
-
     ngOnInit(): void {
         this.initData();
-    }
-
-
-    private initData(): void {
-        this.initLessonData(this.professorElement?.uid);
-    }
-
-    private initLessonData(professorUid?: number): void {
-        if (!professorUid) return;
-        this.lessonService.getLessonsByProfessor(professorUid).subscribe(
-            lessons => {
-                this.lessonData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
     }
 
     openDialog(lesson: LessonElement): void {
@@ -68,6 +49,20 @@ export class ProfessorHistoryComponent implements OnInit {
         });
     }
 
+    private initData(): void {
+        this.initLessonData(this.professorElement?.uid);
+    }
 
-  }
+    private initLessonData(professorUid?: number): void {
+        if (!professorUid) return;
+        this.lessonService.getLessonsByDate(professorUid,"before").subscribe(
+            lessons => {
+                this.lessonData = lessons;
+                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+            },
+            error => {
+                console.warn(error);
+            }
+        )
+    }
 }

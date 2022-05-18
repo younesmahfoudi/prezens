@@ -1,12 +1,12 @@
 <div *ngFor="let registeredStudent of registeredStudentElements" style="padding: 5px">
     <mat-card>
-        <mat-card-title>{{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}</mat-card-title>
-        <mat-card-subtitle>Justification request: <span style="color: yellow">{{registeredStudent.status}}</span></mat-card-subtitle>
-        <mat-card-content>
-
-        </mat-card-content>
+        <mat-card-title>Student: {{registeredStudent.student.first_name}} {{registeredStudent.student.last_name}}</mat-card-title>
+        <mat-card-subtitle>Justification request status: <span style="color: orange">{{registeredStudent.status}}</span></mat-card-subtitle>
         <mat-card-actions>
-            <button (click)="openLessonDetailDialog(registeredStudent)" mat-button>Show detail</button>
+            <button (click)="openLessonDetailDialog(registeredStudent)" mat-button>
+                <mat-icon>info</mat-icon>
+                Show detail
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

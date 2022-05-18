@@ -2,7 +2,7 @@
     (refreshEmitter)="initData()"
     *ngIf="registeredStudentElements"
     [registeredStudentElements]="registeredStudentElements"></prez-admin-notifications-list>
-<div *ngIf="registeredStudentElements?.length < 0" style="color: gray;
+<div *ngIf="registeredStudentElements?.length <= 0" style="color: gray;
     display: flex;
     flex-direction: column;
     align-items: center;

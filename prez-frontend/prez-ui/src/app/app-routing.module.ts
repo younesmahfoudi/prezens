@@ -8,11 +8,16 @@ import {IsStudentSignedInGuard} from "./guards/student/is-student-signed-in.guar
 import {StudentComponent} from "../modules/student/student.component";
 import {AdminComponent} from "../modules/admin/admin.component";
 
-import { ProfessorComponent } from '../modules/professor/professor.component';
+import {ProfessorComponent} from '../modules/professor/professor.component';
 import {
     StudentRegisterComponent
 } from "../modules/student/components/student/student-register/student-register.component";
 import {StudentRegisterGuard} from "./guards/student/student-register.guard";
+import {NotFoundComponent} from "../modules/common/not-found/not-found.component";
+import {
+    ProfessorRegisterCodeComponent
+} from "../modules/professor/components/professor/professor-register-code/professor-register-code.component";
+import {SignupAdminComponent} from "../modules/auth/components/signup-admin/signup-admin.component";
 
 
 const routes: Routes = [
@@ -52,9 +57,25 @@ const routes: Routes = [
         ]
     },
     {
+        path:'registercode/:idR',
+        component:ProfessorRegisterCodeComponent
+    },
+    {
+        path:'error',
+        component:NotFoundComponent
+    },
+    {
+        path:'adminsignup',
+        component:SignupAdminComponent
+    },
+    {
         path: '',
         redirectTo: '/auth',
         pathMatch: 'full'
+    },
+    {
+        path: '**',
+        redirectTo: '/auth'
     }
 ];
 

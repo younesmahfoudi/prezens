@@ -11,10 +11,8 @@
         [professorElements]="professorElements"
         [professorSelected]="lessonFilter.professor"></prez-professor-select>
     <span class="spacer"></span>
-    <span>
-        <button (click)="openLessonAddDialog()" mat-button>
-            add lesson
-            <mat-icon>add</mat-icon>
-        </button>
-    </span>
+    <button (click)="openLessonAddDialog()" style="color: #2daae1" mat-button>
+        <mat-icon>add</mat-icon>
+        Add lesson
+    </button>
 </mat-toolbar>

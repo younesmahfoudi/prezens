@@ -10,6 +10,10 @@ import {LessonFilter} from "../../../../admin/components/admin/lesson/admin-less
 import {ClassroomService} from "../../../../core/domain/classroom/classroom.service";
 import {ClassroomElementService} from "../../../../classroom/components/classroom-element/classroom-element.service";
 import {MatDialog} from "@angular/material/dialog";
+import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
+import {ProfessorRegisterDialogComponent} from "../professor-register-dialog/professor-register-dialog.component";
+import {RegisterService} from "../../../../core/domain/register/register.service";
+import {RegisterElementService} from "../../../../register/components/register-element/register-element.service";
 
 @Component({
     selector: 'prez-professor-lesson-screen',
@@ -18,22 +22,24 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
-    constructor(
-        private lessonService: LessonService,
-        private lessonElementService: LessonElementService,
-        private classroomService: ClassroomService,
-        private classroomElementService: ClassroomElementService,
-        public dialog: MatDialog
-    ) {
-    }
-
-
     @Input() professorElement?: ProfessorElement;
     @Input() classroomElement?: ClassroomElement;
     @Input() lessonFilter: LessonFilter;
     public lessonElements?: LessonElement[];
+    public currentDate: Date;
+    public lessonElement?: LessonElement;
     private lessonData?: Lesson[];
     private classroomData?: Classroom;
+    private singleLessonData?: Lesson;
+
+    constructor(
+        private lessonService: LessonService,
+        private lessonElementService: LessonElementService,
+        private registerService: RegisterService,
+        private registerElementService: RegisterElementService,
+        public dialog: MatDialog
+    ) {
+    }
 
     ngOnInit(): void {
         this.initData();
@@ -43,25 +49,6 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
         if (changes["lessonFilter"] && !changes["lessonFilter"].isFirstChange()){
             this.initData();
         }
-    }
-
-
-    private initData(): void {
-        this.initLessonData(this.lessonFilter);
-        this.currentDate = new Date()
-    }
-
-    private initLessonData(lessonFilter: LessonFilter): void {
-        if (!lessonFilter) return;
-        this.lessonService.getLessonFiltered(lessonFilter).subscribe(
-            lessons => {
-                this.lessonData = lessons;
-                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
-            },
-            error => {
-                console.warn(error);
-            }
-        )
     }
 
     public applyFilter(lessonFilter: LessonFilter): void {
@@ -75,7 +62,7 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
             lesson => {
                 this.singleLessonData = lesson;
                 this.lessonElement = this.lessonElementService.mapLessonElement(this.singleLessonData);
-                this.openDialog(this.lessonElement)
+                this.generateRegister(this.lessonElement);
             },
             error => {
                 console.warn(error);
@@ -83,6 +70,17 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
         )
     }
 
+    public generateRegister(lesson: LessonElement): void {
+        this.registerService.initClassroomRegister(lesson.class_uid, lesson.register.uid).subscribe(
+            register => {
+                lesson.register = this.registerElementService.mapRegisterElement(register);
+                this.openDialog(lesson)
+            },
+            error => {
+                console.warn(error)
+            }
+        )
+    }
 
     openDialog(lessonElement: LessonElement) {
         debugger
@@ -115,5 +113,23 @@ export class ProfessorLessonScreenComponent implements OnInit,OnChanges {
 
     public compareDate(lessonDate: Date): boolean{
         return (this.currentDate > new Date(lessonDate))
+    }
+
+    private initData(): void {
+        this.initLessonData(this.lessonFilter);
+        this.currentDate = new Date()
+    }
+
+    private initLessonData(lessonFilter: LessonFilter): void {
+        if (!lessonFilter) return;
+        this.lessonService.getLessonFiltered(lessonFilter).subscribe(
+            lessons => {
+                this.lessonData = lessons;
+                this.lessonElements = this.lessonElementService.mapLessonElements(this.lessonData);
+            },
+            error => {
+                console.warn(error);
+            }
+        )
     }
 }

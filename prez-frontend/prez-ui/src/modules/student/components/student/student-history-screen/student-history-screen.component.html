@@ -1,8 +1,12 @@
-<prez-student-history-list
-    (refreshEmitter)="initData()"
-    *ngIf="historyElement.length > 0"
-    [classroomElement]="classroomElement"
-    [historyElement]="historyElement"></prez-student-history-list>
+<div *ngIf="historyElement.length > 0">
+    <!--
+        <h2 style="padding: 5px; text-align: center">The latest events about {{studentElement.last_name}} {{studentElement.first_name}}</h2>
+    -->
+    <prez-student-history-list
+        (refreshEmitter)="initData()"
+        [classroomElement]="classroomElement"
+        [historyElement]="historyElement"></prez-student-history-list>
+</div>
 
 <div *ngIf="historyElement.length == 0" style="color: gray;
     display: flex;

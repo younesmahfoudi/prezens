@@ -1,0 +1,36 @@
+<div class="auth-content">
+    <prez-auth-logo class="p-2"></prez-auth-logo>
+    <h3>prezens</h3>
+    <h4 style="color: #36a9e1">admin</h4>
+    <form [formGroup]="adminDataFormGroup" style="display: flex; flex-direction: column">
+        <ng-template>Fill out your data</ng-template>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput placeholder="pat@cy-tech.fr" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>First name</mat-label>
+            <input formControlName="first_name" matInput placeholder="First name"
+                   required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Last name</mat-label>
+            <input formControlName="last_name" matInput placeholder="Last name"
+                   required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input [type]="hide ? 'password' : 'text'" formControlName="password" matInput required>
+            <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button
+                    matSuffix>
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+    </form>
+    <span *ngIf="signupDone" style="color: green">{{signupDone}}</span>
+    <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+    <button (click)="submit()" mat-button style="color: #36a9e1">
+        Sign up
+    </button>
+</div>
+
