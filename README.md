@@ -1,5 +1,5 @@
 
-![Logo](/home/mahfoudiyo/Documents/younesmahfoudiGit/projets/prezens/prez-frontend/prez-ui/src/assets/img/minilogo.png)
+![Logo](https://www.zupimages.net/up/22/20/o878.png)
 
 
 # Prezens
