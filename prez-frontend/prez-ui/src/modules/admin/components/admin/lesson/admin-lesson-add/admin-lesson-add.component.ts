@@ -77,8 +77,8 @@ export class AdminLessonAddComponent implements OnInit {
 
     private initData(){
         if (this.data.start_at && this.data.end_at){
-            this.lessonForm.get('start_at')?.setValue(this.data.start_at.toISOString())
-            this.lessonForm.get('end_at')?.setValue(this.data.end_at.toISOString())
+            this.lessonForm.get('start_at')?.setValue(new Date(this.data.start_at))
+            this.lessonForm.get('end_at')?.setValue(new Date(this.data.end_at))
         }
         if (!this.data.classroomElements){
             this.initClassroomsData();

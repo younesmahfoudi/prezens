@@ -44,7 +44,7 @@ services:
     container_name: prez-ui
     build: ./prez-frontend/prez-ui
     volumes:
-      - './prez-ui:/usr/src/app'
+      - './prez-ui:/prez-ui'
     ports:
       - '4200:4200'
     command: >

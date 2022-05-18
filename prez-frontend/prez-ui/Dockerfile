@@ -1,8 +1,8 @@
-FROM node:18
+FROM node:16
 
-RUN mkdir /usr/src/app
+RUN mkdir /prez-ui
 
-WORKDIR /usr/src/app
+WORKDIR /prez-frontend/prez-ui
 
 RUN npm install -g @angular/cli
 

@@ -91,5 +91,5 @@
         </mat-stepper>
     </div>
     <span *ngIf="signupDone" style="color: green">{{signupDone}}</span>
-    <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+    <span *ngIf="errorMessage" style="color: red">{{errorMessage}}</span>
 </div>
