@@ -1,4 +1,4 @@
-<div *ngIf="lessonElements.length > 0">
+<div *ngIf="lessonElements && lessonElements.length > 0">
     <div *ngFor="let lesson of lessonElements" style="padding: 2px">
         <mat-card>
             <mat-card-title>{{lesson.description}}</mat-card-title>
@@ -15,7 +15,7 @@
                         <span style="color: red">Unsigned</span>
                     </ng-template>
                 </div>
-                <button (click)="openDialog(lesson)" class="register" style="color: #2daae1" mat-button>
+                <button (click)="openDialog(lesson)" class="register" mat-button style="color: #2daae1">
                     <mat-icon style="margin-right: 2px">schedule</mat-icon>
                     Details
                 </button>
@@ -31,7 +31,7 @@
 
 </div>
 
-<div *ngIf="lessonElements.length == 0" style="color: gray;
+<div *ngIf="lessonElements && lessonElements.length == 0" style="color: gray;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -2,7 +2,7 @@
     <h1>Please sign the register</h1>
     <mat-spinner *ngIf="registerLoading"></mat-spinner>
     <div *ngIf="!registerLoading">
-        <div style="border: solid; border-width: thin">
+        <div style="border: solid; border-width: thin; max-width: 150px">
             <signature-pad (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" [options]="signaturePadOptions"></signature-pad>
         </div>
 

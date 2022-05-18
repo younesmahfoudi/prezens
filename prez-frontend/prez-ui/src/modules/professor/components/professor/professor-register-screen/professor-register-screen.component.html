@@ -1,4 +1,4 @@
-<div *ngIf="lessonElements.length > 0">
+<div *ngIf="lessonElements && lessonElements.length > 0">
     <div *ngFor="let lesson of lessonElements" style="padding: 2px">
         <mat-card>
             <mat-card-title>{{lesson.description}}</mat-card-title>
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div *ngIf="lessonElements.length == 0" style="color: gray;
+<div *ngIf="lessonElements && lessonElements.length == 0" style="color: gray;
     display: flex;
     flex-direction: column;
     align-items: center;
