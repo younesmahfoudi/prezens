@@ -59,7 +59,7 @@ export class ProfessorScreenComponent implements OnInit {
             professor => {
                 this.professorData = professor;
                 this.professorElement = this.professorElementService.mapProfessorElement(this.professorData);
-
+                this.lessonFilter = {professor: this.professorElement}
             },
             err =>{
                 console.warn(err);

@@ -11,17 +11,17 @@
             <button (click)="submit()" *ngIf="signed" mat-button style="color: green">Sign</button>
         </div>
 
-        <h1 *ngIf="successMessage" style="color: green">
+        <span *ngIf="successMessage" style="color: green">
             <mat-icon>
                 done
             </mat-icon>
             {{successMessage}}
-        </h1>
-        <h1 *ngIf="errorMessage" style="color: red">
+        </span>
+        <span *ngIf="errorMessage" style="color: red">
             <mat-icon>
                 error
             </mat-icon>
             {{errorMessage}}
-        </h1>
+        </span>
     </div>
 </div>

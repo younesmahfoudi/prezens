@@ -14,6 +14,9 @@ import {
 } from "../modules/student/components/student/student-register/student-register.component";
 import {StudentRegisterGuard} from "./guards/student/student-register.guard";
 import {NotFoundComponent} from "../modules/common/not-found/not-found.component";
+import {
+    ProfessorRegisterCodeComponent
+} from "../modules/professor/components/professor/professor-register-code/professor-register-code.component";
 
 
 const routes: Routes = [
@@ -51,6 +54,10 @@ const routes: Routes = [
         canActivate: [
             StudentRegisterGuard
         ]
+    },
+    {
+        path:'registercode/:idR',
+        component:ProfessorRegisterCodeComponent
     },
     {
         path:'error',

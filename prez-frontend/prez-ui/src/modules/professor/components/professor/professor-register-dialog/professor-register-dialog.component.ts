@@ -1,12 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {LessonElement} from "../../../../lesson/components/lesson-element/lesson-element.model";
 import {RegisterService} from "../../../../core/domain/register/register.service";
-import {Register, RegisteredStudent, RegisteredStudentUpdate} from "../../../../core/domain/register/register.model";
+import {Register, RegisteredStudent} from "../../../../core/domain/register/register.model";
 import {Status} from "../../../../core/domain/register/status.enum";
 import {ProfessorDialogComponent} from "../professor-dialog/professor-dialog.component";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RegisterElement} from "../../../../register/components/register-element/register-element.model";
 import {RegisterElementService} from "../../../../register/components/register-element/register-element.service";
+import {LessonService} from "../../../../core/domain/lesson/lesson.service";
+import {LessonElementService} from "../../../../lesson/components/lesson-element/lesson-element.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'prez-professor-register-dialog',
@@ -15,6 +18,14 @@ import {RegisterElementService} from "../../../../register/components/register-e
 })
 export class ProfessorRegisterDialogComponent implements OnInit {
 
+    public registerData: Register;
+    public registerElement: RegisterElement;
+    public lessonElement: LessonElement;
+    public submitLoading: boolean = false;
+    public submitMessage?: string;
+    public errorMessage?: string;
+    public currentDate: Date;
+
     constructor(
         public dialogRef: MatDialogRef<ProfessorDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
@@ -22,34 +33,18 @@ export class ProfessorRegisterDialogComponent implements OnInit {
         },
         private registerService: RegisterService,
         private registerElementService: RegisterElementService,
+        private lessonService: LessonService,
+        private lessonElementService: LessonElementService,
+        private router: Router
     ) {
     }
 
-    public registerData: Register;
-    public registerElement: RegisterElement;
-    public professorRegistry: boolean = true;
-    public submitLoading: boolean = false;
-    public submitMessage?: string;
-    public errorMessage?: string;
-    public currentDate: Date;
-
     ngOnInit(): void {
-        console.log(this.data)
         this.currentDate = new Date()
-        console.log(this.currentDate)
-        console.log(this.data.lessonElement.start_at)
-        console.log(new Date( this.data.lessonElement.start_at))
-        console.log(this.data.lessonElement.start_at.valueOf() < this.currentDate.valueOf())
-
-
     }
 
     public compareDate(lessonDate: Date): boolean{
         return (this.currentDate > new Date(lessonDate))
-    }
-
-    public onNoClick(): void {
-        this.dialogRef.close();
     }
 
     public getStatusColor(status: Status): string {
@@ -78,7 +73,7 @@ export class ProfessorRegisterDialogComponent implements OnInit {
         this.registerService.updateRegisteredStudentsList(registeredStudent, this.data.lessonElement.register.uid).subscribe(
             register => {
                 this.submitLoading = false;
-                this.submitMessage = "Register submitted successfully"
+                this.submitMessage = "Submitted"
                 this.errorMessage = undefined
                 this.registerData = register
                 this.registerElement = this.registerElementService.mapRegisterElement(this.registerData)
@@ -89,5 +84,21 @@ export class ProfessorRegisterDialogComponent implements OnInit {
                 this.submitLoading = false;
             }
         );
+    }
+
+    public initData(): void{
+        this.lessonService.getLesson(this.data.lessonElement.uid).subscribe(
+            lesson => {
+                this.data.lessonElement = this.lessonElementService.mapLessonElement(lesson);
+                this.registerElement = this.data.lessonElement.register
+            },
+            error => {
+                console.warn(error);
+            })
+    }
+
+    public qrNavigate(): void {
+        const url : string = `http://localhost:4200/registercode/%2F;idR=${this.data.lessonElement.register.uid}`
+        window.open(url, "_blank");
     }
 }

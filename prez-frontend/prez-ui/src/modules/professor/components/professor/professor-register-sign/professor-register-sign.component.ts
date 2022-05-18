@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {SignaturePad} from "angular2-signaturepad";
 import {AuthService} from "../../../../core/domain/auth/auth.service";
 import {RegisterService} from "../../../../core/domain/register/register.service";
@@ -19,6 +19,7 @@ export class ProfessorRegisterSignComponent implements OnInit, AfterViewInit {
     public registerLoading: boolean = false;
     public signatureImg: string;
     public signed: boolean = false;
+    @Output() emitRefresh = new EventEmitter();
     @Input() lesson?: LessonElement;
 
 
@@ -35,9 +36,7 @@ export class ProfessorRegisterSignComponent implements OnInit, AfterViewInit {
     ) {
     }
 
-    ngOnInit()
-        :
-        void {
+    ngOnInit(): void {
     }
 
     ngAfterViewInit() {
@@ -64,10 +63,6 @@ export class ProfessorRegisterSignComponent implements OnInit, AfterViewInit {
         this.signatureImg = base64Data;
     }
 
-    public redirect() {
-        this.router.navigate(["/", "auth"])
-    }
-
     public submit() {
         this.savePad();
         this.updateRegisterProfessorSign(this.lesson?.register.uid)
@@ -78,10 +73,11 @@ export class ProfessorRegisterSignComponent implements OnInit, AfterViewInit {
         this.registerLoading = true;
         this.registerService.signRegister(registerUid, this.signatureImg).subscribe(
             () => {
-                this.successMessage = 'You Completed the registry'
+                this.successMessage = 'You signed the registry'
                 this.errorMessage = undefined;
                 this.registerLoading = false;
                 this.signed = false;
+                this.emitRefresh.emit();
             },
             error => {
                 this.errorMessage = error.error.detail;

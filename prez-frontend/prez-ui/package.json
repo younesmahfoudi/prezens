@@ -25,6 +25,7 @@
         "@syncfusion/ej2-angular-pdfviewer": "^20.1.52",
         "@syncfusion/ej2-angular-schedule": "^20.1.50",
         "angular2-signaturepad": "^4.0.2",
+        "angularx-qrcode": "^13.0.15",
         "bcrypt": "^5.0.1",
         "bcryptjs": "^2.4.3",
         "html2canvas": "^1.4.1",

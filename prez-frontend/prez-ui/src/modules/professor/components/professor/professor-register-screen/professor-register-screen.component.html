@@ -1,34 +1,46 @@
-<div *ngFor="let lesson of lessonElements" style="padding: 5px">
-    <mat-card>
-        <mat-card-title>{{lesson.description}}</mat-card-title>
-        <mat-card-subtitle>
-            <div>
-                Start :{{lesson.start_at | date:"short"}} | End:{{lesson.end_at | date:"short"}}
-            </div>
-            <div>
-                Status :
-                <span *ngIf="lesson.register.signature ; else elseBlock" style="color: #00c853">
+<div *ngIf="lessonElements.length > 0">
+    <div *ngFor="let lesson of lessonElements" style="padding: 2px">
+        <mat-card>
+            <mat-card-title>{{lesson.description}}</mat-card-title>
+            <mat-card-subtitle>
+                <div>
+                    Start :{{lesson.start_at | date:"short"}} | End:{{lesson.end_at | date:"short"}}
+                </div>
+                <div>
+                    Status :
+                    <span *ngIf="lesson.register.signature ; else elseBlock" style="color: green">
                     Done
                 </span>
-                <ng-template #elseBlock>
-                    <span style="color: #b71c1c">Unsigned</span>
-                </ng-template>
-            </div>
+                    <ng-template #elseBlock>
+                        <span style="color: red">Unsigned</span>
+                    </ng-template>
+                </div>
 
-            <button mat-button *ngIf="(lesson.register.registered_students.length == 0 &&  compareDate(lesson.start_at)); else elseBlock2" color="primary"
-                    (click)="generateRegister(lesson)" class="create">
-                <mat-icon style="margin-right: 2px">schedule</mat-icon>
-                generate register
-            </button>
-            <ng-template #elseBlock2>
-                <button mat-button color="primary" (click)="openDialog(lesson)" class="register">
-                    <mat-icon style="margin-right: 2px">schedule</mat-icon>
-                    Details
+                <button (click)="generateRegister(lesson)" *ngIf="(lesson.register.registered_students.length == 0 &&  compareDate(lesson.start_at)); else elseBlock2" class="create"
+                        mat-button style="color: #2daae1">
+                    <mat-icon style="margin-right: 2px">drive_file_rename_outline</mat-icon>
+                    start register
                 </button>
-            </ng-template>
-        </mat-card-subtitle>
-        <!-- <mat-card-actions>
-            <button mat-button (click)="openDialog(registered)">show details</button>
-        </mat-card-actions> -->
-    </mat-card>
+                <ng-template #elseBlock2>
+                    <button (click)="openDialog(lesson)" class="register" mat-button style="color: #2daae1">
+                        <mat-icon style="margin-right: 2px">info</mat-icon>
+                        Details
+                    </button>
+                </ng-template>
+            </mat-card-subtitle>
+            <!-- <mat-card-actions>
+                <button mat-button (click)="openDialog(registered)">show details</button>
+            </mat-card-actions> -->
+        </mat-card>
+    </div>
+</div>
+
+<div *ngIf="lessonElements.length == 0" style="color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh">
+    <mat-icon>edit_off</mat-icon>
+    <h1>Nothing to display</h1>
 </div>

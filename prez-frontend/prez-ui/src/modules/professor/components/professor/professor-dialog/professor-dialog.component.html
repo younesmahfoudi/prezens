@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!--<div *ngIf="data.lessonElement">
 
     <mat-card *ngFor="let student of data.lessonElement.register.registered_students" style="padding: 5px">
@@ -17,7 +16,10 @@
     </mat-card>
 </div>-->
 
-<h2 mat-dialog-title></h2>
+<h2 mat-dialog-title>
+    <mat-icon>info</mat-icon>
+    Lesson details
+</h2>
 <mat-dialog-content>
     <prez-lesson-detail
         [lessonElement]="data.lessonElement"
@@ -32,6 +34,7 @@
         *ngIf="!data.lessonElement.register.signature"
         [lesson]="data.lessonElement"
     ></prez-professor-register-sign>
+    <div style="height: 10px"></div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button (click)="onNoClick()">Close</button>
