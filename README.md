@@ -8,6 +8,12 @@ Prezens is an application for administrative management in education. This proje
 
 ## Installation
 
+Clone the project
+
+```bash
+  git clone https://github.com/younesmahfoudi/prezens
+```
+
 Install prezens with Docker
 
 ```bash
