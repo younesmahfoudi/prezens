@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 
 services:
   db:
@@ -16,6 +16,10 @@ services:
       - dbdata:/var/lib/mysql
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -30,6 +34,25 @@ services:
     ports:
       - 8081:80
 
+  web_api:
+    container_name: prez-app
+    build:
+      dockerfile: Dockerfile
+      context: ./prez-backend
+    image: prez-app
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+    ports:
+      - "8100:8100"
+    links:
+      - db
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+
   web-app:
     container_name: prez-ui
     build: ./prez-frontend/prez-ui
@@ -41,28 +64,6 @@ services:
       - '4200:4200'
     command: >
       bash -c "npm install && ng serve --host 0.0.0.0 --port 4200"
-
-  web_api:
-    container_name: prez-app
-    build:
-      dockerfile: Dockerfile
-      context: ./prez-backend
-    image: prez-app
-    depends_on:
-      - db
-    command: sh -c "/wait && uvicorn prez-app.main:app --host 0.0.0.0 --port 8100"
-    environment:
-      - WAIT_HOSTS=db:3306
-      - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=30
-      - WAIT_HOST_CONNECT_TIMEOUT=30
-    networks:
-      - default
-    ports:
-      - "8100:8100"
-    volumes:
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
 
 volumes:
   dbdata:
